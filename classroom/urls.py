@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('',include("user.urls")),
+    path('add/', include("assignment.urls")),
+    path('assignment/', include("assignment.urls")),
     path('student/',include("student.urls")),
     
 ]
+
