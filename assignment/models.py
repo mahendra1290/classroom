@@ -1,21 +1,21 @@
 from django.db import models
 
 class Assignment(models.Model):
-    title         = models.CharField(max_length = 100)
-    instructions  = models.CharField(max_length = 100)
-    due_date      = models.DateTimeField()
-    assigned_date = models.DateTimeField()
+    title = models.CharField(max_length=100)
+    instructions = models.CharField(max_length=100)
+    due_date = models.DateField(null=True)
+    pub_date = models.DateField(null=True)
 
     def __str__(self):
         return self.title
 
-class AssignmentsImage(models.Model):
+class AssignmentsFile(models.Model):
     filename   = models.CharField(max_length = 100)
-    image      = models.ImageField(upload_to = 'images/')
+    file       = models.FileField(upload_to = 'images/')
     assignment = models.ForeignKey(Assignment, on_delete = models.CASCADE)
 
     def __str__(self):
-        return str(self.image)
+        return str(self.file)
 
 
 
