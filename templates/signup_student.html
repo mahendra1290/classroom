@@ -1,0 +1,19 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+            <form method = "POST">{% csrf_token %}
+                <fieldset >
+                <center> {{form.year}}</center>
+                <center> {{form.branch}}</center>
+                    {{form.name}}
+                    {{form.rollno}}
+                    {{form.email}}
+                   
+                    {{form.password}}
+                    <button type="submit">Register Now</button>
+                </fieldset>
+            </form>
+    </body>
+</html>
