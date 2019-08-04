@@ -36,15 +36,14 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self,email,name,password):
-
         user = self.model(
+            name = name,
             email = self.normalize_email(email),
-            name= name,
         )
         user.set_password(password)
         user.save()
         user.is_teacher = True
-        user.staff = True
+        user.is_staff = True
         user.admin = True
         user.save(using=self._db)
         return user
@@ -89,22 +88,20 @@ class User(AbstractBaseUser):
     name = models.CharField( max_length=50 , null = True, blank = False)
     rollno = models.CharField(max_length = 10, null=True, blank = False, unique = True)
     admin = models.BooleanField(default=False) # a superuser
+    is_staff = models.BooleanField(default = False)
     is_teacher = models.BooleanField(default = False)
     is_active = models.BooleanField(default = True)
     myassignments = models.ManyToManyField(Assignment)
     USERNAME_FIELD = 'email'
-
+    REQUIRED_FIELDS = ['name']
     objects = UserManager()
 
     def get_username(self):
-        # The user is identified by their email address
         return self.email
 
     def get_name(self):
-        # The user is identified by their email address
         return self.name
 
     @property
     def is_admin(self):
-        "Is the user a admin member?"
         return self.admin

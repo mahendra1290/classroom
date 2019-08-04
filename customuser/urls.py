@@ -5,7 +5,7 @@ from . import views
 from django.conf.urls import url
 
 
-app_name="user"
+app_name="customuser"
 
 urlpatterns = [
     path('', views.HomePageView.as_view(), name= 'home_user'),
