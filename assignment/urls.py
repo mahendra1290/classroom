@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import FileFieldView, assignment_view
+from .views import AssignmentCreateView
+from .views import assignment_view
+from .views import AssignmentDeleteView
 
 urlpatterns = [
-    path('', FileFieldView.as_view(), name = 'upload'),
-    path('<int:pk>', assignment_view, name = 'assignment')
-    
+    path('add/', AssignmentCreateView.as_view(), name = 'create_assignment'),
+    path('delete/<int:pk>', AssignmentDeleteView.as_view(), name = 'delete_assignment'),
+    path('<int:pk>', assignment_view, name = 'assignment_detail')   
 ]

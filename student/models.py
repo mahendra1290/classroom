@@ -25,8 +25,8 @@ class Student(models.Model):
     branch = models.CharField(max_length =50, choices = BRANCH_CHOICES, default ='',blank=True, null = True)
     name = models.CharField( max_length=50 , null = True, blank = False)
     rollno = models.CharField(max_length = 10, null=True, blank = False, unique = True)
-    myassignments = models.ManyToManyField(Assignment)
+    myassignments = models.ManyToManyField(Assignment, blank=True)
 
     def __str__(self):
-        return str(self.student_user)
+        return str(self.name)
 

@@ -56,4 +56,5 @@ class UserRegisterForm(forms.ModelForm):
         fields = [ 'email','password']
     email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+
     

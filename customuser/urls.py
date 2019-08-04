@@ -11,5 +11,4 @@ urlpatterns = [
     path('', views.HomePageView.as_view(), name= 'homepage'),
     path('login/', views.login_view, name = 'login'),
     path('signup/', views.signup_view, name = 'signup'),
-  
 ]
