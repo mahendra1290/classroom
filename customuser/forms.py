@@ -50,11 +50,10 @@ class LoginForm(forms.Form):
     password = forms.CharField(
     max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
 
-# class UserStudentRegisterForm(forms.ModelForm):
-#     class Meta:
-#         model=User
-#         fields = [  'name', 'email','rollno','year','branch','password']
-#     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Firstname'}))
-#     email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
-#     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+class UserRegisterForm(forms.ModelForm):
+    class Meta:
+        model=User
+        fields = [ 'email','password']
+    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
     

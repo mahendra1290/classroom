@@ -6,8 +6,6 @@ from .forms import StudentRegistrationForm
 from .models import Student
 
 def HomePageViewStudent(request , *args , **kwargs):
-    print(request)
-    print(request.user)
     return render(request,'home_student.html' )
 
 def StudentRegistration(request, *args , **kwargs):

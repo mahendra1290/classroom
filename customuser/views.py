@@ -15,7 +15,7 @@ import teacher
 class HomePageView(TemplateView):
     template_name = 'home_user.html'
 
-def login_user(request):
+def login_view(request):
     if request.method == 'POST' :
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -37,22 +37,18 @@ def login_user(request):
     return render(request, 'login.html', {'form': form})
 
 
-# def register_user_student(request):
-#     if request.method=='POST':
-#         form = UserStudentRegisterForm(request.POST)
-#         if form.is_valid():
-#             password_ = form.cleaned_data['password']
-#             name = form.cleaned_data['name']
-#             email = form.cleaned_data['email']
-#             rollno = form.cleaned_data['rollno']
-#             year = form.cleaned_data['year']
-#             branch = form.cleaned_data['branch']
-#             user = User.objects.create_user(email=email, password=password_,name=name,year=year,branch=branch, rollno = rollno)
-#             user.save()
-#             return redirect('user:home_user')
-#     else:
-#         form = UserStudentRegisterForm()
-#     return render(request,'signup_student.html',{'form':form})
+def signup_view(request):
+    if request.method=='POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            password_ = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            user = User.objects.create_user(email=email, password=password)
+            user.save()
+            return redirect('customuser:home')
+    else:
+        form = UserRegisterForm()
+    return render(request,'signup.html',{'form':form})
 
 
 def logout_view(request):
