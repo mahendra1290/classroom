@@ -26,6 +26,7 @@ class Student(models.Model):
     name = models.CharField( max_length=50 , null = True, blank = False)
     rollno = models.CharField(max_length = 10, null=True, blank = False, unique = True)
     myassignments = models.ManyToManyField(Assignment)
+
     def __str__(self):
         return str(self.student_user)
 
