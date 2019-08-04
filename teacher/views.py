@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
-from user import models
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
