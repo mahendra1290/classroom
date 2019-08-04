@@ -12,25 +12,28 @@ def StudentRegistration(request, *args , **kwargs):
     if(request.method=='POST'):
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
-            student_obj = Student()
-            student_obj.name = form.cleaned_data['name']
-            student_obj.year = form.cleaned_data['year']
-            student_obj.branch = form.cleaned_data['branch']
-            student_obj.rollno = form.cleaned_data['rollno']
-            student_obj.student = request.user
-            request.user.details = True
+            
+            name = form.cleaned_data['name']
+            year = form.cleaned_data['year']
+            branch = form.cleaned_data['branch']
+            rollno = form.cleaned_data['rollno']
+            student_user = request.user
+            student_obj = Student(name=name,year=year,branch=branch,rollno=rollno,student_user=student_user)
             student_obj.save()
+            request.user.details = True
+            request.user.active = True
+            request.user.save()
             return redirect('student:student_homepage')
     else:
         form=StudentRegistrationForm()
-    return render(request,'student_registration.html',{'form':form})
+    return render(request,'register_student.html',{'form':form})
 
 
 def logout_view(request):
     logout(request)
-    return redirect('customuser:home_user')
+    return redirect('customuser:homepage')
 
 def delete_user(request):
     user_obj = User.objects.filter(email = request.user.email)[0]
     user_obj.delete()
-    return redirect('customuser:home_user')
+    return redirect('customuser:homepage')

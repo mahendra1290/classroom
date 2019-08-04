@@ -7,13 +7,49 @@ from .models import User
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-import student
 from student import urls
-import assignment
-import teacher
+from teacher.forms import TeacherRegistrationForm
+from customuser import urls
+from teacher.models import Teacher
 
-class HomePageView(TemplateView):
-    template_name = 'home_user.html'
+def homepageview(request):
+    teacherform = TeacherRegistrationForm()
+    userform = UserRegisterForm()
+    if request.method == 'POST':
+        if 'loginform_submit' in request.POST:
+            userform = UserRegisterForm(request.POST)
+            if userform.is_valid():
+                print("USERFORM IS VALID")
+                email = userform.cleaned_data['email']
+                password = userform.cleaned_data['password']
+                user = User.objects.create_user(email=email, password=password)
+                user.save()
+                return redirect('customuser:homepage')
+            else:
+                userform = UserRegisterForm()
+            return render(request,'homepage.html',{'form':form})
+
+
+        else:
+            userform = UserRegisterForm()
+            teacherform = TeacherRegistrationForm(request.POST)
+            if teacherform.is_valid():
+                password = teacherform.cleaned_data['password']
+                email = teacherform.cleaned_data['email']
+                name = teacherform.cleaned_data['name']
+                user = User.objects.create_user(email=email, password=password)
+                user.is_teacher = True
+                user.save()
+                teacherobj = Teacher()
+                teacherobj.teacher_user = user
+                teacherobj.name = name
+                teacherobj.save()
+                messages.success(request, "Successfully created. Login to give assignments")
+            else:
+                messages.error(request, 'Incorrect Details')
+            return redirect('customuser:homepage')
+
+    return render(request, 'home.html', {'userform': userform, 'teacherform': teacherform })
 
 def login_view(request):
     if request.method == 'POST' :
@@ -24,7 +60,6 @@ def login_view(request):
             user_obj = authenticate(username=username, password=password)
             if user_obj is not None:
                 login(request, user_obj)
-                print(request.user.is_active)
                 if request.user.is_teacher is False:
                     return redirect('student:student_registration')
                 else:
@@ -41,11 +76,11 @@ def signup_view(request):
     if request.method=='POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            password_ = form.cleaned_data['password']
+            password = form.cleaned_data['password']
             email = form.cleaned_data['email']
             user = User.objects.create_user(email=email, password=password)
             user.save()
-            return redirect('customuser:home')
+            return redirect('customuser:homepage')
     else:
         form = UserRegisterForm()
     return render(request,'signup.html',{'form':form})
@@ -53,9 +88,12 @@ def signup_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('user:home_user')
+    return redirect('user:homepage')
 
 def delete_user(request):
     user_obj = User.objects.filter(email = request.user.email)[0]
     user_obj.delete()
-    return redirect('user:home_user')
+    return redirect('user:homepage')
+
+def contactus(request):
+    return render(request, "contactus.html")

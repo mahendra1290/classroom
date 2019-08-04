@@ -13,8 +13,7 @@ class UserManager(BaseUserManager):
     def create_user(self,email,password=None):
         if not email:
             raise ValueError('Users must have an email address')
-        if not name:
-            raise ValueError("Name Cannot Be left Blank")
+
 
         user = self.model(
             email=self.normalize_email(email),
@@ -51,18 +50,8 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     objects = UserManager()
     def __str__(self):
-        if self.is_teacher is True:
-            return self.email
-        else :
-            return self.rollno
-
-    def get_username(self):
-        # The user is identified by their email address
         return self.email
 
-    def get_name(self):
-        # The user is identified by their email address
-        return self.name
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

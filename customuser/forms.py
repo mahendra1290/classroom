@@ -46,7 +46,7 @@ class UserAdminChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(max_length = 50, required = True,widget=forms.EmailInput(attrs={'placeholder':'Username'}))
+    email = forms.EmailField(max_length = 50, required = True,widget=forms.EmailInput(attrs={'placeholder':'Email'}))
     password = forms.CharField(
     max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
 

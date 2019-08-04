@@ -1,0 +1,72 @@
+{%extends "base.html"%}
+
+{% load static %}
+
+
+
+{%block content%}
+<section class="hero-section set-bg" data-setbg="{%static 'images/bg.jpg'%}">
+    <div class="container">
+        <div class="hero-text text-white">
+            <h2>Get The Best Environment of Classroom</h2>
+            <p>The best place to post assignments and submit your homework.</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <form class="intro-newslatter" method="POST">{% csrf_token %}
+                    {{userform.email}}
+                    {{userform.password}}
+                    <button class="site-btn" type = "submit" name='loginform_submit'>Sign Up Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero section end -->
+
+
+<!-- categories section -->
+
+<!-- search section -->
+<br>
+<br>
+<section class="signup-section spad">
+    <div class="signup-bg set-bg" data-setbg="{% static 'images/signup-bg.jpg'%}" ></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="signup-warp">
+                    <div class="section-title text-white text-left">
+                        <h2>Sign up to became a teacher</h2>
+                        <p>Here you can post assignments or homework and check their submissions</p>
+                    </div>
+                    <!-- signup form -->
+                    <form class="signup-form" method="POST">{% csrf_token %}
+                        {{teacherform.name}}
+                        {{teacherform.email}}
+                        {{teacherform.password}}
+                        <button class="site-btn" name='teacherform_submit' type = "submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- signup section end -->
+
+
+<!-- banner section -->
+<section class="banner-section spad">
+    <div class="container">
+        <div class="section-title mb-0 pb-2">
+            <h2>Join Our Community Now!</h2>
+            <p></p>
+        </div>
+        <div class="text-center pt-5">
+            <a href="#" class="site-btn">Register Now</a>
+        </div>
+    </div>
+</section>
+
+
+{%endblock content%}
