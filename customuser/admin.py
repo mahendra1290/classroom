@@ -2,29 +2,27 @@
 
 from django.contrib import admin
 from django.contrib.auth.models import Group
+from .forms import UserAdminChangeForm, UserAdminCreationForm
+from .models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
-from .forms import UserAdminCreationForm, UserAdminChangeForm
-from .models import User
-
 class UserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
+#     # The forms to add and change user instances
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
 
-    # The fields to be used in displaying the User model.
-    # These override the definitions on the base UserAdmin
-    # that reference specific fields on auth.User.
+#     # The fields to be used in displaying the User model.
+#     # These override the definitions on the base UserAdmin
+#     # that reference specific fields on auth.User.
     list_display = ('email', 'admin')
     list_filter = ('admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('name',)}),
         ('Permissions', {'fields': ('admin','is_teacher')}),
     )
-    # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
-    # overrides get_fieldsets to use this attribute when creating a user.
+#     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
+#     # overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -36,7 +34,7 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(User)
 
 
 

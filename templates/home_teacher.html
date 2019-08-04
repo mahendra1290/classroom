@@ -1,7 +1,7 @@
 <html>
     
     <body>
-        <p>THE USER IS OGGED IN</p>
+        <p>Teacher is logged in</p>
         {% if request.user.is_authenticated %}
             <p>user is authenticated</p>
             <a  href="{%url 'customuser:logout'%}">logout</a>
