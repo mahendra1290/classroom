@@ -9,13 +9,13 @@ from django.contrib.auth.decorators import login_required
 import student
 from student import urls
 import assignment
-from customuser.models import User
+
 
 # Create your views here.
 def HomePageViewTeacher(request):
     return render(request, 'home_teacher.html')
 
-    
+
 def logout_view(request):
     logout(request)
     return redirect('user:home_user')

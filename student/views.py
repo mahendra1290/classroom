@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from customuser.models import User
 from customuser import urls
 from .forms import StudentRegistrationForm
 from .models import Student

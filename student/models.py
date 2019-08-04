@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from assignment.models import Assignment
 YEAR_CHOICES = (
     ('', 'Select Year'),
     ('firstyear','First Year'),

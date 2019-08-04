@@ -1,7 +1,12 @@
 from django.db import models
-from customuser.models import User
+
+
+class Teacher(models.Model):
+    name = models.CharField(max_length=20)
+
 
 class ClassRoom(models.Model):
     name = models.CharField(max_length=20)
     section = models.CharField(max_length=10)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
