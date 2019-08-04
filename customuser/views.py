@@ -24,7 +24,7 @@ def login_view(request):
             user_obj = authenticate(username=username, password=password)
             if user_obj is not None:
                 login(request, user_obj)
-                print(request.user.is_active)
+                print(request.user.is_teacher)
                 if request.user.is_teacher is False:
                     return redirect('student:student_registration')
                 else:
@@ -34,21 +34,21 @@ def login_view(request):
                 messages.error(request, 'Incorrect Username or Password')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'user_login.html', {'form': form})
 
 
 def signup_view(request):
     if request.method=='POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            password_ = form.cleaned_data['password']
+            password = form.cleaned_data['password']
             email = form.cleaned_data['email']
             user = User.objects.create_user(email=email, password=password)
             user.save()
             return redirect('customuser:home')
     else:
         form = UserRegisterForm()
-    return render(request,'signup.html',{'form':form})
+    return render(request,'student_signup.html',{'form':form})
 
 
 def logout_view(request):
