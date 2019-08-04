@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
-from .forms import LoginForm,UserAdminChangeForm, UserAdminCreationForm
+from .forms import LoginForm,UserAdminChangeForm, UserAdminCreationForm,UserRegisterForm
 
 from .models import User
 from django.views.generic import TemplateView
