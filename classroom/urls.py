@@ -1,4 +1,4 @@
-"""homework URL Configuration
+"""classroom URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -21,6 +21,7 @@ from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('',include("user.urls")),
-    path('student/',include("student.urls")),
+    path('/student/',include("student.urls")),
+    path('teacher/',include("teacher.urls")),
     
 ]
