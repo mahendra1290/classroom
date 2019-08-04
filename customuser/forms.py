@@ -9,7 +9,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email','name')
+        fields = ('email',)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -37,7 +37,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('name','email', 'password', 'admin','is_teacher')
+        fields = ('email', 'password', 'admin','is_teacher')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -50,11 +50,11 @@ class LoginForm(forms.Form):
     password = forms.CharField(
     max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
 
-class UserStudentRegisterForm(forms.ModelForm):
-    class Meta:
-        model=User
-        fields = [  'name', 'email','rollno','year','branch','password']
-    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Firstname'}))
-    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+# class UserStudentRegisterForm(forms.ModelForm):
+#     class Meta:
+#         model=User
+#         fields = [  'name', 'email','rollno','year','branch','password']
+#     name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Firstname'}))
+#     email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
     

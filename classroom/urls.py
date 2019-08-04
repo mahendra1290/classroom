@@ -23,7 +23,7 @@ urlpatterns = [
     path('add/', include("assignment.urls")),
     path('assignment/', include("assignment.urls")),
     path('student/',include("student.urls")),
-    path('teacher/',include("customuser.urls"))
+    path('teacher/',include("teacher.urls"))
     
 ]
 
