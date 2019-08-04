@@ -23,6 +23,7 @@ def login_user(request):
             if user_obj is not None:
                 login(request, user_obj)
                 print(request.user.is_active)
+                print(user_obj.is_teacher)
                 return redirect('student:student_homepage')
 
             else:
@@ -44,7 +45,7 @@ def register_user_student(request):
             branch = form.cleaned_data['branch']
             user = User.objects.create_user_student(email=email, password=password_,name=name,year=year,branch=branch, rollno = rollno)
             user.save()
-            return redirect('user:home_user')
+            return redirect('customuser:home_user')
     else:
         form = UserStudentRegisterForm()
     return render(request,'signup_student.html',{'form':form})
@@ -52,9 +53,9 @@ def register_user_student(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('user:home_user')
+    return redirect('customuser:home_user')
 
 def delete_user(request):
     user_obj = User.objects.filter(email = request.user.email)[0]
     user_obj.delete()
-    return redirect('user:home_user')
+    return redirect('customuser:home_user')
