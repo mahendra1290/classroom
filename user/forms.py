@@ -9,7 +9,11 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
+<<<<<<< HEAD
         fields = ('email',)
+=======
+        fields = ('email','name')
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
 
     def clean_password2(self):
         # Check that the two password entries match

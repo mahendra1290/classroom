@@ -1,6 +1,9 @@
 from django.db import models
+<<<<<<< HEAD
 from django.contrib.auth.models import PermissionsMixin
 from student.models import Student
+=======
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
 
 # Create your models here.
 from django.contrib.auth.models import (
@@ -10,7 +13,11 @@ from datetime import datetime
 from assignment.models import Assignment
 
 class UserManager(BaseUserManager):
+<<<<<<< HEAD
     def create_user(self, email,name ,year,branch,rollno,password=None):
+=======
+    def create_user_student(self, email,name ,year,branch,rollno,password=None):
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
         if not email:
             raise ValueError('Users must have an email address')
         if not name:
@@ -34,6 +41,7 @@ class UserManager(BaseUserManager):
         user.save()
         user.is_teacher = False
         user.save(using=self._db)
+<<<<<<< HEAD
         student_obj = Student()
         student_obj.student = user
         student_obj.save()
@@ -47,13 +55,41 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.staff = True
         user.admin = True
+=======
+        
+        return user
+
+    def create_superuser(self,email,name,password):
+
+        user = self.model(
+            email = self.normalize_email(email),
+            name= name,
+        )
+        user.set_password(password)
+        user.save()
+        user.is_teacher = True
+        user.staff = True
+        user.admin = True
+        user.save(using=self._db)
+        return user
+
+    def create_user_teacher(self, email , name, password):
+        user = self.model(
+            email = self.normalize_email(email),
+            name= name,
+        )
+        user.set_password(password)
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
         user.save()
         user.is_teacher = True
         user.save(using=self._db)
         return user
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
 YEAR_CHOICES = (
     ('', 'Select Year'),
     ('firstyear','First Year'),
@@ -72,7 +108,11 @@ BRANCH_CHOICES = (
 
 )
 
+<<<<<<< HEAD
 class User(AbstractBaseUser,PermissionsMixin):
+=======
+class User(AbstractBaseUser):
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
@@ -82,19 +122,28 @@ class User(AbstractBaseUser,PermissionsMixin):
     branch = models.CharField(max_length =50, choices = BRANCH_CHOICES, default ='',blank=True, null = True)
     name = models.CharField( max_length=50 , null = True, blank = False)
     rollno = models.CharField(max_length = 10, null=True, blank = False, unique = True)
+<<<<<<< HEAD
     is_teacher = models.BooleanField(default = False)
     active = models.BooleanField(default=False)
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
+=======
+    admin = models.BooleanField(default=False) # a superuser
+    is_teacher = models.BooleanField(default = False)
+    is_active = models.BooleanField(default = True)
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
     myassignments = models.ManyToManyField(Assignment)
     USERNAME_FIELD = 'email'
 
     objects = UserManager()
+<<<<<<< HEAD
     def __str__(self):
         if self.is_teacher is True:
             return self.email
         else :
             return self.rollno
+=======
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
 
     def get_username(self):
         # The user is identified by their email address
@@ -104,6 +153,7 @@ class User(AbstractBaseUser,PermissionsMixin):
         # The user is identified by their email address
         return self.name
 
+<<<<<<< HEAD
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
@@ -123,3 +173,9 @@ class User(AbstractBaseUser,PermissionsMixin):
     def is_admin(self):
         "Is the user a admin member?"
 
+=======
+    @property
+    def is_admin(self):
+        "Is the user a admin member?"
+        return self.admin
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d

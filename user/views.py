@@ -9,7 +9,10 @@ from django.contrib.auth.decorators import login_required
 import student
 from student import urls
 import assignment
+<<<<<<< HEAD
 import teacher
+=======
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
 
 class HomePageView(TemplateView):
     template_name = 'home_user.html'
@@ -24,10 +27,14 @@ def login_user(request):
             if user_obj is not None:
                 login(request, user_obj)
                 print(request.user.is_active)
+<<<<<<< HEAD
                 if request.user.is_teacher is False:
                     return redirect('student:student_homepage')
                 else:
                     return redirect('teacher:teacher_homepage')
+=======
+                return redirect('student:student_homepage')
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
 
             else:
                 messages.error(request, 'Incorrect Username or Password')
@@ -46,7 +53,11 @@ def register_user_student(request):
             rollno = form.cleaned_data['rollno']
             year = form.cleaned_data['year']
             branch = form.cleaned_data['branch']
+<<<<<<< HEAD
             user = User.objects.create_user(email=email, password=password_,name=name,year=year,branch=branch, rollno = rollno)
+=======
+            user = User.objects.create_user_student(email=email, password=password_,name=name,year=year,branch=branch, rollno = rollno)
+>>>>>>> dc84e8139e636d82e443dd9023a52cbf1e311c7d
             user.save()
             return redirect('user:home_user')
     else:
