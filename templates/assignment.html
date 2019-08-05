@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load staticfiles%}
+{% block content %}
+
+<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
+    <div class="container">
+        <div class="site-breadcrumb">
+            <a href="">Home</a>
+            <span>Teacher Window</span>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<section class="signup-section spad">
+        <div class="signup-bg set-bg" data-setbg="{% static 'images/signup-bg.jpg'%}" ></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="signup-warp">
+                        <div class="section-title text-white text-left">
+                            <h2>Add Assignments</h2>
+                            <p>Here you can Add Assignments and display as homework</p>
+                        </div>
+                        <!-- signup form -->
+                        <form class="signup-form" method="POST">{% csrf_token %}
+                            {{form.title}}
+                            {{form.instructions}}
+                            {{form.due_date}}
+                            <button class="site-btn" type = "submit">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $( function() {
+          $( "#datepicker" ).datepicker();
+        } );
+        </script>
+
+{% endblock content %}

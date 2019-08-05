@@ -19,7 +19,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 import student
 from student import urls
-import assignment
+from assignment.models import Assignment
+from .models import TeachersClassRoom
 
 
 class ClassroomCreateView(LoginRequiredMixin, FormView):
@@ -45,6 +46,7 @@ class ClassroomCreateView(LoginRequiredMixin, FormView):
         return self.form_invalid(form)
 
 
+
 class HomePageListView(ListView):
     model = TeachersClassRoom
     template_name = 'teacher_window.html'
@@ -55,6 +57,15 @@ class HomePageListView(ListView):
         queryset = TeachersClassRoom.objects.filter(teacher=teacher)
         print(queryset)
         return queryset
+<<<<<<< HEAD
+    
+def classroom_detail_view(request, pk):
+    classroom = TeachersClassRoom.objects.get(id = pk)
+    assignment_query = Assignment.objects.filter(assignment_of_class=classroom)
+    context = {
+        'classroom':classroom,
+        'assignment_list':assignment_query
+=======
 
 
 def classroom_detail_view(request, pk):
@@ -65,7 +76,9 @@ def classroom_detail_view(request, pk):
     context = {
         'classroom': classroom,
         'assignment_list': assignment_query
+>>>>>>> master
     }
+
     return render(request, 'classroom_detail.html', context)
 
 

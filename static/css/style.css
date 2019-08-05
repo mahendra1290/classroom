@@ -472,11 +472,11 @@ ol {
 }
 
 .course-item {
-	margin-bottom: 30px;
+	margin-bottom: 70px;
 }
 
 .course-item .course-thumb {
-	height: 270px;
+	/* height: 270px; */
 }
 
 .course-item .course-thumb .price {
@@ -499,12 +499,17 @@ ol {
 
 .course-item .course-info .course-text h5 {
 	margin-bottom: 5px;
+	text-align: center;
+	font-size: 30px;
 }
 
 .course-item .course-info .course-text .students {
-	font-size: 18px;
+	font-size: 25px;
 	font-weight: 600;
 	color: #d82a4e;
+	text-align: center;
+	text-transform: uppercase;
+	margin-bottom: 20px;
 }
 
 .course-item .course-info .course-author {
@@ -521,10 +526,12 @@ ol {
 }
 
 .course-item .course-info .course-author p {
-	padding-left: 60px;
+	/* padding-left: 60px; */
 	margin-bottom: 0;
 	padding-top: 7px;
 	font-weight: 600;
+	font-size: 20px;
+	text-align: right;
 }
 
 .course-item .course-info .course-author p span {
@@ -596,7 +603,14 @@ ol {
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
 }
+.addclass{
+	background-color:green;
+	color:white;
+	padding:10px;
+	font-size:24px;
+	border-radius:5px;
 
+}
 .course-filter li.mixitup-control-active {
 	color: #d82a4e;
 	border-bottom: 4px solid #d82a4e;
@@ -1499,7 +1513,7 @@ ol {
 		height: 220px;
 	}
 	.course-item .course-info .course-text {
-		padding: 45px 15px 25px;
+		padding: 25px 15px 40px;
 	}
 	.course-item .course-info .course-author {
 		padding: 14px 15px;
