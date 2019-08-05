@@ -24,9 +24,10 @@
                             <p>Here you can Add Assignments and display as homework</p>
                         </div>
                         <!-- signup form -->
-                        <form class="signup-form" method="POST">{% csrf_token %}
+                        <form class="signup-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                            {{form.assign_file}}
                             {{form.title}}
-                            {{form.instructions}}
+                            {{form.instruction}}
                             {{form.due_date}}
                             <button class="site-btn" type = "submit">Add</button>
                         </form>

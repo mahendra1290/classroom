@@ -22,11 +22,7 @@
 		<div class="course-warp">
 			<ul class="course-filter controls">
                 <li class="control active" data-filter="all">My Assignment</li>
-                <a  href="{% url 'teacher:create_classroom' %}"><li>  <div class ="addclass" >
-                            <div>Add Assignment</div>
-				</div>
-                
-                    </li></a>
+                <a  href="{% url 'teacher:add_assignment' classroom.id %}"><li>  <div class ="addclass" >Add Assignment</a>
 			</ul>                                       
 			<div class="row course-items-area">
                 <!-- course -->

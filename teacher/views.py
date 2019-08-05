@@ -57,7 +57,6 @@ class HomePageListView(ListView):
         queryset = TeachersClassRoom.objects.filter(teacher=teacher)
         print(queryset)
         return queryset
-<<<<<<< HEAD
     
 def classroom_detail_view(request, pk):
     classroom = TeachersClassRoom.objects.get(id = pk)
@@ -65,18 +64,6 @@ def classroom_detail_view(request, pk):
     context = {
         'classroom':classroom,
         'assignment_list':assignment_query
-=======
-
-
-def classroom_detail_view(request, pk):
-    classroom = TeachersClassRoom.objects.get(id=pk)
-    assignment_query = Assignment.objects.filter(assignment_of_class=classroom)
-    print(assignment_query)
-    print(classroom)
-    context = {
-        'classroom': classroom,
-        'assignment_list': assignment_query
->>>>>>> master
     }
 
     return render(request, 'classroom_detail.html', context)
@@ -101,7 +88,7 @@ def add_assignment_view(request, pk):
             return HttpResponseRedirect(str(assign.get_absolute_url()))
     else :
         form = AssignmentCreateForm()
-    return render(request, 'index.html', {'form':form})
+    return render(request, 'assignment.html', {'form':form})
 
 def logout_view(request):
     logout(request)
