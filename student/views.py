@@ -6,7 +6,7 @@ from .forms import StudentRegistrationForm
 from .models import Student
 
 def HomePageViewStudent(request , *args , **kwargs):
-    return render(request,'home_student.html' )
+    return render(request,'student_window.html' )
 
 def StudentRegistration(request, *args , **kwargs):
     if(request.method=='POST'):

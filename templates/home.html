@@ -44,6 +44,8 @@
                     <form class="signup-form" method="POST">{% csrf_token %}
                         {{teacherform.name}}
                         {{teacherform.email}}
+                        {{teacherform.phone}}
+                        {{teacherform.department}}
                         {{teacherform.password}}
                         <button class="site-btn" name='teacherform_submit' type = "submit">Register</button>
                     </form>

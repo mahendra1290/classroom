@@ -14,7 +14,7 @@ from .views import ClassroomListView
 app_name="teacher"
 
 urlpatterns = [
-    path('', HomePageViewTeacher, name= 'homepage'),
+    path('', HomePageViewTeacher, name= 'teachers_homepage'),
     path('delete/',delete_user, name = 'delete_teacher'),
     path('logout/', logout_view, name = 'logout'),
     path('my_classrooms/', ClassroomListView.as_view(), name='classroom_list'),

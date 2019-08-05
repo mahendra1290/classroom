@@ -37,12 +37,12 @@ def homepageview(request):
                 password = teacherform.cleaned_data['password']
                 email = teacherform.cleaned_data['email']
                 name = teacherform.cleaned_data['name']
+                phone=teacherform.cleaned_data['phone']
+                department = teacherform.cleaned_data['department']
                 user = User.objects.create_user(email=email, password=password)
                 user.is_teacher = True
                 user.save()
-                teacherobj = Teacher()
-                teacherobj.teacher_user = user
-                teacherobj.name = name
+                teacherobj = Teacher(name=name,department=department,phone=phone,teacher_user=user)
                 teacherobj.save()
                 messages.success(request, "Successfully created. Login to give assignments")
             else:
@@ -64,7 +64,7 @@ def login_view(request):
                 if request.user.is_teacher is False:
                     return redirect('student:student_registration')
                 else:
-                    return redirect('teacher:teacher_homepage')
+                    return redirect('teacher:teachers_homepage')
 
             else:
                 messages.error(request, 'Incorrect Username or Password')

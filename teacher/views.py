@@ -46,7 +46,7 @@ class ClassroomDetailView(DetailView):
 
 class ClassroomListView(ListView):
     model = TeachersClassRoom
-    template_name = 'classrooms.html'
+    template_name = 'teacher_window.html'
     context_object_name = 'classroom_list'
 
     def get_queryset(self):
@@ -65,7 +65,7 @@ def classroom_detail_view(request, pk):
     return render(request, 'classroom_detail.html', context)
 
 def HomePageViewTeacher(request):
-    return render(request, 'home_teacher.html')
+    return render(request, 'teacher_window.html')
 
 
 def logout_view(request):
