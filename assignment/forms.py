@@ -4,11 +4,18 @@ from datetime import date
 
 
 class AssignmentCreateForm(forms.Form):
-    title = forms.CharField(max_length=100)
-    instruction = forms.CharField(max_length=100)
-    due_date = forms.DateField(required=False, widget = forms.DateInput(attrs={'class':'datepicker'}))
-    assign_file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    class Meta:
+        model = Assignment
+        fields = ['title','instructions','due_date','assign_file',]
 
-    # title =title=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))
-    # instruction = forms.CharField(widget = forms.TextInput(attrs={'placeholder':'Title'}))
-    # # due_date = forms.DateField(widget = forms.DateInput(attrs = {'placeholder':'Date'}))
+    title =forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))
+    instructions=forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Give any instructions'}))
+    assign_file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    due_date = forms.DateTimeField(
+        input_formats=['%m/%d/%Y %I:%M %p'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1',
+            'placeholder':'Enter Submission Date',
+        })
+    )

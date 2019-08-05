@@ -71,13 +71,15 @@ def classroom_detail_view(request, pk):
 
 def add_assignment_view(request, pk):
     if request.method == 'POST':
-        form = AssignmentCreateForm(request.POST)
+        form = AssignmentCreateForm(request.POST,request.FILES)
+        print(form)
         files = request.FILES.getlist('assign_file')
+        print(form.is_valid())
         if form.is_valid():
             classroom = TeachersClassRoom.objects.get(id=pk)
             assign = Assignment(
                 title=form.cleaned_data['title'], 
-                instructions=form.cleaned_data['instruction'],
+                instructions=form.cleaned_data['instructions'],
                 assignment_of_class=classroom
             )
             assign.save()
@@ -88,6 +90,7 @@ def add_assignment_view(request, pk):
             return HttpResponseRedirect(str(assign.get_absolute_url()))
     else :
         form = AssignmentCreateForm()
+        
     return render(request, 'assignment.html', {'form':form})
 
 def logout_view(request):
