@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from django.contrib.auth import authenticate, login,logout
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
@@ -12,14 +12,18 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import TeachersClassRoom
 from .models import Teacher
+from assignment.models import Assignment, AssignmentsFile
+from assignment.forms import AssignmentCreateForm
 from .forms import ClassroomCreateForm
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 import student
 from student import urls
 from assignment.models import Assignment
 from .models import TeachersClassRoom
 
-class ClassroomCreateView(LoginRequiredMixin , FormView):
+
+class ClassroomCreateView(LoginRequiredMixin, FormView):
     template_name = 'classroom_create.html'
     form_class = ClassroomCreateForm
     success_url = ''
@@ -34,16 +38,13 @@ class ClassroomCreateView(LoginRequiredMixin , FormView):
             base_user = request.user
             print(base_user)
             teacher = Teacher.objects.get(teacher_user=base_user)
-            classroom = TeachersClassRoom(title=title, section=section, subject=subject, teacher=teacher)
+            classroom = TeachersClassRoom(
+                title=title, section=section, subject=subject, teacher=teacher)
             classroom.save()
             self.success_url = classroom.get_absolute_url()
             return self.form_valid(form)
         return self.form_invalid(form)
 
-class ClassroomDetailView(DetailView):
-    model = TeachersClassRoom
-    context_object_name = 'classroom'
-    template_name = 'classroom_detail.html'
 
 
 class HomePageListView(ListView):
@@ -56,6 +57,7 @@ class HomePageListView(ListView):
         queryset = TeachersClassRoom.objects.filter(teacher=teacher)
         print(queryset)
         return queryset
+<<<<<<< HEAD
     
 def classroom_detail_view(request, pk):
     classroom = TeachersClassRoom.objects.get(id = pk)
@@ -63,15 +65,50 @@ def classroom_detail_view(request, pk):
     context = {
         'classroom':classroom,
         'assignment_list':assignment_query
+=======
+
+
+def classroom_detail_view(request, pk):
+    classroom = TeachersClassRoom.objects.get(id=pk)
+    assignment_query = Assignment.objects.filter(assignment_of_class=classroom)
+    print(assignment_query)
+    print(classroom)
+    context = {
+        'classroom': classroom,
+        'assignment_list': assignment_query
+>>>>>>> master
     }
 
     return render(request, 'classroom_detail.html', context)
+
+
+def add_assignment_view(request, pk):
+    if request.method == 'POST':
+        form = AssignmentCreateForm(request.POST)
+        files = request.FILES.getlist('assign_file')
+        if form.is_valid():
+            classroom = TeachersClassRoom.objects.get(id=pk)
+            assign = Assignment(
+                title=form.cleaned_data['title'], 
+                instructions=form.cleaned_data['instruction'],
+                assignment_of_class=classroom
+            )
+            assign.save()
+            for f in files:
+                assignment_file = AssignmentsFile(file=f, assignment=assign)
+                assignment_file.save()
+            print(assign.get_absolute_url())
+            return HttpResponseRedirect(str(assign.get_absolute_url()))
+    else :
+        form = AssignmentCreateForm()
+    return render(request, 'index.html', {'form':form})
 
 def logout_view(request):
     logout(request)
     return redirect('customuser:homepage')
 
+
 def delete_user(request):
-    user_obj = User.objects.filter(email = request.user.email)[0]
+    user_obj = User.objects.filter(email=request.user.email)[0]
     user_obj.delete()
     return redirect('customuser:home_user')

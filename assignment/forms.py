@@ -3,7 +3,6 @@ from .models import Assignment, AssignmentsFile
 from datetime import date
 
 
-
 class AssignmentCreateForm(forms.Form):
     title = forms.CharField(max_length=100)
     instruction = forms.CharField(max_length=100)

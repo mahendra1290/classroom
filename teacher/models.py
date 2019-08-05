@@ -32,7 +32,7 @@ class TeachersClassRoom(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('teacher:classroom_detail', kwargs={'pk': self.pk})
+        return reverse('teacher:classroom_detail', pk=classroom.id)
 
     def __str__(self):
         return self.title
