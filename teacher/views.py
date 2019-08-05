@@ -16,7 +16,8 @@ from .forms import ClassroomCreateForm
 from django.urls import reverse
 import student
 from student import urls
-import assignment
+from assignment.models import Assignment
+from .models import TeachersClassRoom
 
 class ClassroomCreateView(LoginRequiredMixin , FormView):
     template_name = 'classroom_create.html'
@@ -43,6 +44,7 @@ class ClassroomDetailView(DetailView):
     model = TeachersClassRoom
     context_object_name = 'classroom'
     template_name = 'classroom_detail.html'
+
 
 class HomePageListView(ListView):
     model = TeachersClassRoom
