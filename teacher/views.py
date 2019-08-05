@@ -57,13 +57,14 @@ class HomePageListView(ListView):
         print(queryset)
         return queryset
     
-
 def classroom_detail_view(request, pk):
-    classroom = TeachersClassRoom.objects.all()
-    print(classroom[0].id)
+    classroom = TeachersClassRoom.objects.get(id = pk)
+    assignment_query = Assignment.objects.filter(assignment_of_class=classroom)
     context = {
-        'classroom' : classroom
+        'classroom':classroom,
+        'assignment_list':assignment_query
     }
+
     return render(request, 'classroom_detail.html', context)
 
 def logout_view(request):

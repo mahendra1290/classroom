@@ -476,7 +476,7 @@ ol {
 }
 
 .course-item .course-thumb {
-	height: 270px;
+	/* height: 270px; */
 }
 
 .course-item .course-thumb .price {
