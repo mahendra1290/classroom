@@ -60,6 +60,7 @@ def login_view(request):
             user_obj = authenticate(username=username, password=password)
             if user_obj is not None:
                 login(request, user_obj)
+                print(request.user.is_teacher)
                 if request.user.is_teacher is False:
                     return redirect('student:student_registration')
                 else:
@@ -69,7 +70,7 @@ def login_view(request):
                 messages.error(request, 'Incorrect Username or Password')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'user_login.html', {'form': form})
 
 
 def signup_view(request):
@@ -83,17 +84,19 @@ def signup_view(request):
             return redirect('customuser:homepage')
     else:
         form = UserRegisterForm()
-    return render(request,'signup.html',{'form':form})
+    return render(request,'student_signup.html',{'form':form})
 
 
 def logout_view(request):
     logout(request)
-    return redirect('user:homepage')
+    return redirect('customuser:home_user')
 
 def delete_user(request):
     user_obj = User.objects.filter(email = request.user.email)[0]
     user_obj.delete()
-    return redirect('user:homepage')
+    return redirect('customuser:home_user')
 
 def contactus(request):
     return render(request, "contactus.html")
+
+

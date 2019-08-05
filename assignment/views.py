@@ -1,13 +1,18 @@
 from django.views.generic.edit import FormView
+from django.views.generic import DeleteView
 from django.views.generic import DetailView, ListView
 from .forms import AssignmentCreateForm
 from .models import AssignmentsFile, Assignment
 from django.shortcuts import render
 
-class FileFieldView(FormView):
+class AssignmentDeleteView(DeleteView):
+    pass
+
+class AssignmentCreateView(FormView):
+    prime_key = 0
     form_class = AssignmentCreateForm
     template_name = 'index.html'  # Replace with your template.
-    success_url = '/add'  # Replace with your URL or reverse().
+    success_url = f'{prime_key}/'  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()

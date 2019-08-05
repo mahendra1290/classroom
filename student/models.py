@@ -28,5 +28,5 @@ class Student(models.Model):
     myassignments = models.ManyToManyField(Assignment, blank=True)
 
     def __str__(self):
-        return str(self.student_user)
+        return str(self.name)
 
