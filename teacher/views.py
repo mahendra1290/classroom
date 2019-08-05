@@ -44,7 +44,7 @@ class ClassroomDetailView(DetailView):
     context_object_name = 'classroom'
     template_name = 'classroom_detail.html'
 
-class ClassroomListView(ListView):
+class HomePageListView(ListView):
     model = TeachersClassRoom
     template_name = 'teacher_window.html'
     context_object_name = 'classroom_list'
@@ -63,10 +63,6 @@ def classroom_detail_view(request, pk):
         'classroom' : classroom
     }
     return render(request, 'classroom_detail.html', context)
-
-def HomePageViewTeacher(request):
-    return render(request, 'teacher_window.html')
-
 
 def logout_view(request):
     logout(request)
