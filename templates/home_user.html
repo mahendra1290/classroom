@@ -11,8 +11,8 @@
         <p>{{user.rollno}}</p>
         <p>{{user.email}}</p>
         <p>{{user.is_teacher}}</p>
-            {% if user.is_authenticated %}
-            <p>lund</p>
+            {% if user.is_teacher %}
+                <p>lund</p>
                 <a href="{%url 'teacher : create_classroom' %}">create class</a>
             {% endif %}
         {% endif %}

@@ -53,9 +53,9 @@ def signup_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('user:home_user')
+    return redirect('customuser:home_user')
 
 def delete_user(request):
     user_obj = User.objects.filter(email = request.user.email)[0]
     user_obj.delete()
-    return redirect('user:home_user')
+    return redirect('customuser:home_user')
