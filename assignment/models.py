@@ -1,6 +1,7 @@
 from django.db import models
 from teacher.models import TeachersClassRoom
 from datetime import date
+from django.urls import reverse
 
 class Assignment(models.Model):
     title = models.CharField(max_length=100)
@@ -12,6 +13,9 @@ class Assignment(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('teacher:assignment_detail', args=[self.pk])
 
 
 class AssignmentsFile(models.Model):

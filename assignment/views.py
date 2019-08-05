@@ -34,11 +34,10 @@ class AssignmentCreateView(FormView):
 
 def assignment_view(request, pk, *args, **kwargs):
     a = Assignment.objects.get(id=pk)
-    files = AssignmentsFile.objects.filter(assignment = a)[0]
+    files = list(AssignmentsFile.objects.filter(assignment = a))
     context = {
         'b' : a,
         'f' : files
     }
-
     return render(request, "assignment.html", context)
 
