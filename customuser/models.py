@@ -13,6 +13,11 @@ class UserManager(BaseUserManager):
     def create_user(self,email,password=None):
         if not email:
             raise ValueError('Users must have an email address')
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> fe7695ee8995b2a922d6074b84d901fe5b0ad65b
         user = self.model(
             email=self.normalize_email(email),
         )
@@ -48,11 +53,17 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     objects = UserManager()
     def __str__(self):
+<<<<<<< HEAD
+        return self.email
+
+
+=======
         return self.email
 
     def get_username(self):
         return self.email
 
+>>>>>>> fe7695ee8995b2a922d6074b84d901fe5b0ad65b
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always

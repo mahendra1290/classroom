@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+<<<<<<< HEAD
+=======
 from django.urls import reverse
 
 DEPARTMENT_CHOICES = (
@@ -12,14 +14,19 @@ DEPARTMENT_CHOICES = (
     ('CD', 'Civil Department'),
 )
 
+>>>>>>> fe7695ee8995b2a922d6074b84d901fe5b0ad65b
 
 class Teacher(models.Model):
     teacher_user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     name = models.CharField(max_length=20)
+<<<<<<< HEAD
+    teacher_user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
+=======
     department = models.CharField(
         max_length=50, choices=DEPARTMENT_CHOICES, default='', blank=True)
     phone = models.IntegerField()
+>>>>>>> fe7695ee8995b2a922d6074b84d901fe5b0ad65b
 
     def __str__(self):
         return (self.name)

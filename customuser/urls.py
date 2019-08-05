@@ -8,7 +8,8 @@ from django.conf.urls import url
 app_name="customuser"
 
 urlpatterns = [
-    path('', views.HomePageView.as_view(), name= 'homepage'),
+    path('', views.homepageview, name= 'homepage'),
+    path('contact/', views.contactus, name = 'contact'),
     path('login/', views.login_view, name = 'login'),
     path('signup/', views.signup_view, name = 'signup'),
 ]
