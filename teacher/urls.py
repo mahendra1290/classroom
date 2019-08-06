@@ -8,8 +8,6 @@ from .views import delete_user
 from .views import logout_view
 from .views import ClassroomCreateView
 from .views import classroom_detail_view
-from .views import add_assignment_view
-from assignment.views import assignment_view
 
 app_name="teacher"
 
@@ -18,7 +16,6 @@ urlpatterns = [
     path('delete/',delete_user, name = 'delete_teacher'),
     path('logout/', logout_view, name = 'logout'),
     path('classroom/add/', ClassroomCreateView.as_view(), name='create_classroom'),
-    path('classroom/<int:pk>/', classroom_detail_view, name='classroom_detail'),
-    path('classroom/<int:pk>/assignment/add', add_assignment_view, name='add_assignment'),
-    path('classroom/assignment/<int:pk>/', assignment_view, name='assignment_detail'), 
+    path('classroom-<int:pk>/', classroom_detail_view, name='classroom_detail'),
+    path('classroom-<int:pk_of_class>/assignment/', include('assignment.urls')),
 ]

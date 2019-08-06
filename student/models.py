@@ -30,3 +30,6 @@ class Student(models.Model):
     def __str__(self):
         return str(self.name)
 
+class Solution(models.Model):
+    pass
+

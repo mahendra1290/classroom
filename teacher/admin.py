@@ -5,4 +5,3 @@ from .models import TeachersClassRoom
 
 admin.site.register(Teacher)
 admin.site.register(TeachersClassRoom)
-

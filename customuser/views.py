@@ -27,7 +27,7 @@ def homepageview(request):
                 return redirect('customuser:homepage')
             else:
                 userform = UserRegisterForm()
-            return render(request,'homepage.html',{'form':form})
+            return render(request, 'homepage.html', {'userform': userform})
 
 
         else:
