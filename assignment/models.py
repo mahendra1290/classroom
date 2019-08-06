@@ -6,7 +6,7 @@ from django.urls import reverse
 class Assignment(models.Model):
     title = models.CharField(max_length=100)
     instructions = models.CharField(max_length=100)
-    due_date =  models.DateTimeField(default=datetime.now, blank=True, null = True)
+    due_date =  models.DateTimeField( blank=True, null = True)
     pub_date = models.DateField(auto_now=True, null=True)
     assignment_of_class = models.ForeignKey(
         TeachersClassRoom, on_delete=models.CASCADE)
