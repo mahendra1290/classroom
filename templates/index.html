@@ -1,19 +1,84 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% load static  %}
 
-<head>
-    <meta charset="UTF-8" />
-    <title>index page</title>
-</head>
-
-<body>
-    <h1>{{assignment.title}}</h1>
+{%    block content%}
+    <!-- <h1>{{assignment.title}}</h1>
     <h2>{{assignment.instructions}}</h2>
     <div>
       {% for f in assignment_files %}
       <img src="{{f.file.url}}">
       {% endfor %}
+    </div> -->
+    <div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/2.jpg'%}">
+      <div class="container">
+        <div class="site-breadcrumb">
+          <a href="">Home</a>
+          <span>view submissions</span>
+        </div>
+      </div>
+      </div>
+    
+    <div class="container">
+      <h2>View Submissions</h2>
+      <p></p>            
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>ROLL NO.</th>
+            <th>SUBMISSIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+          </tr>
+          <tr>
+            <td>Mary</td>
+            <td>Moe</td>
+            <td>mary@example.com</td>
+          </tr>
+          <tr>
+            <td>July</td>
+            <td>Dooley</td>
+            <td>july@example.com</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</body>
 
-</html>
+    <div style="overflow-x:auto;">
+      <table>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Points</th>
+          <th>Points</th>
+    
+        </tr>
+        <tr>
+          <td>Jill</td>
+          <td>Smith</td>
+          <td>50</td>
+          <td>50</td>
+    
+        </tr>
+        <tr>
+          <td>Eve</td>
+          <td>Jackson</td>
+          <td>94</td>
+          <td>94</td>
+    
+        </tr>
+        <tr>
+          <td>Adam</td>
+          <td>Johnson</td>
+          <td>67</td>
+          <td>67</td>
+     
+        </tr>
+      </table>
+    </div>
+        {%endblock content %}
