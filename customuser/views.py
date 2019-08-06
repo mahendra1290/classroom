@@ -23,12 +23,14 @@ def homepageview(request):
                     print("USERFORM IS VALID")
                     email = userform.cleaned_data['email']
                     password = userform.cleaned_data['password']
+                    print("email id ")
+                    print(email)
                     user = User.objects.create_user(email=email, password=password)
                     user.save()
                     return redirect('customuser:homepage')
                 else:
                     userform = UserRegisterForm()
-                return render(request,'homepage.html',{'form':form})
+                return render(request,'homepage.html',{'form':userform})
 
 
             else:
