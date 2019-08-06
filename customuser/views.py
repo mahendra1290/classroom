@@ -13,43 +13,53 @@ from customuser import urls
 from teacher.models import Teacher
 
 def homepageview(request):
-    teacherform = TeacherRegistrationForm()
-    userform = UserRegisterForm()
-    if request.method == 'POST':
-        if 'loginform_submit' in request.POST:
-            userform = UserRegisterForm(request.POST)
-            if userform.is_valid():
-                print("USERFORM IS VALID")
-                email = userform.cleaned_data['email']
-                password = userform.cleaned_data['password']
-                user = User.objects.create_user(email=email, password=password)
-                user.save()
-                return redirect('customuser:homepage')
+    if not request.user.is_authenticated :
+        teacherform = TeacherRegistrationForm()
+        userform = UserRegisterForm()
+        if request.method == 'POST':
+            if 'loginform_submit' in request.POST:
+                userform = UserRegisterForm(request.POST)
+                if userform.is_valid():
+                    print("USERFORM IS VALID")
+                    email = userform.cleaned_data['email']
+                    password = userform.cleaned_data['password']
+                    user = User.objects.create_user(email=email, password=password)
+                    user.save()
+                    return redirect('customuser:homepage')
+                else:
+                    userform = UserRegisterForm()
+                return render(request,'homepage.html',{'form':form})
+
+
             else:
                 userform = UserRegisterForm()
-            return render(request, 'homepage.html', {'userform': userform})
+                teacherform = TeacherRegistrationForm(request.POST)
+                if teacherform.is_valid():
+                    password = teacherform.cleaned_data['password']
+                    email = teacherform.cleaned_data['email']
+                    name = teacherform.cleaned_data['name']
+                    phone=teacherform.cleaned_data['phone']
+                    department = teacherform.cleaned_data['department']
+                    user = User.objects.create_user(email=email, password=password)
+                    user.is_teacher = True
+                    user.save()
+                    teacherobj = Teacher(name=name,department=department,phone=phone,teacher_user=user)
+                    teacherobj.save()
+                    messages.success(request, "Successfully created. Login to give assignments")
+                else:
+                    messages.error(request, 'Incorrect Details')
+                return redirect('customuser:homepage')
 
-
-        else:
-            userform = UserRegisterForm()
-            teacherform = TeacherRegistrationForm(request.POST)
-            if teacherform.is_valid():
-                password = teacherform.cleaned_data['password']
-                email = teacherform.cleaned_data['email']
-                name = teacherform.cleaned_data['name']
-                phone=teacherform.cleaned_data['phone']
-                department = teacherform.cleaned_data['department']
-                user = User.objects.create_user(email=email, password=password)
-                user.is_teacher = True
-                user.save()
-                teacherobj = Teacher(name=name,department=department,phone=phone,teacher_user=user)
-                teacherobj.save()
-                messages.success(request, "Successfully created. Login to give assignments")
-            else:
-                messages.error(request, 'Incorrect Details')
-            return redirect('customuser:homepage')
-
-    return render(request, 'home.html', {'userform': userform, 'teacherform': teacherform })
+        return render(request, 'home.html', {'userform': userform, 'teacherform': teacherform })
+    
+    elif request.user.is_authenticated and request.user.is_teacher is True:
+        return redirect('teacher:teachers_homepage')
+    
+    elif request.user.is_authenticated and not request.user.is_teacher :
+        if request.user.details:
+            return redirect('student : student_homepage')
+        else :
+            return redirect('student :student_registration')
 
 def login_view(request):
     if request.method == 'POST' :

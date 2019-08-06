@@ -688,11 +688,6 @@ ol {
 	border-bottom: 2px solid#3e74e9;
 }
 
-.signup-form input[type=file],
-.contact-form input[type=file] {
-	display: none;
-}
-
 .signup-form textarea,
 .contact-form textarea {
 	padding-top: 23px;
@@ -1783,3 +1778,27 @@ ol {
 		margin-right: 10px;
 	}
 }
+.upload-btn-wrapper {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+  }
+  
+  .btn {
+	border: 2px solid #6b9a76;
+	color: #ffffff;
+	background-color: #139c0c;
+	padding: 8px 20px;
+	border-radius: 8px;
+	font-size: 15px;
+	font-weight: bold;
+	margin-bottom: 15px;
+	}
+  
+  .upload-btn-wrapper input[type=file] {
+	font-size: 50px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	}

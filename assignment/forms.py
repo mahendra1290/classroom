@@ -19,6 +19,7 @@ class AssignmentCreateForm(forms.Form):
         widget=forms.DateTimeInput(attrs={
             'class': 'form-control datetimepicker-input',
             'data-target': '#datetimepicker1',
+
             'placeholder': 'Enter Submission Date',
         })
     )

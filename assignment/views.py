@@ -9,9 +9,10 @@ from django.urls import reverse_lazy
 
 class AssignmentDeleteView(DeleteView):
     model = Assignment
-
+    class_id = 0
     def get(self, request, pk_of_class, pk):
-        return HttpResponse(reverse_lazy('teacher:classroom_detail', args=(pk,)))
+        success_url = reverse_lazy('teacher:classroom_detail', args=(pk_of_class,))
+        return HttpResponse(render(request, 'assignment/assignment_confirm_delete.html'))
     
 
 class AssignmentCreateView(FormView):
