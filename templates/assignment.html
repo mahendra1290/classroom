@@ -50,6 +50,24 @@
                             <button class="site-btn" type = "submit">Add</button>
                         </form>
                     </div>
+                    <!-- signup form -->
+                    <form class="signup-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        {{form.title}}
+                        {{form.instructions}}
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            <span>{{ form.due_date }}</span>
+                            <span class="input-group-append" data-target="#datetimepicker1"
+                                data-toggle="datetimepicker">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </span>
+                        </span>
+                        <div class="upload-btn-wrapper">
+                            <button class="btn">Upload a file</button>
+                            {{form.assign_file}}</div>
+                        <br>
+
+                        <button class="site-btn" type="submit">Add</button>
+                    </form>
                 </div>
             </div>
         </div>

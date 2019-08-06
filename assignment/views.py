@@ -4,14 +4,21 @@ from django.views.generic import DetailView, ListView
 from .forms import AssignmentCreateForm
 from .models import AssignmentsFile, Assignment
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.urls import reverse_lazy
 
 class AssignmentDeleteView(DeleteView):
-    pass
+    model = Assignment
+    class_id = 0
+    def get(self, request, pk_of_class, pk):
+        success_url = reverse_lazy('teacher:classroom_detail', args=(pk_of_class,))
+        return HttpResponse(render(request, 'assignment/assignment_confirm_delete.html'))
+    
 
 class AssignmentCreateView(FormView):
     prime_key = 0
     form_class = AssignmentCreateForm
-    template_name = 'index.html'  # Replace with your template.
+    template_name = 'assignment.html'  # Replace with your template.
     success_url = f'{prime_key}/'  # Replace with your URL or reverse().
 
     def post(self, request, *args, **kwargs):
@@ -36,8 +43,8 @@ def assignment_view(request, pk, *args, **kwargs):
     a = Assignment.objects.get(id=pk)
     files = list(AssignmentsFile.objects.filter(assignment = a))
     context = {
-        'b' : a,
-        'f' : files
+        'assignment' : a,
+        'assignment_files' : files
     }
-    return render(request, "assignment.html", context)
+    return render(request, "index.html", context)
 

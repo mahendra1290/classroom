@@ -7,23 +7,13 @@
 </head>
 
 <body>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <p><input type="submit" value="Save" /></p>
-    </form>
-    
+    <h1>{{assignment.title}}</h1>
+    <h2>{{assignment.instructions}}</h2>
+    <div>
+      {% for f in assignment_files %}
+      <img src="{{f.file.url}}">
+      {% endfor %}
+    </div>
 </body>
 
 </html>
-<script>
-    $(function() {
-      $( ".datepicker" ).datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "2019:2023",
-        // You can put more options here.
-  
-      });
-    });
-    </script>

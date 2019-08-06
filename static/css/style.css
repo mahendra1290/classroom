@@ -87,7 +87,7 @@ textarea:focus {
 }
 
 a:hover {
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 a:hover,
@@ -172,7 +172,7 @@ ol {
 	position: relative;
 	color: #fff;
 	cursor: pointer;
-	background: #d82a4e;
+	background:#3e74e9;
 }
 
 .site-btn:hover {
@@ -286,7 +286,7 @@ ol {
 }
 
 .main-menu ul li a:hover {
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 .header-btn {
@@ -368,11 +368,11 @@ ol {
 .categorie-item .ci-text span {
 	font-size: 18px;
 	font-weight: 600;
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 .categorie-item:hover {
-	background: #d82a4e;
+	background:#3e74e9;
 }
 
 .categorie-item:hover .ci-text h5,
@@ -386,7 +386,7 @@ ol {
 ---------------------*/
 
 .search-warp {
-	background: #d82a4e;
+	background:#3e74e9;
 	padding-top: 60px;
 	padding-bottom: 50px;
 }
@@ -414,7 +414,7 @@ ol {
 
 .course-search-form input[type=text]:focus,
 .course-search-form input[type=email]:focus {
-	border-bottom: 2px solid #d82a4e;
+	border-bottom: 2px solid#3e74e9;
 }
 
 .course-search-form .site-btn {
@@ -447,7 +447,7 @@ ol {
 
 .search-section.ss-other-page .section-title h2 span {
 	display: inline-block;
-	background: #d82a4e;
+	background:#3e74e9;
 	padding: 20px 60px 10px;
 }
 
@@ -483,7 +483,7 @@ ol {
 	font-size: 14px;
 	color: #fff;
 	font-weight: 600;
-	background: #d82a4e;
+	background:#3e74e9;
 	display: inline-block;
 	padding: 13px 19px;
 	margin: 14px;
@@ -506,7 +506,7 @@ ol {
 .course-item .course-info .course-text .students {
 	font-size: 25px;
 	font-weight: 600;
-	color: #d82a4e;
+	color:#3e74e9;
 	text-align: center;
 	text-transform: uppercase;
 	margin-bottom: 20px;
@@ -535,7 +535,7 @@ ol {
 }
 
 .course-item .course-info .course-author p span {
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 .course-item.featured-course {
@@ -562,7 +562,7 @@ ol {
 
 .course-item.featured-course .fet-note {
 	display: inline-block;
-	background: #d82a4e;
+	background:#3e74e9;
 	color: #fff;
 	font-size: 14px;
 	font-weight: 500;
@@ -612,8 +612,8 @@ ol {
 
 }
 .course-filter li.mixitup-control-active {
-	color: #d82a4e;
-	border-bottom: 4px solid #d82a4e;
+	color:#3e74e9;
+	border-bottom: 4px solid#3e74e9;
 }
 
 /*------------------
@@ -621,7 +621,7 @@ ol {
 ---------------------*/
 
 .signup-section {
-	background: #d82a4e;
+	background:#3e74e9;
 	position: relative;
 }
 
@@ -685,7 +685,7 @@ ol {
 .contact-form input[type=text]:focus,
 .contact-form input[type=email]:focus,
 .contact-form textarea:focus {
-	border-bottom: 2px solid #d82a4e;
+	border-bottom: 2px solid#3e74e9;
 }
 
 .signup-form textarea,
@@ -724,7 +724,7 @@ ol {
 ---------------------*/
 
 .footer-section {
-	border-top: 3px solid #d82a4e;
+	border-top: 3px solid#3e74e9;
 }
 
 .footer-warp {
@@ -780,7 +780,7 @@ ol {
 	left: -5px;
 	top: 6px;
 	border-radius: 50%;
-	background: #d82a4e;
+	background:#3e74e9;
 }
 
 .footer-newslatter {
@@ -895,7 +895,7 @@ ol {
 }
 
 .site-breadcrumb span {
-	color: #d82a4e;
+	color: #3e74e9;
 }
 
 /*------------------
@@ -909,7 +909,7 @@ ol {
 
 .course-meta-area .course-note {
 	display: inline-block;
-	background: #d82a4e;
+	background:#3e74e9;
 	color: #fff;
 	font-size: 14px;
 	font-weight: 500;
@@ -962,7 +962,7 @@ ol {
 }
 
 .course-meta .course-author p span {
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 .course-meta .cm-info h6 {
@@ -1035,7 +1035,7 @@ ol {
 	color: #fff;
 	font-size: 22px;
 	padding-top: 10px;
-	background: #d82a4e;
+	background:#3e74e9;
 }
 
 /*------------------
@@ -1168,7 +1168,7 @@ ol {
 }
 
 .sb-widget-item ul li a:hover {
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 .sb-widget-item .tags a {
@@ -1176,7 +1176,7 @@ ol {
 	display: inline-block;
 	padding: 9px 24px;
 	color: #fff;
-	background: #d82a4e;
+	background:#3e74e9;
 	margin-bottom: 10px;
 	margin-right: 6px;
 	font-weight: 500;
@@ -1195,7 +1195,7 @@ ol {
 }
 
 .site-pagination span.active {
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 /*------------------
@@ -1203,7 +1203,7 @@ ol {
 ---------------------*/
 
 .contact-form-warp {
-	background: #d82a4e;
+	background:#3e74e9;
 	padding: 45px 47px;
 }
 
@@ -1231,7 +1231,7 @@ ol {
 .contact-info-area .phone-number span {
 	font-size: 18px;
 	font-weight: 700;
-	color: #d82a4e;
+	color:#3e74e9;
 	display: block;
 	margin-bottom: 5px;
 }
@@ -1251,7 +1251,7 @@ ol {
 	height: 3px;
 	left: 0;
 	bottom: 0;
-	background: #d82a4e;
+	background:#3e74e9;
 }
 
 .contact-info-area .contact-list {
@@ -1280,7 +1280,7 @@ ol {
 	left: -5px;
 	top: 6px;
 	border-radius: 50%;
-	background: #d82a4e;
+	background:#3e74e9;
 }
 
 .contact-info-area .social-links {
@@ -1338,7 +1338,7 @@ ol {
 }
 
 .accordion-area .panel-header .panel-link.active {
-	background: #d82a4e;
+	background:#3e74e9;
 	color: #fff;
 }
 
@@ -1404,7 +1404,7 @@ ol {
 }
 
 .tab-element .nav-tabs .nav-link.active {
-	background: #d82a4e;
+	background:#3e74e9;
 	color: #fff;
 }
 
@@ -1451,7 +1451,7 @@ ol {
 
 .fact-item h2 {
 	font-size: 60px;
-	color: #d82a4e;
+	color:#3e74e9;
 }
 
 .icon-box h5 {
@@ -1460,7 +1460,7 @@ ol {
 
 .icon-box h5 span {
 	font-size: 60px;
-	color: #d82a4e;
+	color:#3e74e9;
 	margin-right: 15px;
 }
 
@@ -1677,7 +1677,7 @@ ol {
 		padding: 30px;
 	}
 	.search-section.ss-other-page .section-title h2 {
-		background: #d82a4e;
+		background:#3e74e9;
 	}
 	.course-item.featured-course .course-thumb {
 		position: relative;
