@@ -6,38 +6,39 @@ from .models import AssignmentsFile, Assignment
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from teacher.models import TeachersClassRoom
+from django.http import HttpResponseRedirect
 
 class AssignmentDeleteView(DeleteView):
     model = Assignment
-    class_id = 0
     def get(self, request, pk_of_class, pk):
-        success_url = reverse_lazy('teacher:classroom_detail', args=(pk_of_class,))
         return HttpResponse(render(request, 'assignment/assignment_confirm_delete.html'))
+    success_url = reverse_lazy('')
     
 
-class AssignmentCreateView(FormView):
-    prime_key = 0
-    form_class = AssignmentCreateForm
-    template_name = 'assignment.html'  # Replace with your template.
-    success_url = f'{prime_key}/'  # Replace with your URL or reverse().
-
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+def add_assignment_view(request, pk_of_class):
+    if request.method == 'POST':
+        form = AssignmentCreateForm(request.POST, request.FILES)
+        print(form)
         files = request.FILES.getlist('assign_file')
+        print(form.is_valid())
         if form.is_valid():
-            data = form.cleaned_data['title']
-            #inst = form.cleaned_data['instructions']
-            print(form.cleaned_data)
-            print(files)
-            assign = Assignment(title = form.cleaned_data['title'], instructions = form.cleaned_data['instruction'])
+            classroom = TeachersClassRoom.objects.get(id=pk_of_class)
+            assign = Assignment(
+                title=form.cleaned_data['title'],
+                instructions=form.cleaned_data['instructions'],
+                assignment_of_class=classroom,
+                due_date=form.cleaned_data['due_date']
+            )
             assign.save()
             for f in files:
-                assignment_file = AssignmentsFile(file = f, assignment = assign)
+                assignment_file = AssignmentsFile(file=f, assignment=assign)
                 assignment_file.save()
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+            return HttpResponseRedirect(reverse_lazy('teacher:classroom_detail' , args=(pk_of_class,)))
+    else:
+        form = AssignmentCreateForm()
+
+    return render(request, 'assignment.html', {'form': form})
 
 def assignment_view(request, pk, *args, **kwargs):
     a = Assignment.objects.get(id=pk)

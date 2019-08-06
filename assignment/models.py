@@ -14,8 +14,6 @@ class Assignment(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('teacher:assignment_detail', args=[self.pk])
 
 
 class AssignmentsFile(models.Model):
