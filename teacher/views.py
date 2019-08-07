@@ -23,9 +23,14 @@ from .models import Teacher
 from assignment.models import Assignment
 from .forms import ClassroomCreateForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import user_passes_test
 
 from student.models import Student
 
+def must_be_a_teacher(user):
+    if (user.is_authenticated):
+        return user.teacher_status
+    return False
 
 def is_class_id_used(class_id):
     try:
@@ -72,7 +77,7 @@ class HomePageListView(ListView):
         print(queryset)
         return queryset
 
-
+@user_passes_test(must_be_a_teacher)
 def classroom_detail_view(request, pk):
     classroom = TeachersClassRoom.objects.get(id=pk)
     print("heloooooooooooooooo")
@@ -87,13 +92,3 @@ def classroom_detail_view(request, pk):
 
     return render(request, 'classroom_detail.html', context)
 
-
-def logout_view(request):
-    logout(request)
-    return redirect('customuser:homepage')
-
-
-def delete_user(request):
-    user_obj = User.objects.filter(email=request.user.email)[0]
-    user_obj.delete()
-    return redirect('customuser:home_user')

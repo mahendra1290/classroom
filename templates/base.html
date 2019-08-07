@@ -70,7 +70,7 @@
 				</div>
 				<div class="col-lg-9 col-md-9">
 					{% if request.user.is_authenticated %}
-					<a href="{% url 'student:logout'%}" class="site-btn header-btn">Logout</a>
+					<a href="{% url 'customuser:logout'%}" class="site-btn header-btn">Logout</a>
                     {%else %}
 						
 						<a href="{% url 'customuser:login'%}" class="site-btn header-btn">Login</a>

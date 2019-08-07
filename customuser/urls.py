@@ -1,15 +1,21 @@
 
 from django.urls import path
-from django.contrib.auth import authenticate, login,logout
-from . import views
 from django.conf.urls import url
+from django.contrib.auth import authenticate, login,logout
 
+from .views import homepageview
+from .views import contactus
+from .views import login_view
+from .views import signup_view
+from .views import logout_view
+from .views import delete_user
 
 app_name="customuser"
 
 urlpatterns = [
-    path('', views.homepageview, name= 'homepage'),
-    path('contact/', views.contactus, name = 'contact'),
-    path('login/', views.login_view, name = 'login'),
-    path('signup/', views.signup_view, name = 'signup'),
+    path('', homepageview, name= 'homepage'),
+    path('login/', login_view, name = 'login'),
+    path('logout/', logout_view, name = 'logout'),
+    path('signup/', signup_view, name = 'signup'),
+    path('contact/', contactus, name = 'contact'),
 ]

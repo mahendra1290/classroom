@@ -6,7 +6,15 @@ from .forms import StudentRegistrationForm, JoinClassForm
 from .models import Student
 from teacher.models import TeachersClassRoom
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import user_passes_test
+from django.urls import reverse
 
+def must_be_a_student(user):
+    if (user.is_authenticated):
+       return not (user.teacher_status)
+    return False
+
+@user_passes_test(must_be_a_student)
 def HomePageViewStudent(request , *args , **kwargs):
     student = Student.objects.get(student_user=request.user)
     classroom_list = student.my_classes.all()
@@ -16,6 +24,8 @@ def HomePageViewStudent(request , *args , **kwargs):
     print(student.my_classes.all())
     return render(request,'student_window.html' )
 
+
+@user_passes_test(must_be_a_student)
 def StudentRegistration(request, *args , **kwargs):
     if(request.method=='POST'):
         form = StudentRegistrationForm(request.POST)
@@ -36,6 +46,7 @@ def StudentRegistration(request, *args , **kwargs):
     return render(request,'register_student.html',{'form':form})
 
 
+@user_passes_test(must_be_a_student)
 def join_class_view(request):
     if request.method == 'POST':
         form = JoinClassForm(request.POST)
@@ -52,13 +63,3 @@ def join_class_view(request):
     else:
         form = JoinClassForm()
     return render(request, 'join_class.html', {'form':form})
-
-
-def logout_view(request):
-    logout(request)
-    return redirect('customuser:homepage')
-
-def delete_user(request):
-    user_obj = User.objects.filter(email = request.user.email)[0]
-    user_obj.delete()
-    return redirect('customuser:homepage')

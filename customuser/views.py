@@ -12,46 +12,44 @@ from teacher.forms import TeacherRegistrationForm
 from customuser import urls
 from teacher.models import Teacher
 
+
+def create_teacher(form_data):
+    password = form_data['password']
+    email = form_data['email']
+    name = form_data['name']
+    phone = form_data['phone']
+    department = form_data['department']
+    user = User.objects.create_user(
+        email=email, password=password)
+    user.teacher_status = True
+    user.save()
+    teacherobj = Teacher(
+        name=name, department=department, phone=phone, teacher_user=user)
+    teacherobj.save()
+
+
 def homepageview(request):
-    if not request.user.is_authenticated :
+    if request.user.is_authenticated is False:
         teacherform = TeacherRegistrationForm()
         userform = UserRegisterForm()
         if request.method == 'POST':
-            if 'loginform_submit' in request.POST:
+            if 'userform_submit' in request.POST:
                 userform = UserRegisterForm(request.POST)
                 if userform.is_valid():
-                    print("USERFORM IS VALID")
                     email = userform.cleaned_data['email']
                     password = userform.cleaned_data['password']
-                    print("email id ")
-                    print(email)
                     user = User.objects.create_user(email=email, password=password)
                     user.save()
                     return redirect('customuser:homepage')
-                else:
-                    userform = UserRegisterForm()
-                return render(request,'homepage.html',{'form':userform})
-
-
+                return render(request,'home.html',{'userform':userform})
             else:
-                userform = UserRegisterForm()
                 teacherform = TeacherRegistrationForm(request.POST)
                 if teacherform.is_valid():
-                    password = teacherform.cleaned_data['password']
-                    email = teacherform.cleaned_data['email']
-                    name = teacherform.cleaned_data['name']
-                    phone=teacherform.cleaned_data['phone']
-                    department = teacherform.cleaned_data['department']
-                    user = User.objects.create_user(email=email, password=password)
-                    user.is_teacher = True
-                    user.save()
-                    teacherobj = Teacher(name=name,department=department,phone=phone,teacher_user=user)
-                    teacherobj.save()
+                    create_teacher(teacherform.cleaned_data)
                     messages.success(request, "Successfully created. Login to give assignments")
                 else:
                     messages.error(request, 'Incorrect Details')
                 return redirect('customuser:homepage')
-
         return render(request, 'home.html', {'userform': userform, 'teacherform': teacherform })
     
     elif request.user.is_authenticated and request.user.is_teacher is True:
@@ -59,9 +57,9 @@ def homepageview(request):
     
     elif request.user.is_authenticated and not request.user.is_teacher :
         if request.user.details:
-            return redirect('student : student_homepage')
+            return redirect('student:student_homepage')
         else :
-            return redirect('student :student_registration')
+            return redirect('student:student_registration')
 
 def login_view(request):
     if request.method == 'POST' :
@@ -72,9 +70,13 @@ def login_view(request):
             user_obj = authenticate(username=username, password=password)
             if user_obj is not None:
                 login(request, user_obj)
+                print("teacher status")
                 print(request.user.is_teacher)
                 if request.user.is_teacher is False:
-                    return redirect('student:student_registration')
+                    if request.user.details is True:
+                        return redirect('student:student_homepage')
+                    else:
+                        return redirect('student:student_registration')
                 else:
                     return redirect('teacher:teachers_homepage')
 
@@ -101,7 +103,7 @@ def signup_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('customuser:home_user')
+    return redirect('customuser:homepage')
 
 def delete_user(request):
     user_obj = User.objects.filter(email = request.user.email)[0]
