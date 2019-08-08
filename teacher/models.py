@@ -21,6 +21,9 @@ class Teacher(models.Model):
         max_length=50, choices=DEPARTMENT_CHOICES, default='', blank=True)
     phone = models.IntegerField()
 
+    def get_username(self):
+        return self.teacher_user.email
+
     def __str__(self):
         return (self.name)
 

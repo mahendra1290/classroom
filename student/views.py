@@ -6,17 +6,24 @@ from .forms import StudentRegistrationForm, JoinClassForm
 from .models import Student
 from teacher.models import TeachersClassRoom
 from django.core.exceptions import ObjectDoesNotExist
+
 from django.contrib import messages
 
+from django.contrib.auth.decorators import user_passes_test
+from django.urls import reverse
+
+def must_be_a_student(user):
+    if (user.is_authenticated):
+       return not (user.teacher_status)
+    return False
+
+@user_passes_test(must_be_a_student, login_url='/')
 def HomePageViewStudent(request , *args , **kwargs):
     student = Student.objects.get(student_user=request.user)
     classroom_list = student.my_classes.all()
-    print("clad---------fdjfoia*****************")
-    print(classroom_list)
-    print(student)
-    print(student.my_classes.all())
     return render(request,'student_window.html',{'classroom_list':classroom_list})
 
+@user_passes_test(must_be_a_student, login_url='/')
 def StudentRegistration(request, *args , **kwargs):
     if not request.user.details :    
         if(request.method=='POST'):
@@ -57,13 +64,3 @@ def join_class_view(request):
     else:
         form = JoinClassForm()
     return render(request, 'join_class.html', {'form':form})
-
-
-def logout_view(request):
-    logout(request)
-    return redirect('customuser:homepage')
-
-def delete_user(request):
-    user_obj = User.objects.filter(email = request.user.email)[0]
-    user_obj.delete()
-    return redirect('customuser:homepage')

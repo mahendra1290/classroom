@@ -16,7 +16,6 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-        print(user.password)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -39,7 +38,7 @@ class User(AbstractBaseUser,PermissionsMixin):
         max_length=255,
         unique=True,
     )
-    is_teacher = models.BooleanField(default = False)
+    teacher_status = models.BooleanField(default = False)
     active = models.BooleanField(default=False)
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
@@ -64,11 +63,28 @@ class User(AbstractBaseUser,PermissionsMixin):
         return True
 
     @property
+    def can_add_class(self):
+        return self.teacher_status
+
+    @property
+    def can_add_assignment(self):
+        return (not self.teacher_status)
+
+    @property
+    def is_teacher(self):
+        return self.teacher_status
+
+    @property
     def is_staff(self):
         "Is the user a member of staff?"
         return self.staff
 
     @property
+    def is_student(self):
+        return not (self.teacher_status)
+    
+    @property
     def is_admin(self):
         "Is the user a admin member?"
+        return self.admin
 

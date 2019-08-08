@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Teacher
 from .models import TeachersClassRoom
 from customuser.models import User
+from django.urls import reverse
 
 TEACHER = None
 
@@ -11,12 +12,15 @@ def create_teacher(name, email, password, department, phone):
         email=email,
         password=password,
     )
+    base_user.teacher_status = True
+    base_user.save()
     teacher = Teacher(
         name=name,
         department=department,
         phone=phone,
         teacher_user=base_user,
     )
+    teacher.save()
     return teacher
 
 def create_classroom(title, section, subject, teacher):
@@ -36,14 +40,15 @@ class TeacherModelTest(TestCase):
             email="test_teacher@nitkkr.com",
             password="qaz"
         )
-        self.base_user.is_teacher = True
-
+        self.base_user.teacher_status = True
+        self.base_user.save()
         self.teacher = Teacher(
             name='test teacher',
             department='CD',
             phone=9828127640,
             teacher_user=self.base_user
         )
+        self.teacher.save()
         global TEACHER
         TEACHER = self.teacher
 
@@ -54,6 +59,15 @@ class TeacherModelTest(TestCase):
         self.assertEqual(f'{self.teacher.name}', 'test teacher')
         self.assertEqual(f'{self.teacher.department}', 'CD')
         self.assertEqual(f'{self.teacher.phone}', '9828127640')
+
+    def test_teacher_login_view(self):
+        has_logined = self.client.login(
+            username=self.teacher.get_username(), password='qaz')
+        self.assertEqual(has_logined, True)
+        response = self.client.get(reverse('customuser:homepage'))
+        self.assertRedirects(response, reverse('teacher:teachers_homepage'))
+        response = self.client.get(reverse('teacher:teachers_homepage'))
+        self.assertTemplateUsed(response, 'teacher_window.html')
 
 
 class ClassroomModelTest(TestCase):
