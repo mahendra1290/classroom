@@ -66,15 +66,17 @@ class ClassroomCreateView(LoginRequiredMixin, FormView):
         return self.form_invalid(form)
 
 
-class HomePageListView(ListView):
-    model = TeachersClassRoom
-    template_name = 'teacher_window.html'
-    context_object_name = 'classroom_list'
-
-    def get_queryset(self):
-        teacher = Teacher.objects.get(teacher_user=self.request.user)
+def home_page_view(request):
+    try:
+        teacher = Teacher.objects.get(teacher_user = request.user)
         queryset = TeachersClassRoom.objects.filter(teacher=teacher)
-        return queryset
+        context = {
+            'teacher' : teacher,
+            'classrooms' : queryset,
+        }
+        return render(request, 'teacher_window.html', context=context)
+    except ObjectDoesNotExist:
+        pass
 
 @user_passes_test(must_be_a_teacher)
 def classroom_detail_view(request, pk):
