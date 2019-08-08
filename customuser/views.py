@@ -8,6 +8,7 @@ from teacher.forms import TeacherRegistrationForm
 from customuser import urls
 from teacher.models import Teacher
 from .models import User
+from .forms import LoginForm, UserRegisterForm
 
 def homepageview(request):
     if request.user.is_authenticated is False:
@@ -26,7 +27,7 @@ def homepageview(request):
                 print(user_list)
                 if user_list.count() is 0:
                     user = User.objects.create_user(email=email, password=password)
-                    user.is_teacher = True
+                    user.teacher_status = True
                     user.save()
                     teacherobj = Teacher(name=name,department=department,phone=phone,teacher_user=user)
                     teacherobj.save()
