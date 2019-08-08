@@ -16,7 +16,6 @@ class UserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
         )
-        print(user.password)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -62,6 +61,14 @@ class User(AbstractBaseUser,PermissionsMixin):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+
+    @property
+    def can_add_class(self):
+        return self.teacher_status
+
+    @property
+    def can_add_assignment(self):
+        return (not self.teacher_status)
 
     @property
     def is_teacher(self):

@@ -14,18 +14,14 @@ def must_be_a_student(user):
        return not (user.teacher_status)
     return False
 
-@user_passes_test(must_be_a_student)
+@user_passes_test(must_be_a_student, login_url='/')
 def HomePageViewStudent(request , *args , **kwargs):
     student = Student.objects.get(student_user=request.user)
     classroom_list = student.my_classes.all()
-    print("clad---------fdjfoia*****************")
-    print(classroom_list)
-    print(student)
-    print(student.my_classes.all())
     return render(request,'student_window.html' )
 
 
-@user_passes_test(must_be_a_student)
+@user_passes_test(must_be_a_student, login_url='/')
 def StudentRegistration(request, *args , **kwargs):
     if(request.method=='POST'):
         form = StudentRegistrationForm(request.POST)
@@ -46,7 +42,7 @@ def StudentRegistration(request, *args , **kwargs):
     return render(request,'register_student.html',{'form':form})
 
 
-@user_passes_test(must_be_a_student)
+@user_passes_test(must_be_a_student, login_url='/')
 def join_class_view(request):
     if request.method == 'POST':
         form = JoinClassForm(request.POST)

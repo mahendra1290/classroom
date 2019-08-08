@@ -1,16 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
-from .forms import LoginForm,UserAdminChangeForm, UserAdminCreationForm,UserRegisterForm
-
-from .models import User
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.views.generic import TemplateView
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from student import urls
 from teacher.forms import TeacherRegistrationForm
 from customuser import urls
 from teacher.models import Teacher
+from .models import User
+from .forms import LoginForm,UserAdminChangeForm, UserAdminCreationForm,UserRegisterForm
 
 
 def create_teacher(form_data):
@@ -84,7 +82,7 @@ def login_view(request):
                 messages.error(request, 'Incorrect Username or Password')
     else:
         form = LoginForm()
-    return render(request, 'user_login.html', {'form': form})
+    return render(request, 'login.html', {'form': form})
 
 
 def signup_view(request):

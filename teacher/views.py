@@ -74,7 +74,6 @@ class HomePageListView(ListView):
     def get_queryset(self):
         teacher = Teacher.objects.get(teacher_user=self.request.user)
         queryset = TeachersClassRoom.objects.filter(teacher=teacher)
-        print(queryset)
         return queryset
 
 @user_passes_test(must_be_a_teacher)

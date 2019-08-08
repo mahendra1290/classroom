@@ -12,7 +12,7 @@ def create_teacher_user():
         email="test_teacher@nitkkr.com",
         password="qaz"
     )
-    base_user.is_teacher = True
+    base_user.teacher_status = True
 
     teacher = Teacher(
         name='test teacher',
