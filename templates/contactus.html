@@ -1,76 +1,54 @@
-
 {% extends "base.html" %}
-{% load static %}
+{% block content %}
+<section class="page-title">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2 text-center">
+				<!-- Title text -->
+				<h3>Contact Us</h3>
+			</div>
+		</div>
+	</div>
+	<!-- Container End -->
+</section>
+<!-- page title -->
 
-
-{%block content%}
-<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/5.jpg'%}">
-    <div class="container">
-            <div class="site-breadcrumb">
-                <a href="{% url 'customuser:homepage' %}">Home</a>
-                <span>Login</span>
-                </div>
-            </div>
-        </div>
-<section class="contact-page spad pb-0">
+<!-- contact us start-->
+<section class="section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
-                <div class="contact-form-warp">
-                    <div class="section-title text-white text-left">
-                        <h2>Get in Touch</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. </p>
-                    </div>
-                    <form class="contact-form">
-                        <input type="text" placeholder="Your Name">
-                        <input type="text" placeholder="Your E-mail">
-                        <input type="text" placeholder="Subject">
-                        <textarea placeholder="Message"></textarea>
-                        <button class="site-btn">Sent Message</button>
+            <div class="col-md-6">
+                <div class="contact-us-content p-4">
+                    <h5>Contact Us</h5>
+                    <h1 class="pt-3">Hello, what's on your mind?</h1>
+                    <p class="pt-3 pb-5">Share your experience with Maroon and also the additional features you want in it so that Maroon Classroom can develop more.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                    <form action="#">
+                        <fieldset class="p-4">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-6 py-2">
+                                        <input type="text" placeholder="Name *" class="form-control" required>
+                                    </div>
+                                    <div class="col-lg-6 pt-2">
+                                        <input type="email" placeholder="Email *" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <textarea name="message" id=""  placeholder="Message *" class="border w-100 p-3 mt-3 mt-lg-4"></textarea>
+                            <div class="btn-grounp">
+                                <button type="submit" class="btn btn-primary mt-2 float-right">SUBMIT</button>
+                            </div>
+                        </fieldset>
                     </form>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="contact-info-area">
-                    <div class="section-title text-left p-0">
-                        <h2>Contact Info</h2>
-                        <p>Donec malesuada lorem maximus mauris scelerisque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendi sse cursus faucibus finibus.</p>
-                    </div>
-                    <div class="phone-number">
-                        <span>Direct Line</span>
-                        <h2>+53 345 7953 32453</h2>
-                    </div>
-                    <ul class="contact-list">
-                        <li>1481 Creekside Lane <br>Avila Beach, CA 931</li>
-                        <li>+53 345 7953 32453</li>
-                        <li>yourmail@gmail.com</li>
-                    </ul>
-                    <div class="social-links">
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-dribbble"></i></a>
-                        <a href="#"><i class="fa fa-behance"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </section>
-<!-- Page end -->
+<!-- contact us end -->
 
 
-<!-- banner section -->
-<section class="banner-section spad">
-    <div class="container">
-        <div class="section-title mb-0 pb-2">
-            <h2>Join Our Community Now!</h2>
-            <p>.</p>
-        </div>
-        <div class="text-center pt-5">
-            <a href="#" class="site-btn">Register Now</a>
-        </div>
-    </div>
-</section>
-{%endblock content%}
+{% endblock content %}

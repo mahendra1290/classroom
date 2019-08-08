@@ -26,6 +26,7 @@ class Teacher(models.Model):
 
 
 class TeachersClassRoom(models.Model):
+    class_id = models.SlugField(max_length=10, unique=True)
     title = models.CharField(max_length=20)
     section = models.CharField(max_length=10)
     subject = models.CharField(max_length=30)

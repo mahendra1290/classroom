@@ -9,76 +9,74 @@
       <img src="{{f.file.url}}">
       {% endfor %}
     </div> -->
-    <div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/2.jpg'%}">
+
+
+
+    <div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
       <div class="container">
         <div class="site-breadcrumb">
           <a href="">Home</a>
-          <span>view submissions</span>
+          <span>Teacher Window</span>
         </div>
       </div>
       </div>
-    
-    <div class="container">
-      <h2>View Submissions</h2>
-      <p></p>            
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>NAME</th>
-            <th>ROLL NO.</th>
-            <th>SUBMISSIONS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-          </tr>
-          <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-          </tr>
-          <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
 
-    <div style="overflow-x:auto;">
-      <table>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Points</th>
-          <th>Points</th>
+
+      <h1 class='assignmenttitle' >TITLE : <a href="">{{assignment.title}}</a></h1>
+      <div class="tablecontainer">
+    <section class ="tableclass">
+      <!--for demo wrap-->
+
+      <h1>LIST OF SUBMITTED STUDENTS</h1>
+      <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>ROLL NO.</th>
+              <th>SUBMISSIONS</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td>AAC</td>
+              <td>AUSTRALIAN COMPANY </td>
+              <td>$1.38</td>
+
+            </tr>
+            <tr>
+              <td>AAD</td>
+              <td>AUSENCO</td>
+              <td>$2.38</td>
+
+            </tr>
+            <tr>
+              <td>AAX</td>
+              <td>ADELAIDE</td>
+              <td>$3.22</td>
+
+            </tr>
+           
+            <tr>
+              <td>XXD</td>
+              <td>ADITYA BIRLA</td>
+              <td>$1.02</td>
+ 
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
     
-        </tr>
-        <tr>
-          <td>Jill</td>
-          <td>Smith</td>
-          <td>50</td>
-          <td>50</td>
-    
-        </tr>
-        <tr>
-          <td>Eve</td>
-          <td>Jackson</td>
-          <td>94</td>
-          <td>94</td>
-    
-        </tr>
-        <tr>
-          <td>Adam</td>
-          <td>Johnson</td>
-          <td>67</td>
-          <td>67</td>
-     
-        </tr>
-      </table>
+    <!-- follow me template -->
+    <div class="made-with-love">
+      Made with
+      <i>♥</i> by
+      <a target="_blank" href="https://codepen.io/nikhil8krishnan">Nikhil Krishnan</a>
     </div>
         {%endblock content %}

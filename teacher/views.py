@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
+from django.utils.crypto import get_random_string
+
 from django.views.generic import TemplateView
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -20,6 +22,17 @@ from .models import TeachersClassRoom
 from .models import Teacher
 from assignment.models import Assignment
 from .forms import ClassroomCreateForm
+from django.core.exceptions import ObjectDoesNotExist
+
+from student.models import Student
+
+
+def is_class_id_used(class_id):
+    try:
+        classroom = TeachersClassRoom.objects.get(class_id=class_id)
+        return True
+    except ObjectDoesNotExist:
+        return False
 
 class ClassroomCreateView(LoginRequiredMixin, FormView):
     template_name = 'classroom_create.html'
@@ -36,8 +49,12 @@ class ClassroomCreateView(LoginRequiredMixin, FormView):
             base_user = request.user
             print(base_user)
             teacher = Teacher.objects.get(teacher_user=base_user)
+            while True:
+                class_id = get_random_string(length=6, allowed_chars='abcdefghijklmnopqrstuv0123456789')
+                if not is_class_id_used(class_id):
+                    break
             classroom = TeachersClassRoom(
-                title=title, section=section, subject=subject, teacher=teacher)
+                title=title, section=section, subject=subject, teacher=teacher, class_id=class_id)
             classroom.save()
             self.success_url = classroom.get_absolute_url()
             return self.form_valid(form)
@@ -58,6 +75,10 @@ class HomePageListView(ListView):
 
 def classroom_detail_view(request, pk):
     classroom = TeachersClassRoom.objects.get(id=pk)
+    print("heloooooooooooooooo")
+    print(classroom.student_set.all())
+    student_list = classroom.student_set.all()
+    # print(student_list)
     assignment_query = Assignment.objects.filter(assignment_of_class=classroom)
     context = {
         'classroom': classroom,

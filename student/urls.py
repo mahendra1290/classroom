@@ -1,17 +1,18 @@
 
 from django.urls import path
 from django.contrib.auth import authenticate, login,logout
-from . import views
+from .views import join_class_view, StudentRegistration, HomePageViewStudent, delete_user, logout_view
 from django.conf.urls import url
 
 
 app_name="student"
 
 urlpatterns = [
-    path('registration/', views.StudentRegistration, name = 'student_registration'),
-    path('window/',views.HomePageViewStudent, name= 'student_homepage'),
-    path('delete/',views.delete_user, name = 'delete_user'),
-    path('logout/', views.logout_view, name = 'logout'),
+    path('join-class/', join_class_view, name='join_class' ),
+    path('registration/', StudentRegistration, name = 'student_registration'),
+    path('window/',HomePageViewStudent, name= 'student_homepage'),
+    path('delete/',delete_user, name = 'delete_user'),
+    path('logout/', logout_view, name = 'logout'),
   
 
 ]

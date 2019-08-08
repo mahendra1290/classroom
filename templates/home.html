@@ -1,74 +1,127 @@
-{%extends "base.html"%}
-
+{% extends "base.html" %}
 {% load static %}
-
-
-
-{%block content%}
-<section class="hero-section set-bg" data-setbg="{%static 'images/bg.jpg'%}">
-    <div class="container">
-        <div class="hero-text text-white">
-            <h2>Get The Best Environment of Classroom</h2>
-            <p>The best place to post assignments and submit your homework.</p>
-        </div>
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1">
-                <form class="intro-newslatter" method="POST">{% csrf_token %}
-                    {{userform.email}}
-                    {{userform.password}}
-                    <button class="site-btn" type = "submit" name='loginform_submit'>Sign Up Now</button>
-                </form>
+{% block content %}
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
             </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
         </div>
-    </div>
-</section>
-<!-- Hero section end -->
+    {% endfor %}
+{% endif %}
 
+{% for message in messages %}
+        {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
 
-<!-- categories section -->
+                        {{ message }} 
 
-<!-- search section -->
-<br>
-<br>
-<section class="signup-section spad">
-    <div class="signup-bg set-bg" data-setbg="{% static 'images/signup-bg.jpg'%}" ></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="signup-warp">
-                    <div class="section-title text-white text-left">
-                        <h2>Sign up to became a teacher</h2>
-                        <p>Here you can post assignments or homework and check their submissions</p>
                     </div>
-                    <!-- signup form -->
-                    <form class="signup-form" method="POST">{% csrf_token %}
-                        {{teacherform.name}}
-                        {{teacherform.email}}
-                        {{teacherform.phone}}
-                        {{teacherform.department}}
-                        {{teacherform.password}}
-                        <button class="site-btn" name='teacherform_submit' type = "submit">Register</button>
-                    </form>
+                    {%else%}
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }} 
+
+                    </div>
+                {%endif%}
+            
+            {% endfor %}
+        
+    <section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3>Manage teaching and learning with Classroom</h3>
+                    <h5>Classroom helps students and teachers organize assignments, boost collaboration, and foster better communication.</h5>
+                    <br>
+                    <br>
+                    <a class="nav-link text-white add-button" href="{% url 'customuser:signup'  %}"><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- signup section end -->
-
-
-<!-- banner section -->
-<section class="banner-section spad">
-    <div class="container">
-        <div class="section-title mb-0 pb-2">
-            <h2>Join Our Community Now!</h2>
-            <p></p>
+        <!-- Container End -->
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about-img">
+                        <img src="{%static 'images/unnamed.jpg'%}" class="img-fluid w-100 rounded" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 pt-5 pt-lg-0">
+                    <div class="about-content">
+                        <!-- <h3 class="font-weight-bold">Introduction</h3>
+                        <p>Maroon is all about you - Our aim is to empower every person in the country to independently connect with
+                buyers and sellers online. Maroon is widely known as India’s no. 1 online
+                classifieds platform - and there’s a reason behind that. We care about you - and the transactions that bring
+                you closer to your dreams. Want to buy your first car? We’re here for you. Want to sell commercial property
+                to buy a home for your family? We’re here for you. Whatever job you’ve got, we promise to get it done</p>
+          <br> -->
+                        <h3 class="font-weight-bold">Make teaching more productive, collaborative, and meaningful
+                        </h3>
+          <br>
+         <p>Google worked with educators across the country to create Classroom: a streamlined, easy-to-use tool that helps teachers manage coursework. With Classroom, educators can create classes, distribute assignments, grade and send feedback, and see everything in one place.</p>
+           <br> <h3 class="font-weight-bold">Tackle administrative tasks more efficiently</h3><br>
+                        <p>
+                            With simple setup and integration with G Suite for Education, Classroom streamlines repetitive tasks and makes it easy to focus on what teachers do best: teaching.</p>
+          <br> 
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="text-center pt-5">
-            <a href="#" class="site-btn">Register Now</a>
-        </div>
-    </div>
-</section>
+        <br>
+        <br>
 
+        <section class="page-title">
+            <!-- Container Start -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <!-- Title text -->
+                        <h3>Signup to become a Teacher</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Container End -->
+        </section>
+        
 
-{%endblock content%}
+        <section class="login py-5 border-top-1">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-8 align-item-center">
+                        <div class="border border">
+                            <h3 class="bg-gray p-4">Register Here</h3>
+                            <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
+                                <fieldset class="p-4">
+                                <center> {{form.department}}</center>
+                                    {{form.email}}
+                                    {{form.name}}
+                                    {{form.phone}}
+                                    {{form.password}}
+                                    <div class="loggedin-forgot d-inline-flex my-3">
+                                            <input type="checkbox" id="registering" class="mt-1"   name = "signupcheckbox" onclick= "checkTermsSignup();">
+                                            <label for="registering" class="px-2">By registering, you accept our <a class="text-primary font-weight-bold" href="terms-condition.html">Terms & Conditions</a></label>
+                                    </div>
+                                    <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Register Now</button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+{% endblock content %}

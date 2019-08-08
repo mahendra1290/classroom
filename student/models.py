@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from assignment.models import Assignment
+from teacher.models import TeachersClassRoom
 YEAR_CHOICES = (
     ('', 'Select Year'),
     ('firstyear','First Year'),
@@ -25,11 +26,25 @@ class Student(models.Model):
     branch = models.CharField(max_length =50, choices = BRANCH_CHOICES, default ='',blank=True, null = True)
     name = models.CharField( max_length=50 , null = True, blank = False)
     rollno = models.CharField(max_length = 10, null=True, blank = False, unique = True)
-    myassignments = models.ManyToManyField(Assignment, blank=True)
+    my_classes = models.ManyToManyField(TeachersClassRoom)
 
     def __str__(self):
         return str(self.name)
 
-class Solution(models.Model):
-    pass
 
+class Solution(models.Model):
+    comment = models.CharField(max_length=100)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
+
+
+    def __str__(self):
+        return ("submission of " + str(self.student))
+    
+
+class SolutionFile(models.Model):
+    file = models.FileField(upload_to='submissions/')
+    submission = models.ForeignKey(Solution, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.file)

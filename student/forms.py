@@ -27,4 +27,11 @@ class StudentRegistrationForm(forms.ModelForm):
     year = forms.ChoiceField(choices=YEAR_CHOICES, widget=forms.Select(attrs={'class':'regDropDown'}))
     branch = forms.ChoiceField(choices=BRANCH_CHOICES, widget=forms.Select(attrs={'class':'regDropDown'}))
 
+class JoinClassForm(forms.Form):
+    class_id = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': 'class code'}))
+    class Meta:
+        fields=['class_id']
+
+
 
