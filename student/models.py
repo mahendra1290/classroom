@@ -31,6 +31,13 @@ class Student(models.Model):
     def __str__(self):
         return str(self.name)
 
+    class Meta:
+        permissions = (
+            ('can_add_solution' , 'can add solutin to a assignment'),
+            ('can_view_classroom', 'can view classroom page'),
+            ('can_view_assignment', 'can view assignment'),
+        )
+
 
 class Solution(models.Model):
     comment = models.CharField(max_length=100)

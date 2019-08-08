@@ -68,16 +68,10 @@ def login_view(request):
             user_obj = authenticate(username=username, password=password)
             if user_obj is not None:
                 login(request, user_obj)
-                print("teacher status")
-                print(request.user.is_teacher)
                 if request.user.is_teacher is False:
-                    if request.user.details is True:
-                        return redirect('student:student_homepage')
-                    else:
-                        return redirect('student:student_registration')
+                    return redirect('student:student_homepage')
                 else:
                     return redirect('teacher:teachers_homepage')
-
             else:
                 messages.error(request, 'Incorrect Username or Password')
     else:

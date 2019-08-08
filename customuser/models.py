@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from student.models import Student
+from django.contrib.auth.models import Group
 
 # Create your models here.
 from django.contrib.auth.models import (
@@ -30,7 +31,6 @@ class UserManager(BaseUserManager):
         user.admin = True
         user.save(using=self._db)
         return user
-
 
 class User(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(
