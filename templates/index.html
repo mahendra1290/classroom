@@ -1,19 +1,82 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
+{% load static  %}
 
-<head>
-    <meta charset="UTF-8" />
-    <title>index page</title>
-</head>
-
-<body>
-    <h1>{{assignment.title}}</h1>
+{%    block content%}
+    <!-- <h1>{{assignment.title}}</h1>
     <h2>{{assignment.instructions}}</h2>
     <div>
       {% for f in assignment_files %}
       <img src="{{f.file.url}}">
       {% endfor %}
-    </div>
-</body>
+    </div> -->
 
-</html>
+
+
+    <div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
+      <div class="container">
+        <div class="site-breadcrumb">
+          <a href="">Home</a>
+          <span>Teacher Window</span>
+        </div>
+      </div>
+      </div>
+
+
+      <h1 class='assignmenttitle' >TITLE : <a href="">{{assignment.title}}</a></h1>
+      <div class="tablecontainer">
+    <section class ="tableclass">
+      <!--for demo wrap-->
+
+      <h1>LIST OF SUBMITTED STUDENTS</h1>
+      <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>ROLL NO.</th>
+              <th>SUBMISSIONS</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>
+              <td>AAC</td>
+              <td>AUSTRALIAN COMPANY </td>
+              <td>$1.38</td>
+
+            </tr>
+            <tr>
+              <td>AAD</td>
+              <td>AUSENCO</td>
+              <td>$2.38</td>
+
+            </tr>
+            <tr>
+              <td>AAX</td>
+              <td>ADELAIDE</td>
+              <td>$3.22</td>
+
+            </tr>
+           
+            <tr>
+              <td>XXD</td>
+              <td>ADITYA BIRLA</td>
+              <td>$1.02</td>
+ 
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+    
+    <!-- follow me template -->
+    <div class="made-with-love">
+      Made with
+      <i>♥</i> by
+      <a target="_blank" href="https://codepen.io/nikhil8krishnan">Nikhil Krishnan</a>
+    </div>
+        {%endblock content %}

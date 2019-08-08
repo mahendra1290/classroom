@@ -1,17 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <form method="POST">
-        {% csrf_token %}
-        {{form}}
-        <button class="site-btn" type="submit">Add</button>
-    </form>
-    
-</body>
-</html>
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/2.jpg'%}">
+    <div class="container">
+            <div class="site-breadcrumb">
+                <a href="{% url 'customuser:homepage' %}">Home</a>
+                <span>Join Class</span>
+                </div>
+            </div>
+        </div>
+        {% for message in messages %}
+
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }}
+
+                    </div>
+            {% endfor %}
+<section class="contact-page spad pb-0">
+        <div class="container" style = "padding-bottom:40px; ">
+            <center>
+                <div class="col-lg-8">
+                    <div class="contact-form-warp">
+                        <div class="section-title text-white text-left">
+                            <h2>Join Class</h2>
+                            <p>Join Class to see its Assignment</p>
+                        </div>
+                        <form class="contact-form" method="POST">{% csrf_token %}
+                            {{form.class_id}}
+     
+                            <button class="site-btn" type = "submit">Join</button>
+                        </form>
+                    </div>
+                </div>
+                </center>
+        </div>
+    </section>
+
+{% endblock content %}
