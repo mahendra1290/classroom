@@ -16,7 +16,6 @@ def HomePageViewStudent(request , *args , **kwargs):
         return redirect('student:student_registration')
     student = Student.objects.get(student_user=request.user)
     classroom_list = student.my_classes.all()
-<<<<<<< HEAD
     assignment_list = []
     for i in classroom_list:
         a = Assignment.objects.filter(assignment_of_class=i)
@@ -24,9 +23,8 @@ def HomePageViewStudent(request , *args , **kwargs):
             assignment_list.append(a[0])
     print(classroom_list)
     return render(request,'student_window.html' , context={'classroom_list' : classroom_list, 'assignment_list':assignment_list})
-=======
-    return render(request,'student_window.html',{'classroom_list':classroom_list})
->>>>>>> 8bfb967dc558745d4f62542eaeeff8b3f433a4f3
+
+
 
 def StudentRegistration(request, *args , **kwargs):
     if not request.user.details :    
@@ -50,10 +48,6 @@ def StudentRegistration(request, *args , **kwargs):
     else:
         return redirect('student:student_homepage')
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 8bfb967dc558745d4f62542eaeeff8b3f433a4f3
 def join_class_view(request):
     if request.method == 'POST':
         form = JoinClassForm(request.POST)
