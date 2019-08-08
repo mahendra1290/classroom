@@ -12,10 +12,12 @@
 			<span>TITLE : {{classroom.title}}</span>
 			<span>SUBJECT: {{classroom.subject}}</span>
 			<span>SECTION: {{classroom.section}}</span>
-			<h1 style="color: aliceblue; font-size: 40px">{{classroom.class_id}}</h1>
+			
 		</div>
 	</div>
 </div>
+<h1 class='assignmenttitle' >TITLE : <a href="">{{classroom.title}}</a></h1>
+<h1 class='assignmenttitle' style="font-size: 30px;" >ID : {{classroom.class_id}}</h1>
 
 <section class="course-section spad pb-0">
 	<div class="course-warp">
@@ -31,7 +33,7 @@
 		<div class="row course-items-area">
 			<!-- course -->
 			{% for assignment in assignment_list %}
-			<a href="{%url 'teacher:assignment:assignment_detail' classroom.id assignment.id %}"
+			<a href="{%url 'teacher:assignment:assignment_view' classroom.id assignment.id %}"
 				class="mix col-lg-3 col-md-4 col-sm-6 finance">
 				<div class="course-item">
 					<div class="course-thumb set-bg" data-setbg="img/courses/2.jpg">

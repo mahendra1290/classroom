@@ -46,15 +46,15 @@ class UserAdminChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(max_length = 50, required = True,widget=forms.EmailInput(attrs={'placeholder':'Email'}))
+    email = forms.EmailField(max_length = 50, required = True,widget=forms.EmailInput(attrs={'placeholder':'Username','class': 'border p-3 w-100 my-2'}))
     password = forms.CharField(
-    max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+    max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password','class': 'border p-3 w-100 my-2'}))
 
 class UserRegisterForm(forms.ModelForm):
     class Meta:
         model=User
         fields = [ 'email','password']
-    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email','class': 'border p-3 w-100 my-2'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password','class': 'border p-3 w-100 my-2'}))
 
     

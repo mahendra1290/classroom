@@ -1,208 +1,186 @@
 
-{% extends "base.html" %}
-
-
-{% load static %}
-
-{% block content %}
-	<!-- Page info -->
-	<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
-		<div class="container">
-			<div class="site-breadcrumb">
-				<a href="">Home</a>
-				<span>Teacher Window</span>
+	{% extends "base.html" %}
+	{% load static %}
+	{% block content %}
+	
+	        
+    <section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3>Add Class </h3>
+                    <h5>Click here to add classes</h5>
+                    <br>
+                    <br>
+                    <a class="nav-link text-white add-button" href=""><i class="fa fa-plus-circle"></i>ADD CLASSROOM</a>
+                </div>
+            </div>
+        </div>
+        <!-- Container End -->
+    </section>
+	<section class="dashboard section">
+	  <!-- Container Start -->
+	  <div class="container">
+		<!-- Row Start -->
+		<div class="row">
+		  <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+			<div class="sidebar">
+			  <!-- User Widget -->
+			  <div class="widget user-dashboard-profile">
+				<!-- User Image -->
+				<div class="profile-thumb">
+				  <img src="{% static 'images/user.png'%}" alt="" class="rounded-circle">
+				</div>
+				<!-- User Name -->
+				<h5 class="text-center">{{request.user}}</h5>
+				<p>{{request.user}}</p>
+				<a href="" class="btn btn-main-sm">Edit Profile</a>
+			  </div>
+			  <!-- Dashboard Links -->
+			   <div class="widget user-dashboard-menu">
+						  <ul>  
+						  <li  ><a href=""><i class="fa fa-user"></i>Edit Profile</a></li>
+								<li class="active"><a href=""><i class="fa fa-bookmark-o"></i> My Classes</a></li>
+								<li><a href=""data-toggle="modal" data-target="#logoutaccount"><i class="fa fa-cog"></i> Logout</a></li>
+								<li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
+					  Account</a></li>
+						</ul>
+			  </div>
+	
+			  <!-- delete-account modal -->
+										<!-- delete account popup modal start-->
+					<!-- Modal -->
+					<div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+					  aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+						  <div class="modal-header border-bottom-0">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body text-center">
+							<img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
+							<h6 class="py-2">Are you sure you want to delete your account?</h6>
+							<p>Do you really want to delete these records? This process cannot be undone.</p>
+							<textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
+						  </div>
+						  <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+							  <a href=""> <button type="button" class="btn btn-danger">Delete</button></a>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					<!-- delete account popup modal end-->
+					<div class="modal fade" id="logoutaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+					  aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+						  <div class="modal-header border-bottom-0">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body text-center">
+							<img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
+							<h6 class="py-2">Are you sure you want to Logout your account?</h6>
+							<p>Keep smiling and selling products</p>
+						  </div>
+						  <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+							<a href = "{% url 'customuser:logout'%}"><button type="button" class="btn btn-danger">Logout</button></a>
+						  </div>
+						</div>
+					  </div>
+					</div>
+			  <!-- delete-account modal -->
+	
 			</div>
-		</div>
-    </div>
-  
-	<section class="course-section spad pb-0">
-		<div class="course-warp">
-			<ul class="course-filter controls">
-                <li class="control active" data-filter="all">My Classes</li>
-                <a  href="{% url 'teacher:create_classroom' %}"><li>  <div class ="addclass" >
-                            <div>Add Class</div>
-				</div>
-                
-                    </li></a>
-			</ul>                                       
-			<div class="row course-items-area">
-                <!-- course -->
-                {% for classroom in classrooms %}
-				<a href="{%url 'teacher:classroom_detail' classroom.id %}" class="mix col-lg-3 col-md-4 col-sm-6 finance">
-					<div class="course-item">
-						<div class="course-info">
-							<div class="course-text">
-                                    <div class="students">{{ classroom.title }}</div>
-								<h5>{{ classroom.subject }}</h5>
-							</div>
-							<div class="course-author">
-								<p class="price">{{ classroom.section }}</p>
-							</div>
-						</div>
-					</div>
-                </a>
-            {% endfor %}
-				<!-- course -->
-				<!-- <div class="mix col-lg-3 col-md-4 col-sm-6 design">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/2.jpg">
-							<div class="price">Price: $15</div>
-						</div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>IT Development</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur</p>
-								<div class="students">120 Students</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/2.jpg"></div>
-								<p>William Parker, <span>Developer</span></p>
-							</div>
-						</div>
-					</div>
-				</div>
+		  </div>
+		  <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+			<!-- Recently Favorited -->
+			<div class="widget dashboard-container my-adslist">
+			  <h3 class="widget-header">My Classes</h3>
+			  <table class="table table-responsive product-dashboard-table">
+				<thead>
+				  <tr>
+					<th>Class Title</th>
+					<th >Class Section</th>
+					<th class="text-center">Action</th>
+				  </tr>
+				</thead>
+				<tbody>
+				{% for class in classroom_list %}
 				
-				<div class="mix col-lg-3 col-md-4 col-sm-6 web">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/3.jpg">
-							<div class="price">Price: $15</div>
+			  
+				  <tr>
+					<td class="product-details">
+					  <h3 class="title" style = "text-transform: uppercase;">{{class.title}}</h3>
+					  <h3 class="title" >ID : {{class.class_id}}</h3>
+					  <span><strong>Subject: </strong><time>{{class.subject}}</time> </span>
+					
+					  <span class="status active"><strong>Status</strong>Active</span>
+					</td>
+					<td class="product-category" style = "text-transform: uppercase;"><span class="categories">{{class.section}}</span></td>
+					<td class="action" data-title="Action">
+					  <div class="">
+						<ul class="list-inline justify-content-center">
+						  <li class="list-inline-item">
+							<a data-toggle="tooltip" data-placement="top" title="view" class="view" href="">
+							  <i class="fa fa-eye"></i>
+							</a>
+						  </li>
+						  <li class="list-inline-item">
+							<a class="edit" data-toggle="tooltip" data-placement="top" title="Edit" href="">
+							  <i class="fa fa-pencil"></i>
+							</a>
+						  </li>
+						  <li class="list-inline-item">
+							<a class="delete"  data-toggle="modal" data-target="#deleteproduct" href="" data-placement="top" title="Delete" >
+							  <i class="fa fa-trash"></i>
+							</a>
+						  </li>
+						</ul>
+					  </div>
+					</td>
+				  </tr>
+				  <tr>
+					<div class="modal fade" id="deleteproduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+					  aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+						  <div class="modal-header border-bottom-0">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body text-center">
+							<img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
+							<h6 class="py-2">Are you sure you want to delete this ad ?</h6>
+							<p>Once you delete, you will not able to get it back.</p>
+						  </div>
+						  <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+							<a href=""><button type="button" class="btn btn-danger">Delete</button></a>
+						  </div>
 						</div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>Graphic Design</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur</p>
-								<div class="students">120 Students</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/3.jpg"></div>
-								<p>William Parker, <span>Developer</span></p>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="mix col-lg-3 col-md-4 col-sm-6 photo">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/4.jpg">
-							<div class="price">Price: $15</div>
-						</div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>IT Development</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur</p>
-								<div class="students">120 Students</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/4.jpg"></div>
-								<p>William Parker, <span>Developer</span></p>
-							</div>
-						</div>
-					</div>
-				</div>
+					  </div>
+					</div> 
+	
+					{% endfor %}
+								   
+				</tbody>
+			  </table>
+	
+			</div>
 
-				<div class="mix col-lg-3 col-md-4 col-sm-6 design">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/6.jpg">
-							<div class="price">Price: $15</div>
-						</div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>Socia Media</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur</p>
-								<div class="students">120 Students</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/6.jpg"></div>
-								<p>William Parker, <span>Developer</span></p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="mix col-lg-3 col-md-4 col-sm-6 web">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/7.jpg">
-							<div class="price">Price: $15</div>
-						</div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>IT Development</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur</p>
-								<div class="students">120 Students</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/7.jpg"></div>
-								<p>William Parker, <span>Developer</span></p>
-							</div>
-						</div>
-					</div>
-				</div>
-		
-				<div class="mix col-lg-3 col-md-4 col-sm-6 photo">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/8.jpg">
-							<div class="price">Price: $15</div>
-						</div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>HTML 5</h5>
-								<p>Lorem ipsum dolor sit amet, consectetur</p>
-								<div class="students">120 Students</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/8.jpg"></div>
-								<p>William Parker, <span>Developer</span></p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
-			<!-- <div class="featured-courses">
-				<div class="featured-course course-item">
-					<div class="course-thumb set-bg" data-setbg="img/courses/f-1.jpg">
-						<div class="price">Price: $15</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-6 offset-lg-6 pl-0">
-							<div class="course-info">
-								<div class="course-text">
-									<div class="fet-note">Featured Course</div>
-									<h5>HTNL5 & CSS For Begginers</h5>
-									<p>Lorem ipsum dolor sit amet, consectetur. Phasellus sollicitudin et nunc eu efficitur. Sed ligula nulla, molestie quis ligula in, eleifend rhoncus ipsum. Donec ultrices, sem vel efficitur molestie, massa nisl posuere ipsum, ut vulputate mauris ligula a metus. Aenean vel congue diam, sed bibendum ipsum. Nunc vulputate aliquet tristique. Integer et pellentesque urna</p>
-									<div class="students">120 Students</div>
-								</div>
-								<div class="course-author">
-									<div class="ca-pic set-bg" data-setbg="img/authors/1.jpg"></div>
-									<p>William Parker, <span>Developer</span></p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="featured-course course-item">
-					<div class="course-thumb set-bg" data-setbg="img/courses/f-2.jpg">
-						<div class="price">Price: $15</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-6 pr-0">
-							<div class="course-info">
-								<div class="course-text">
-									<div class="fet-note">Featured Course</div>
-									<h5>HTNL5 & CSS For Begginers</h5>
-									<p>Lorem ipsum dolor sit amet, consectetur. Phasellus sollicitudin et nunc eu efficitur. Sed ligula nulla, molestie quis ligula in, eleifend rhoncus ipsum. Donec ultrices, sem vel efficitur molestie, massa nisl posuere ipsum, ut vulputate mauris ligula a metus. Aenean vel congue diam, sed bibendum ipsum. Nunc vulputate aliquet tristique. Integer et pellentesque urna</p>
-									<div class="students">120 Students</div>
-								</div>
-								<div class="course-author">
-									<div class="ca-pic set-bg" data-setbg="img/authors/2.jpg"></div>
-									<p>William Parker, <span>Developer</span></p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
+		  </div>
 		</div>
+		<!-- Row End -->
+	  </div>
+	  <!-- Container End -->
 	</section>
-	<!-- course section end -->
-{% endblock content %}
-	<!-- banner section end -->
+	{% endblock content %}

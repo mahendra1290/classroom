@@ -7,9 +7,10 @@ class TeacherRegistrationForm(forms.ModelForm):
         model=Teacher
         fields=['name','department','phone',]
 
-    name =forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Name'}))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Email'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+    name =forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Name','class': 'border p-3 w-100 my-2'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Email','class': 'border p-3 w-100 my-2'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password','class': 'border p-3 w-100 my-2'}))
+    phone = forms.IntegerField(widget = forms.NumberInput(attrs={'placeholder':'Phone','class': 'border p-3 w-100 my-2'}))
     
 from django.forms import ModelForm 
 from .models import TeachersClassRoom
