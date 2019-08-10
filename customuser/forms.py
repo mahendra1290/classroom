@@ -1,11 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
 from .models import User
 
 
 class UserAdminCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -37,7 +39,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'admin','teacher_status')
+        fields = ('email', 'password', 'is_active', 'is_admin', 'is_teacher')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -45,16 +47,27 @@ class UserAdminChangeForm(forms.ModelForm):
         # field does not have access to the initial value
         return self.initial["password"]
 
+
 class LoginForm(forms.Form):
-    email = forms.EmailField(max_length = 50, required = True,widget=forms.EmailInput(attrs={'placeholder':'Username','class': 'border p-3 w-100 my-2'}))
+    email = forms.EmailField(max_length=50, required=True, 
+        widget=forms.EmailInput(
+            attrs={'placeholder': 'Username', 'class': 'border p-3 w-100 my-2'}
+            )
+        )
     password = forms.CharField(
-    max_length=50, required=True, widget=forms.PasswordInput(attrs={'placeholder':'Password','class': 'border p-3 w-100 my-2'}))
+        max_length=50, required=True, 
+        widget=forms.PasswordInput(
+            attrs={'placeholder': 'Password', 'class': 'border p-3 w-100 my-2'}
+            )
+        )
+
 
 class UserRegisterForm(forms.ModelForm):
-    class Meta:
-        model=User
-        fields = [ 'email','password']
-    email = forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Email','class': 'border p-3 w-100 my-2'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password','class': 'border p-3 w-100 my-2'}))
 
-    
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+    email = forms.CharField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Email', 'class': 'border p-3 w-100 my-2'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'Password', 'class': 'border p-3 w-100 my-2'}))

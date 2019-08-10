@@ -1,7 +1,10 @@
 from django.test import TestCase
-from django.urls import reverse
 from django.test import Client
-from django.contrib.auth import login , authenticate, logout
+from django.urls import reverse
+from django.contrib.auth import login 
+from django.contrib.auth import authenticate
+from django.contrib.auth import logout
+
 from .models import User
 from teacher.models import Teacher
 
@@ -13,6 +16,7 @@ class UserModelTest(TestCase):
         self.password = "testuser"
         self.base_user = User.objects.create_user(
             email=self.email, password=self.password)
+        self.base_user.is_active = True
         self.base_user.save()
         self.super_user = User.objects.create_superuser(
             email="super@gmail.com", password="super")

@@ -1,18 +1,34 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate, login, logout
+
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views.generic import TemplateView
-from student import urls
-from teacher.forms import TeacherRegistrationForm
+
 from customuser import urls
+from student import urls
 from teacher.models import Teacher
+from teacher.forms import TeacherRegistrationForm
 from .models import User
 from .forms import LoginForm, UserRegisterForm
 
+
+def group_required(*group_names):
+    """Requires user membership in at least one of the groups passed in."""
+    def in_groups(u):
+        print("in group")
+        print(u)
+        if u.is_authenticated:
+            if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:
+                return True
+        return False
+    return user_passes_test(in_groups)
+
+
 def homepageview(request):
     if request.user.is_authenticated is False:
-        if request.method=='POST':
+        if request.method == 'POST':
             form = TeacherRegistrationForm(request.POST)
             print(form)
             print(form.is_valid())
@@ -20,39 +36,45 @@ def homepageview(request):
                 password = form.cleaned_data['password']
                 email = form.cleaned_data['email']
                 name = form.cleaned_data['name']
-                phone=form.cleaned_data['phone']
+                phone = form.cleaned_data['phone']
                 department = form.cleaned_data['department']
-                user_list = User.objects.filter(email = email)
+                user_list = User.objects.filter(email=email)
                 print("USERLIST IS ")
                 print(user_list)
                 if user_list.count() is 0:
-                    user = User.objects.create_user(email=email, password=password)
-                    user.teacher_status = True
+                    user = User.objects.create_user(
+                        email=email, password=password)
+                    user.is_teacher = True
+                    user.is_active = True
+                    group = Group.objects.get(name='teacher')
+                    print(group)
+                    user.groups.add(group)
                     user.save()
-                    teacherobj = Teacher(name=name,department=department,phone=phone,teacher_user=user)
+                    teacherobj = Teacher(
+                        name=name, department=department, phone=phone, teacher_user=user)
                     teacherobj.save()
-                    messages.success(request, "Successfully created. Login to give assignments")
+                    messages.success(
+                        request, "Successfully created. Login to give assignments")
                     return redirect('customuser:homepage')
 
                 else:
-                    messages.error(request, "This email address is already registered")
+                    messages.error(
+                        request, "This email address is already registered")
             else:
                 message.error(request, "Form is invalid")
-            
+
         else:
             form = TeacherRegistrationForm()
-        return render(request,'home.html',{'form':form})
+        return render(request, 'home.html', {'form': form})
     else:
         if request.user.is_teacher is True:
             return redirect('teacher:teachers_homepage')
         else:
-            if request.user.details is True:
-                return redirect('student:student_homepage')
-            else :
-                return redirect('student:student_registration')
+            return redirect('student:student_registration')
+
 
 def login_view(request):
-    if request.method == 'POST' :
+    if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['email']
@@ -72,7 +94,7 @@ def login_view(request):
 
 
 def signup_view(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             password = form.cleaned_data['password']
@@ -82,19 +104,19 @@ def signup_view(request):
             return redirect('customuser:homepage')
     else:
         form = UserRegisterForm()
-    return render(request,'signup.html',{'form':form})
+    return render(request, 'signup.html', {'form': form})
 
 
 def logout_view(request):
     logout(request)
     return redirect('customuser:homepage')
 
+
 def delete_user(request):
-    user_obj = User.objects.filter(email = request.user.email)[0]
+    user_obj = User.objects.filter(email=request.user.email)[0]
     user_obj.delete()
     return redirect('customuser:homepage')
 
+
 def contactus(request):
     return render(request, "contactus.html")
-
-
