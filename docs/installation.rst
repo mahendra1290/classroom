@@ -1,7 +1,7 @@
 =========
-classroom
+Classroom
 =========
- 
+
 Classroom web app to share notes and submit assignments of classroom given by
 teachers
 
@@ -26,3 +26,5 @@ Now we have to install dependencies from pipfile by writing::
 After installing dependencies we can now work in our virtual environment::
 
     $ pipenv shell
+
+Now we are ready to work on project
