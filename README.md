@@ -11,4 +11,4 @@
  assignments and can view student solutions 
   
 ## want to be a part of these project
-see documentation [here] (./docs/documentation.rst)
+see documentation [here](./docs/documentation.rst)
