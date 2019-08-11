@@ -61,7 +61,7 @@
 							<li class="nav-item active">
 								<a class="nav-link" href="{% url 'customuser:homepage'  %}">Home</a>
 							</li>
-                            {% if request.user.is_authenticated %}
+      {% if request.user.is_authenticated %}
                             <li class="nav-item dropdown dropdown-slide">
                             
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Profile<span><i class="fa fa-angle-down"></i></span>
@@ -73,14 +73,16 @@
 
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="">View</a>
+                  <a class="dropdown-item" href="">View</a>
+                  {%if request.user.teacher%}
                                     <a class="dropdown-item" href="">Edit Profile</a>
+                  {%endif%}
 									<a class="dropdown-item" href="">My Class</a>
 									<a class="dropdown-item" href="">NOtifications</a>
 									<a class="dropdown-item" href="" data-toggle="modal"  data-target="#logout">Logout</a>
 								</div>
 							</li>
-                            {% endif %}
+      {% endif %}
                     
 							<li class="nav-item active">
 								<a class="nav-link" href="{% url 'customuser:contact'%}">Contact Us</a>

@@ -17,15 +17,16 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import FormView
-
+from customuser.models import User
 from .models import TeachersClassRoom
 from .models import Teacher
 from assignment.models import Assignment
 from .forms import ClassroomCreateForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import user_passes_test
-
+from customuser.forms import UserPasswordEditForm
 from student.models import Student
+from .forms import TeacherEditForm
 
 def must_be_a_teacher(user):
     if (user.is_authenticated):
@@ -70,9 +71,14 @@ def home_page_view(request):
     try:
         teacher = Teacher.objects.get(teacher_user = request.user)
         queryset = TeachersClassRoom.objects.filter(teacher=teacher)
+        if queryset.count() is 0:
+            count =0
+        else :
+            count = 1
         context = {
             'teacher' : teacher,
             'classrooms' : queryset,
+            'count':count,
         }
         return render(request, 'teacher_window.html', context=context)
     except ObjectDoesNotExist:
@@ -93,3 +99,68 @@ def classroom_detail_view(request, pk):
 
     return render(request, 'classroom_detail.html', context)
 
+def teacher_edit_view(request):
+    teacher_obj = Teacher.objects.get(teacher_user= request.user)
+    name = teacher_obj.name
+    department = teacher_obj.department
+    phone = teacher_obj.phone
+    passwordEditForm = UserPasswordEditForm()
+    teacherEditForm = TeacherEditForm()
+    print(request.method)
+    if request.method == 'POST':
+        if 'teacheredit_submit' in request.POST:
+            teacherEditForm = TeacherEditForm(request.POST)
+            print(teacherEditForm)
+            print(teacherEditForm.is_valid())
+            if teacherEditForm.is_valid():
+                teacher_obj.name = teacherEditForm.cleaned_data['name']
+                teacher_obj.department = teacherEditForm.cleaned_data['department']
+                new_phone = teacherEditForm.cleaned_data['phone']
+                if new_phone!=phone:
+                    phone_list = Teacher.objects.all()
+                    print(phone_list)
+                    for x in phone_list:
+                        if new_phone == x.phone:
+                            messages.error(request, 'Phone Number already exists.')
+                            return render(request, 'teacher_editprofile.html', {'passwordEditForm': passwordEditForm, 'teacherEditForm':teacherEditForm})
+                    teacher_obj.phone = new_phone
+                try:
+                    teacher_obj.save()
+                    messages.success(request, 'Profile updated succesfully')
+                except:
+                    return render(request, 'teacher_editprofile.html', {'passwordEditForm': passwordEditForm, 'teacherEditForm':teacherEditForm,'teacher':teacher_obj})
+                return redirect('teacher:teachers_homepage')
+        else:
+            teacherEditForm = TeacherEditForm(initial={'phone':phone, 'name':name , 'department':department})
+            passwordEditForm = UserPasswordEditForm(request.POST)
+            if passwordEditForm.is_valid():
+                user_info = request.user
+                email = user_info.email
+                user_password = user_info.password
+                old_password = passwordEditForm.cleaned_data['old_password']
+                success = user_info.check_password(request.POST['old_password'])
+                new_password = passwordEditForm.cleaned_data['new_password']
+                confirm_password = passwordEditForm.cleaned_data['confirm_password']
+                if not success:
+                    messages.error(request, 'Current Password is not correct.')
+                    return render(request, 'teacher_editprofile.html', {'passwordEditForm': passwordEditForm, 'teacherEditForm':teacherEditForm,' teacher':teacher_obj})
+                if new_password!=confirm_password:
+                    messages.error(request, 'Confirm Password doesnot match with New Password')
+                    return render(request, 'teacher_editprofile.html', {'passwordEditForm': passwordEditForm, 'teacherEditForm':teacherEditForm,' teacher':teacher_obj})
+                
+                user_info.set_password(new_password)
+                try:
+                    user_info.save()
+                    user = authenticate(request, username=email, password=new_password)
+                    if user is not None:
+                        login(request, user)
+                        messages.success(request, 'Password is updated successfully')
+                        return redirect('teacher:teachers_homepage')
+                except:
+                    return render(request, 'teacher_editprofile.html', {'passwordEditForm': passwordEditForm, 'teacherEditForm':teacherEditForm,' teacher':teacher_obj})
+                return redirect('teacher:teachers_homepage')
+                
+    else:
+        teacherEditForm = TeacherEditForm(initial={'phone':phone, 'name':name , 'department':department})
+        passwordEditForm = UserPasswordEditForm()
+    return render(request, 'teacher_editprofile.html', {'teacherEditForm': teacherEditForm, 'passwordEditForm': passwordEditForm,'teacher':teacher_obj})
