@@ -28,7 +28,7 @@ def HomePageViewStudent(request , *args , **kwargs):
         a = Assignment.objects.filter(assignment_of_class=i)
         if a.count() > 0:
             assignment_list.append(a[0])
-    return render(request,'student_window.html' , context={'classroom_list' : classroom_list, 'assignment_list':assignment_list})
+    return render(request,'student_window.html' , context={'classroom_list' : classroom_list, 'assignment_list':assignment_list,'student':student})
 
 
 

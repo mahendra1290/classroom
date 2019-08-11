@@ -65,7 +65,7 @@ def login_view(request):
             if user_obj is not None:
                 login(request, user_obj)
                 if request.user.is_teacher is False:
-                    return redirect('student:homepage')
+                    return redirect('student:registration')
                 else:
                     return redirect('teacher:teachers_homepage')
             else:
@@ -78,15 +78,25 @@ def login_view(request):
 def signup_view(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
-            user = User.objects.create_user(email=email, password=password)
-            group = Group.objects.get(name='student')
-            user.groups.add(group)
-            user.is_active = True
-            user.save()
-            return redirect('customuser:homepage')
+        try:
+            form_obj = User.objects.get(email = request.POST['email'])
+        except:
+            form_obj = None
+        if form_obj is None:
+            if form.is_valid():
+                password = form.cleaned_data['password']
+                email = form.cleaned_data['email']
+                user = User.objects.create_user(email=email, password=password)
+                group = Group.objects.get(name='student')
+                user.groups.add(group)
+                user.is_active = True
+                user.save()
+                messages.success(request, "Successfully registered. Click on login and fill details.")
+                return redirect('customuser:homepage')
+            else:
+                messages.error(request, "Incorrect details.")
+        else:
+            messages.error(request, "This email address is already registered. Click on login button.")
     else:
         form = UserRegisterForm()
     return render(request, 'signup.html', {'form': form})

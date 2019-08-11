@@ -1,71 +1,208 @@
 
-{% extends "base.html" %}
-
-
-{% load static %}
-
-{% block content %}
-	<!-- Page info -->
-	<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
-		<div class="container">
-			<div class="site-breadcrumb">
-				<a href="#">Home</a>
-				<span>Student Window</span>
-				<h2><a href="{%url 'student:join_class' %}">join-class</a></h2>
-			</div>
-		</div>
-    </div>
-  
-	<section class="course-section spad pb-0">
-		<div class="course-warp">
-			<ul class="course-filter controls">
-				<li class="control active" data-filter=".assignment">My Assignments</li>
-				<li class="control" data-filter=".classroom">My Classes</li>
-			</ul>                                       
-			<div class="row course-items-area">
-				<!-- course -->
-				{% for class in classroom_list %}
-				<div class="mix col-lg-3 col-md-4 col-sm-6 classroom">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/1.jpg"></div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>{{class.title}}</h5>
-								<p>{{class.teacher}}</p>
-								<div class="students">{{class.subject}}</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/1.jpg"></div>
-								<p>{{class.section}}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				{% endfor %}
-				<!-- course -->
-				{% for assignment in assignment_list %}
-				<div class="mix col-lg-3 col-md-4 col-sm-6 assignment">
-					<div class="course-item">
-						<div class="course-thumb set-bg" data-setbg="img/courses/2.jpg">
-						</div>
-						<div class="course-info">
-							<div class="course-text">
-								<h5>{{assignment.title}}</h5>
-								<p>{{assignment.instructions}}</p>
-								<div class="students">{{assignment.due_date}}</div>
-							</div>
-							<div class="course-author">
-								<div class="ca-pic set-bg" data-setbg="img/authors/2.jpg"></div>
-								<p>{{assignment.assignment_of_class}}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				{% endfor %}
-			
-			</div>
-		</div>
+	{% extends "base.html" %}
+	{% load static %}
+	{% block content %}
+	
+	        
+    <section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3>Join Class </h3>
+                    <h5>Click here to join class</h5>
+                    <br>
+                    <a class="nav-link text-white add-button" href=""><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
+                </div>
+            </div>
+        </div>
+        <!-- Container End -->
 	</section>
-	<!-- course section end -->
-{% endblock content %}
-	<!-- banner section end -->
+	{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
+	<section class="dashboard section">
+	  <!-- Container Start -->
+	  <div class="container">
+		<!-- Row Start -->
+		<div class="row">
+		  <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+			<div class="sidebar">
+			  <!-- User Widget -->
+			  <div class="widget user-dashboard-profile">
+				<!-- User Image -->
+				<div class="profile-thumb">
+				  <img src="{% static 'images/pencil.png'%}" alt="" class="rounded-circle">
+				</div>
+				<!-- User Name -->
+				<h5 class="text-center">{{student.name}}</h5>
+				<p>{{student.email}}</p>
+				
+				<a href="{% url 'teacher:teachers_edit' %}" class="btn btn-main-sm">Edit Profile</a>
+			  </div>
+			  <!-- Dashboard Links -->
+			   <div class="widget user-dashboard-menu">
+						  <ul>  
+								<li class="active"><a href="{% url 'teacher:teachers_homepage' %}"><i class="fa fa-bookmark-o"></i> My Classes</a></li>
+						  <li  ><a href="{% url 'teacher:teachers_edit' %}"><i class="fa fa-user"></i>Edit Profile</a></li>
+								
+								<li><a href=""data-toggle="modal" data-target="#logoutaccount"><i class="fa fa-cog"></i> Logout</a></li>
+								<li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
+					  Account</a></li>
+						</ul>
+			  </div>
+	
+			  <!-- delete-account modal -->
+										<!-- delete account popup modal start-->
+					<!-- Modal -->
+					<div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+					  aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+						  <div class="modal-header border-bottom-0">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body text-center">
+							<img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
+							<h6 class="py-2">Are you sure you want to delete your account?</h6>
+							<p>Do you really want to delete these records? This process cannot be undone.</p>
+							<textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
+						  </div>
+						  <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+							  <a href=""> <button type="button" class="btn btn-danger">Delete</button></a>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					<!-- delete account popup modal end-->
+					<div class="modal fade" id="logoutaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+					  aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+						  <div class="modal-header border-bottom-0">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							  <span aria-hidden="true">&times;</span>
+							</button>
+						  </div>
+						  <div class="modal-body text-center">
+							<img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
+							<h6 class="py-2">Are you sure you want to Logout your account?</h6>
+							<p>Keep smiling and selling products</p>
+						  </div>
+						  <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+							<a href = "{% url 'customuser:logout'%}"><button type="button" class="btn btn-danger">Logout</button></a>
+						  </div>
+						</div>
+					  </div>
+					</div>
+			  <!-- delete-account modal -->
+	
+			</div>
+		  </div>
+		  <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+			<!-- Recently Favorited -->
+			<div class="widget dashboard-container my-adslist">
+			  <h3 class="widget-header">My Classes</h3>
+			  
+					{%if count is 1%}
+									
+					<table class="table table-responsive product-dashboard-table">
+							<thead>
+							  <tr>
+								<th>Class Title</th>
+								<th >Class Section</th>
+								<th class="text-center">Action</th>
+							  </tr>
+							</thead>
+							<tbody>
+						<tr>
+					{% for class in classrooms %}
+
+					  <td class="product-details">
+						<h3 class="title" style = "text-transform: uppercase;">{{class.title}}</h3>
+						<h3 class="title" >ID : {{class.class_id}}</h3>
+						<span><strong>Subject: </strong><time>{{class.subject}}</time> </span>
+					  
+						<span class="status active"><strong>Status</strong>Active</span>
+					  </td>
+					  <td class="product-category" style = "text-transform: uppercase;"><span class="categories">{{class.section}}</span></td>
+					  <td class="action" data-title="Action">
+						<div class="">
+						  <ul class="list-inline justify-content-center">
+							<li class="list-inline-item">
+							  <a data-toggle="tooltip" data-placement="top" title="view" class="view" href="{%url 'teacher:classroom_detail' class.id %}">
+								<i class="fa fa-eye"></i>
+							  </a>
+							</li>
+							<li class="list-inline-item">
+							  <a class="edit" data-toggle="tooltip" data-placement="top" title="Edit" href="{% url 'teacher:classroom_edit' class.id %}">
+								<i class="fa fa-pencil"></i>
+							  </a>
+							</li>
+							<li class="list-inline-item">
+							  <a class="delete"  data-toggle="modal" data-target="#deleteproduct" href="" data-placement="top" title="Delete" >
+								<i class="fa fa-trash"></i>
+							  </a>
+							</li>
+						  </ul>
+						</div>
+					  </td>
+					</tr>
+					<tr>
+					  <div class="modal fade" id="deleteproduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+						  <div class="modal-content">
+							<div class="modal-header border-bottom-0">
+							  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							  </button>
+							</div>
+							<div class="modal-body text-center">
+							  <img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
+							  <h6 class="py-2">Are you sure you want to leave this Class ?</h6>
+							  <p>Once you leave, you will not able to get it back.</p>
+							</div>
+							<div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+							  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+							  <a href="{% url 'teacher:classroom_delete' class.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+							</div>
+		
+				{% endfor %}
+			{%else%}
+					  <h3>No classes to show. Click on JOIN CLASSROOM to create new classes.</h3>
+			{%endif%}
+								   
+				</tbody>
+			  </table>
+	
+			</div>
+
+		  </div>
+		</div>
+		<!-- Row End -->
+	  </div>
+	  <!-- Container End -->
+	</section>
+
+	{% endblock content %}
