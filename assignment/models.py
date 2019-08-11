@@ -8,7 +8,7 @@ class Assignment(models.Model):
     instructions = models.CharField(max_length=100)
     due_date =  models.DateTimeField( blank=True, null = True)
     pub_date = models.DateField(auto_now=True, null=True)
-    assignment_of_class = models.ForeignKey(
+    classroom = models.ForeignKey(
         TeachersClassRoom, on_delete=models.CASCADE)
 
     def __str__(self):

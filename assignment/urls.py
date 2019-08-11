@@ -10,7 +10,7 @@ app_name= "assignment"
 
 
 urlpatterns = [
-    path('<int:pk>', assignment_view, name = 'assignment_view'),   
-    path('add/', add_assignment_view, name = 'create_assignment'),
-    path('delete/<int:pk>', AssignmentDeleteView.as_view(), name = 'delete_assignment'),
+    path('<int:pk>', assignment_view, name = 'detail'),   
+    path('add/', add_assignment_view, name = 'create'),
+    path('delete/<int:pk>', AssignmentDeleteView.as_view(), name = 'delete'),
 ]
