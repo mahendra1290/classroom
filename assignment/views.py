@@ -27,7 +27,7 @@ def add_assignment_view(request, pk_of_class):
             assign = Assignment(
                 title=form.cleaned_data['title'],
                 instructions=form.cleaned_data['instructions'],
-                assignment_of_class=classroom,
+                classroom=classroom,
                 due_date=form.cleaned_data['due_date']
             )
             assign.save()

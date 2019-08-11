@@ -42,12 +42,12 @@ class AssignmentModelTest(TestCase):
             instructions='no instructions',
             due_date=date.today(),
             pub_date=date.today(),
-            assignment_of_class=self.class_room
+            classroom=self.class_room
         )
     
     def test_classroom(self):
         print(self.test_assignment.due_date)
-        self.assertEqual(self.test_assignment.assignment_of_class, self.class_room)
+        self.assertEqual(self.test_assignment.classroom, self.class_room)
 
 
 

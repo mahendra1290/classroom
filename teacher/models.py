@@ -14,7 +14,7 @@ DEPARTMENT_CHOICES = (
 )
 
 class Teacher(models.Model):
-    teacher_user = models.OneToOneField(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     name = models.CharField(max_length=20)
     department = models.CharField(
@@ -22,7 +22,7 @@ class Teacher(models.Model):
     phone = models.IntegerField()
 
     def get_username(self):
-        return self.teacher_user.email
+        return self.user.email
 
     def __str__(self):
         return (self.name)

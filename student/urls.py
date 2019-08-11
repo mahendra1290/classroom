@@ -9,6 +9,6 @@ app_name="student"
 
 urlpatterns = [
     path('join-class/', join_class_view, name='join_class' ),
-    path('registration/', StudentRegistration, name = 'student_registration'),
-    path('window/',HomePageViewStudent, name= 'student_homepage'),
+    path('registration/', StudentRegistration, name = 'registration'),
+    path('window/',HomePageViewStudent, name= 'homepage'),
 ]

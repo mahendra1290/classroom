@@ -44,8 +44,35 @@
 	</div>
 </div>
 
-
-
+<section class="course-section spad pb-0">
+	<div class="course-warp">
+		<ul class="course-filter controls">
+			<li class="control active" data-filter="all">My Assignment</li>
+			{% if request.user.is_teacher %}
+			<a href="{%url 'teacher:assignment:create' classroom.id %}">
+				<li>
+					<div class="addclass">Add Assignment
+			</a>
+			{% endif %}
+		</ul>
+		<div class="row course-items-area">
+			<!-- course -->
+			{% for assignment in assignment_list %}
+			<a href="{%url 'teacher:assignment:detail' classroom.id assignment.id %}"
+				class="mix col-lg-3 col-md-4 col-sm-6 finance">
+				<div class="course-item">
+					<div class="course-thumb set-bg" data-setbg="img/courses/2.jpg">
+						<div class="price">Due Date: {{assignment.due_date}}</div>
+					</div>
+					<div class="course-info">
+						<div class="course-text">
+							<h5>{{assignment.title}}</h5>
+							<p>{{assignment.instructions}}r</p>
+						</div>
+						<div class="course-author">
+							<div class="ca-pic "></div>
+							<p>{{assignment.assignment_of_class.title}}
+								,<span>{{assignment.assignment_of_class.section}}</span></p>
 						</div>
 	{% endfor %} 					
 					</div>

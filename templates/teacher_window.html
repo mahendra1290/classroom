@@ -14,7 +14,7 @@
                     <h5>Click here to add classes</h5>
                     <br>
                     <br>
-                    <a class="nav-link text-white add-button" href="{%url 'teacher:create_classroom' %}"><i class="fa fa-plus-circle"></i>ADD CLASSROOM</a>
+                    <a class="nav-link text-white add-button" href="{% url 'teacher:create_classroom' %}"><i class="fa fa-plus-circle"></i>ADD CLASSROOM</a>
                 </div>
             </div>
         </div>
@@ -186,14 +186,11 @@
 							  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
 							  <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
 							</div>
-						  </div>
-						</div>
-					  </div> 
-	  
-					  {% endfor %}
-					  {%else%}
+		
+				{% endfor %}
+			{%else%}
 					  <h3>No classes to show. Click on ADD CLASSROOM to create new classes.</h3>
-					{%endif%}
+			{%endif%}
 								   
 				</tbody>
 			  </table>
@@ -206,4 +203,5 @@
 	  </div>
 	  <!-- Container End -->
 	</section>
+
 	{% endblock content %}

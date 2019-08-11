@@ -25,12 +25,13 @@ from .forms import ClassroomCreateForm
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import user_passes_test
 from customuser.forms import UserPasswordEditForm
+from django.contrib.auth.models import Group
 from student.models import Student
 from .forms import TeacherEditForm
 
 def must_be_a_teacher(user):
     if (user.is_authenticated):
-        return user.teacher_status
+        return user.is_teacher
     return False
 
 def is_class_id_used(class_id):
@@ -52,9 +53,8 @@ class ClassroomCreateView(LoginRequiredMixin, FormView):
             title = form.cleaned_data['title']
             section = form.cleaned_data['section']
             subject = form.cleaned_data['subject']
-            base_user = request.user
-            print(base_user)
-            teacher = Teacher.objects.get(teacher_user=base_user)
+            user = request.user
+            teacher = Teacher.objects.get(user=user)
             while True:
                 class_id = get_random_string(length=6, allowed_chars='abcdefghijklmnopqrstuv0123456789')
                 if not is_class_id_used(class_id):
@@ -69,7 +69,7 @@ class ClassroomCreateView(LoginRequiredMixin, FormView):
 
 def home_page_view(request):
     try:
-        teacher = Teacher.objects.get(teacher_user = request.user)
+        teacher = Teacher.objects.get(user = request.user)
         queryset = TeachersClassRoom.objects.filter(teacher=teacher)
         if queryset.count() is 0:
             count =0
@@ -87,11 +87,8 @@ def home_page_view(request):
 @user_passes_test(must_be_a_teacher)
 def classroom_detail_view(request, pk):
     classroom = TeachersClassRoom.objects.get(id=pk)
-    print("heloooooooooooooooo")
-    print(classroom.student_set.all())
     student_list = classroom.student_set.all()
-    # print(student_list)
-    assignment_query = Assignment.objects.filter(assignment_of_class=classroom)
+    assignment_query = Assignment.objects.filter(classroom=classroom)
     context = {
         'classroom': classroom,
         'assignment_list': assignment_query
@@ -100,7 +97,7 @@ def classroom_detail_view(request, pk):
     return render(request, 'classroom_detail.html', context)
 
 def teacher_edit_view(request):
-    teacher_obj = Teacher.objects.get(teacher_user= request.user)
+    teacher_obj = Teacher.objects.get(user= request.user)
     name = teacher_obj.name
     department = teacher_obj.department
     phone = teacher_obj.phone
