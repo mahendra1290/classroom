@@ -21,7 +21,7 @@ BRANCH_CHOICES = (
 )
 
 class Student(models.Model):
-    student_user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     year = models.CharField(max_length=50, choices=YEAR_CHOICES, default='',blank=True, null = True)
     branch = models.CharField(max_length =50, choices = BRANCH_CHOICES, default ='',blank=True, null = True)
     name = models.CharField( max_length=50 , null = True, blank = False)
