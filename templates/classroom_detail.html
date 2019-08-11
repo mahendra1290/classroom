@@ -59,10 +59,10 @@
                       <ul>  
 							<li  >
 						
-									<a href="{% url 'teacher:teachers_homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>
+									<a href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>
                     <li  >
 
-						<a href="{% url 'teacher:classroom_edit' classroom.id %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
+						<a href="{% url 'teacher:classroom_edit' classroom.pk %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
                             <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
                   Class</a></li>
                     </ul>
@@ -102,29 +102,32 @@
 					<div class="product-grid-list">
 						<div class="row mt-30">
 								{% for assignment in assignment_list %}
-							<div class="col-sm-12 col-lg-4 col-md-6">						<!-- product card -->
-	<div class="product-item bg-light">
-		<div class="card">
-			<div class="thumb-content">
-				
-			</div>
-
-			<div class="card-body">
-				<h4 class="card-title"><a href="">{{assignment.title}}</a></h4>
-				<ul class="list-inline product-meta">
-					<li class="list-inline-item">
-						<a><i class="fa fa-calendar"></i>Due Date: : {{assignment.due_date}}</a>
-					</li>
-				</ul>
-				<p class="card-text">{{assignment.instructions}}</p>
-
-			</div>
-		</div>
-	</div>
-	
-	
-							</div>
-{%endfor%}
+								<div class="col-sm-12 col-lg-4 col-md-6">
+									<!-- product card -->
+									<div class="product-item bg-light">
+										<div class="card">
+											<div class="thumb-content">
+								
+											</div>
+								
+											<div class="card-body">
+												<a href="{%url 'teacher:assignment:detail' classroom.pk assignment.pk %}">
+													<h4 class="card-title">{{assignment.title}}</h4>
+												</a>
+												<ul class="list-inline product-meta">
+													<li class="list-inline-item">
+														<a><i class="fa fa-calendar"></i>Due Date: : {{assignment.due_date}}</a>
+													</li>
+												</ul>
+												<p class="card-text">{{assignment.instructions}}</p>
+								
+											</div>
+										</div>
+									</div>
+								
+								
+								</div>
+								{%endfor%}
 							</div>
 							</div>
 							</div>

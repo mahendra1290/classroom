@@ -90,7 +90,7 @@ def classroom_detail_view(request, pk):
         'assignment_list': assignment_query
     }
 
-    return render(request, 'classroom_detail.html', context)
+    return render(request, 'classroom_detail.html',  context)
 
 def teacher_edit_view(request):
     teacher_obj = Teacher.objects.get(user= request.user)
@@ -122,7 +122,7 @@ def teacher_edit_view(request):
                     messages.success(request, 'Profile updated succesfully')
                 except:
                     return render(request, 'teacher_editprofile.html', {'passwordEditForm': passwordEditForm, 'teacherEditForm':teacherEditForm,'teacher':teacher_obj})
-                return redirect('teacher:teachers_homepage')
+                return redirect('teacher:homepage')
         else:
             teacherEditForm = TeacherEditForm(initial={'phone':phone, 'name':name , 'department':department})
             passwordEditForm = UserPasswordEditForm(request.POST)
@@ -148,10 +148,10 @@ def teacher_edit_view(request):
                     if user is not None:
                         login(request, user)
                         messages.success(request, 'Password is updated successfully')
-                        return redirect('teacher:teachers_homepage')
+                        return redirect('teacher:homepage')
                 except:
                     return render(request, 'teacher_editprofile.html', {'passwordEditForm': passwordEditForm, 'teacherEditForm':teacherEditForm,' teacher':teacher_obj})
-                return redirect('teacher:teachers_homepage')
+                return redirect('teacher:homepage')
                 
     else:
         teacherEditForm = TeacherEditForm(initial={'phone':phone, 'name':name , 'department':department})
@@ -166,7 +166,7 @@ def classroom_delete_view(request, pk):
         messages.success(request, "Successfully deleted")
     else:
         messages.error(request, "Please enter a valid class Id")
-    return redirect('teacher:teachers_homepage')
+    return redirect('teacher:homepage')
 
 def classroom_edit_view(request,pk):
     form  = ClassroomCreateForm()

@@ -18,7 +18,7 @@ def create_teacher_user():
         name='test teacher',
         department='CD',
         phone=9828127640,
-        teacher_user=base_user
+        user=base_user
     )
     return teacher
 
