@@ -86,7 +86,10 @@ def home_page_view(request):
 
 @user_passes_test(must_be_a_teacher)
 def classroom_detail_view(request, pk):
+    print("HELLO WORLD")
+    print(pk)
     classroom = TeachersClassRoom.objects.get(id=pk)
+    print(classroom)
     student_list = classroom.student_set.all()
     assignment_query = Assignment.objects.filter(classroom=classroom)
     context = {
@@ -161,3 +164,43 @@ def teacher_edit_view(request):
         teacherEditForm = TeacherEditForm(initial={'phone':phone, 'name':name , 'department':department})
         passwordEditForm = UserPasswordEditForm()
     return render(request, 'teacher_editprofile.html', {'teacherEditForm': teacherEditForm, 'passwordEditForm': passwordEditForm,'teacher':teacher_obj})
+
+def classroom_delete_view(request, pk):
+    classroom = TeachersClassRoom.objects.get(id=pk)
+    teacher_email = (classroom.teacher.user.email)
+    if classroom is not None and request.user.email==teacher_email:
+        classroom.delete()
+        messages.success(request, "Successfully deleted")
+    else:
+        messages.error(request, "Please enter a valid class Id")
+    return redirect('teacher:teachers_homepage')
+
+def classroom_edit_view(request,pk):
+    form  = ClassroomCreateForm()
+    classroom = TeachersClassRoom.objects.get(id=pk)
+    url = reverse('teacher:classroom_detail', kwargs={'pk': pk})
+    print(url)
+    teacher_email = (classroom.teacher.user.email)
+    if classroom is not None and request.user.email==teacher_email:
+        if request.method =='POST':
+            form  = ClassroomCreateForm(request.POST)
+            if form.is_valid():
+                classroom.title = form.cleaned_data['title']
+                classroom.subject = form.cleaned_data['subject']
+                classroom.section = form.cleaned_data['section']
+                classroom.save()
+                messages.success(request, "Classroom desctription has been updated")
+                return redirect(url)
+                
+            else:
+                messages.error(request, "Please enter valid details")
+
+        
+        else :
+            form = ClassroomCreateForm(initial={'title':classroom.title, 'subject':classroom.subject, 'section':classroom.section})
+            return render(request,'classroom_edit_view.html', {'form':form})
+
+    else:
+        messages.error(request, "Please enter a valid url")
+        
+    return HttpResponseRedirect(url)

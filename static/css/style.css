@@ -2860,3 +2860,28 @@ input {
 .submitBtn:hover {
     background-image: linear-gradient(-180deg, #34d058, #28a745 10%);
 }
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .assignbtn {
+    border: 2px solid gray;
+    color: #ffffff;
+    background-color: #0c8a29;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }

@@ -5,7 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-:root {
+ :root {
     --blue: #007bff;
     --indigo: #6610f2;
     --purple: #6f42c1;
@@ -3828,7 +3828,9 @@ input[type=submit].btn-block {
 .input-group>.input-group-prepend:not(:first-child)>.btn,
 .input-group>.input-group-prepend:not(:first-child)>.input-group-text {
     border-top-left-radius: 0;
-    border-bottom-left-radius: 0
+    border-bottom-left-radius: 0;
+    height: 50px;
+    margin-top: 20px;
 }
 
 .custom-control {

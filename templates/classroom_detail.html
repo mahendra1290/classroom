@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{%load static%}
 {% block content %}
 
 <section class="page-title">
@@ -7,78 +8,133 @@
 		<div class="row">
 			<div class="col-md-9 offset-md-2 text-center">
 				<!-- Title text -->
-				<h3 style="color:  #ffc107;"> {{classroom.title}} / {{classroom.section}}</h3>
+				<h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
+
 				<br>
-				<h3>Add Assignment </h3>
-				<h5>Click here to add Assignment</h5>
-				<br>
-				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create_assignment' classroom.id  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
+				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.id  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
 			</div>
 		</div>
 	</div>
 </section>
-<section class="section-sm">
+{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
+
+<section class="user-profile section">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-9">
-				<div class="product-grid-list">
-					<div class="row mt-30">
-						{% for assignment in assignment_list %}
-						<div class="col-sm-12 col-lg-4 col-md-6">
-							<!-- product card -->
-<div class="product-item bg-light">
-	<div class="card">
-		<div class="thumb-content">
-			<!-- <div class="price">$200</div> -->
-		</div>
-		<div class="card-body">
-		    <h4 class="card-title"><a href=""><i class="fa fa-folder-open-o"></i>{{assignment.title}}</a></h4>
-		    <ul class="list-inline product-meta">
-				<br>
-    	    	<li class="list-inline-item">
-		    		<a href="#"><i class="fa fa-calendar"></i>{{assignment.due_date}}</a>
-		    	</li>
-		    </ul>
-		    <p class="card-text">{{assignment.instructions}}</p>
+			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+				<div class="sidebar">
+					<!-- User Widget -->
+					<div class="widget user-dashboard-profile">
+							<!-- User Image -->
+							<div class="profile-thumb">
+							  <img src="{%static 'images/hands.jpg'%}" alt="" class="rounded-circle">
+							</div>
+							<!-- User Name -->
+							<h5 class="text-center"> {{classroom.title}}</h5>
+							<p>Subject :  {{classroom.subject}}</p>
+							<p>Section :  {{classroom.section}}</p>
+							<h2>ID :  {{classroom.class_id}}</h2>
+							<br>
+							<a href="{% url 'teacher:assignment:create' classroom.id  %}" class="btn btn-main-sm">Add Assignment</a>
+						  </div>
+					<!-- Dashboard Links -->
+                    <div class="widget user-dashboard-menu">
+                      <ul>  
+							<li  >
+						
+									<a href="{% url 'teacher:teachers_homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>
+                    <li  >
+
+						<a href="{% url 'teacher:classroom_edit' classroom.id %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
+                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
+                  Class</a></li>
+                    </ul>
+          </div>
+				</div>
+                <div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <h6 class="py-2">Are you sure you want to delete this class?</h6>
+                        <p>Do you really want to delete these records? This process cannot be undone.</p>
+                        <textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
+                      </div>
+                      <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a href="{% url 'teacher:classroom_delete' classroom.id %}"> <button type="button" class="btn btn-danger">Delete</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- delete account popup modal end-->
+			</div>
+			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
+				<!-- Edit Profile Welcome Text -->
+				<div class="widget welcome-message">
+					<h2>Assignments</h2>
+					<p>Click on add assignment to add new assignment.</p>
+				</div>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="product-grid-list">
+						<div class="row mt-30">
+								{% for assignment in assignment_list %}
+							<div class="col-sm-12 col-lg-4 col-md-6">						<!-- product card -->
+	<div class="product-item bg-light">
+		<div class="card">
+			<div class="thumb-content">
+				
+			</div>
+
+			<div class="card-body">
+				<h4 class="card-title"><a href="">{{assignment.title}}</a></h4>
+				<ul class="list-inline product-meta">
+					<li class="list-inline-item">
+						<a><i class="fa fa-calendar"></i>Due Date: : {{assignment.due_date}}</a>
+					</li>
+				</ul>
+				<p class="card-text">{{assignment.instructions}}</p>
+
+			</div>
 		</div>
 	</div>
-</div>
+	
+	
+							</div>
+{%endfor%}
+							</div>
+							</div>
+							</div>
 
-<section class="course-section spad pb-0">
-	<div class="course-warp">
-		<ul class="course-filter controls">
-			<li class="control active" data-filter="all">My Assignment</li>
-			{% if request.user.is_teacher %}
-			<a href="{%url 'teacher:assignment:create' classroom.id %}">
-				<li>
-					<div class="addclass">Add Assignment
-			</a>
-			{% endif %}
-		</ul>
-		<div class="row course-items-area">
-			<!-- course -->
-			{% for assignment in assignment_list %}
-			<a href="{%url 'teacher:assignment:detail' classroom.id assignment.id %}"
-				class="mix col-lg-3 col-md-4 col-sm-6 finance">
-				<div class="course-item">
-					<div class="course-thumb set-bg" data-setbg="img/courses/2.jpg">
-						<div class="price">Due Date: {{assignment.due_date}}</div>
-					</div>
-					<div class="course-info">
-						<div class="course-text">
-							<h5>{{assignment.title}}</h5>
-							<p>{{assignment.instructions}}r</p>
-						</div>
-						<div class="course-author">
-							<div class="ca-pic "></div>
-							<p>{{assignment.assignment_of_class.title}}
-								,<span>{{assignment.assignment_of_class.section}}</span></p>
-						</div>
-	{% endfor %} 					
-					</div>
+
+
+							</div> 
 				</div>
 			</div>
 		</div>
-	</div>
 </section>
+
 {% endblock content %}

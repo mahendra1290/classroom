@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
 
+                {{ message }} 
+
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
 <section class="user-profile section">
 	<div class="container">
 		<div class="row">
@@ -11,7 +28,7 @@
                     <div class="widget user-dashboard-profile">
                       <!-- User Image -->
                       <div class="profile-thumb">
-                        <img src="{% static 'images/user.png'%}" alt="" class="rounded-circle">
+                        <img src="{% static 'images/pencil.png'%}" alt="" class="rounded-circle">
                       </div>
                       <!-- User Name -->
                       <h5 class="text-center">{{teacher.name}}</h5>

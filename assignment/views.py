@@ -17,11 +17,13 @@ class AssignmentDeleteView(DeleteView):
     
 
 def add_assignment_view(request, pk_of_class):
+    classroom = TeachersClassRoom.objects.get(id=pk_of_class)
     if request.method == 'POST':
         form = AssignmentCreateForm(request.POST, request.FILES)
         print(form)
         files = request.FILES.getlist('assign_file')
         print(form.is_valid())
+
         if form.is_valid():
             classroom = TeachersClassRoom.objects.get(id=pk_of_class)
             assign = Assignment(
@@ -38,7 +40,7 @@ def add_assignment_view(request, pk_of_class):
     else:
         form = AssignmentCreateForm()
 
-    return render(request, 'assignment.html', {'form': form})
+    return render(request, 'assignment.html', {'form': form,'classroom':classroom})
 
 def assignment_view(request, pk, *args, **kwargs):
     a = Assignment.objects.get(id=pk)

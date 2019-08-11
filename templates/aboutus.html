@@ -1,128 +1,59 @@
-{% extends 'base.html' %}
-
-{% load staticfiles%}
-{% block content %}
-
-<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
-    <div class="container">
-        <div class="site-breadcrumb">
-            <a href="">Home</a>
-            <span>Teacher Window</span>
-        </div>
-    </div>
-</div>
-<br>
-<br>
-{% for message in messages %}
-
-                    <div class="alert alert-danger">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
-
-                        {{ message }}
-
-                    </div>
-            {% endfor %}
-<section class="signup-section spad">
-        <div class="signup-bg set-bg" data-setbg="{% static 'images/signup-bg.jpg'%}" ></div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="signup-warp">
-                        <div class="section-title text-white text-left">
-                            <h2>Add Assignments</h2>
-                            <p>Here you can Add Assignments and display as homework</p>
-                        </div>
-                    </div>
-                    <!-- signup form -->
-                    <form class="signup-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                        {{form.title}}
-                        {{form.instructions}}
-                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                            <span>{{ form.due_date }}</span>
-                            <span class="input-group-append" data-target="#datetimepicker1"
-                                data-toggle="datetimepicker">
-                                <span class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </span>
-                        </span>
-                        <div class="upload-btn-wrapper">
-                            <button class="btn">Upload a file</button>
-                            {{form.assign_file}}</div>
-                        <br>
-
-                        <button class="site-btn" type="submit">Add</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <script>
-            $(function () {
-              $("#datetimepicker1").datetimepicker({
-               format:'DD-MM-YYYY HH:mm:ss',
-              });
-            });
-          </script>
-
-{% endblock content %}
 
 
 {% extends "base.html" %}
 
 {% block content %}
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
+<section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3 style="color:  #ffc107;"> Class Title :  {{classroom.title}} </h3>
+                    <br>
+                    <h3>My Classes </h3>
+                    <h5>Click here to return back to class</h5>
+                    <br>
+                    <a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.id  %}"><i class="fa fa-folder"></i>My Classes</a>
+                </div>
             </div>
-        {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
         </div>
-    {% endfor %}
-{% endif %}
+    </section>
  <section class="ad-post bg-gray py-5">
     <div class="container">
-        <form method="POST"  enctype="multipart/form-data" name = "formname">{% csrf_token %}
+            <form class="signup-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
             <!-- Post Your ad start -->
             <fieldset class="border border-gary p-4 mb-5">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h3>Post Assignments</h3>
+                            <h3>Add Assignment</h3>
                         </div>
                         <div class="col-lg-6">
-                            <h6 class="font-weight-bold pt-4 pb-1">Title: </h6>
+                            <h6 class="font-weight-bold pt-4 pb-1">Title:</h6>
                              {{form.title}}
-                            <h6 class="font-weight-bold pt-4 pb-1">Instructions :</h6>
+                            <h6 class="font-weight-bold pt-4 pb-1">Instruction:</h6>
                              {{form.instructions}}
                         </div>
                         <div class="col-lg-6">
-                        
-                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                <span>{{ form.due_date }}</span>
-                                <span class="input-group-append" data-target="#datetimepicker1"
-                                    data-toggle="datetimepicker">
-                                    <span class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </span>
-                            </span>
-                            <div class="upload-btn-wrapper">
-                                <button class="btn">Upload a file</button>
-                                {{form.assign_file}}</div>
-                            <br>
-    
+                                <h6 class="font-weight-bold pt-4 pb-1">Due Date:</h6>
+                                {{form.due_date}}
+
+                                <h6 class="font-weight-bold pt-4 pb-1">Upload Files:</h6>
+                                {{form.assign_file}}
+                                 
+                   
                         </div>
                     </div>
             </fieldset>
-            <button type="submit" class="btn btn-primary d-block mt-2 " disabled="True" name = "submitname">Post Your Ad</button>
+
+            <button type="submit" class="btn btn-primary d-block mt-2 " name = "submitname">Post Assignment</button>
 
         </form>
     </div>
 </section> 
 <script>
 document.querySelector('#id_image').onchange = function(e) {
-        document.getElementById('d_block').innerHTML = "file is uploaded seccessfully..."
+        document.getElementById('d_block').innerHTML = "Image is uploaded seccessfully..."
     };
  </script>
 
