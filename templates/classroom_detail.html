@@ -24,7 +24,7 @@
 		<ul class="course-filter controls">
 			<li class="control active" data-filter="all">My Assignment</li>
 			{% if request.user.is_teacher %}
-			<a href="{%url 'teacher:assignment:create_assignment' classroom.id %}">
+			<a href="{%url 'teacher:assignment:create' classroom.id %}">
 				<li>
 					<div class="addclass">Add Assignment
 			</a>
@@ -33,7 +33,7 @@
 		<div class="row course-items-area">
 			<!-- course -->
 			{% for assignment in assignment_list %}
-			<a href="{%url 'teacher:assignment:assignment_view' classroom.id assignment.id %}"
+			<a href="{%url 'teacher:assignment:detail' classroom.id assignment.id %}"
 				class="mix col-lg-3 col-md-4 col-sm-6 finance">
 				<div class="course-item">
 					<div class="course-thumb set-bg" data-setbg="img/courses/2.jpg">

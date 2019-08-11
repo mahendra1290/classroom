@@ -14,7 +14,7 @@
                     <h5>Click here to add classes</h5>
                     <br>
                     <br>
-                    <a class="nav-link text-white add-button" href=""><i class="fa fa-plus-circle"></i>ADD CLASSROOM</a>
+                    <a class="nav-link text-white add-button" href="{% url 'teacher:create_classroom' %}"><i class="fa fa-plus-circle"></i>ADD CLASSROOM</a>
                 </div>
             </div>
         </div>
@@ -113,12 +113,14 @@
 				  </tr>
 				</thead>
 				<tbody>
-				{% for class in classroom_list %}
+				{% for class in classrooms %}
 				
 			  
 				  <tr>
 					<td class="product-details">
-					  <h3 class="title" style = "text-transform: uppercase;">{{class.title}}</h3>
+					<a href="{%url 'teacher:classroom_detail' class.id %}">
+						<h3 class="title" style = "text-transform: uppercase;">{{class.title}}</h3>
+						</a>
 					  <h3 class="title" >ID : {{class.class_id}}</h3>
 					  <span><strong>Subject: </strong><time>{{class.subject}}</time> </span>
 					
