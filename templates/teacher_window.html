@@ -59,7 +59,7 @@
 			  <!-- Dashboard Links -->
 			   <div class="widget user-dashboard-menu">
 						  <ul>  
-								<li class="active"><a href="{% url 'teacher:teachers_homepage' %}"><i class="fa fa-bookmark-o"></i> My Classes</a></li>
+								<li class="active"><a href="{% url 'teacher:homepage' %}"><i class="fa fa-bookmark-o"></i> My Classes</a></li>
 						  <li  ><a href="{% url 'teacher:teachers_edit' %}"><i class="fa fa-user"></i>Edit Profile</a></li>
 								
 								<li><a href=""data-toggle="modal" data-target="#logoutaccount"><i class="fa fa-cog"></i> Logout</a></li>
@@ -139,7 +139,7 @@
 					{% for class in classrooms %}
 
 					  <td class="product-details">
-						<h3 class="title" style = "text-transform: uppercase;">{{class.title}}</h3>
+						<a href="{%url 'teacher:classroom_detail' class.pk  %}"><h3 class="title" style = "text-transform: uppercase;">{{class.title}}</h3></a>
 						<h3 class="title" >ID : {{class.class_id}}</h3>
 						<span><strong>Subject: </strong><time>{{class.subject}}</time> </span>
 					  

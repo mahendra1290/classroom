@@ -8,6 +8,9 @@ django = "*"
 pillow = "*"
 autopep8 = "*"
 pylint = "*"
+docutils = "*"
+doc8 = "*"
+pygments = "*"
 
 [requires]
 python_version = "3.7"

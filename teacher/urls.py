@@ -13,7 +13,7 @@ from .views import classroom_edit_view
 app_name="teacher"
 
 urlpatterns = [
-    path('', home_page_view, name='teachers_homepage'),
+    path('', home_page_view, name='homepage'),
     path('edit/profile/',teacher_edit_view,name = 'teachers_edit' ),
     path('classroom/add/', ClassroomCreateView.as_view(), name='create_classroom'),
     path('classroom-<int:pk>/', classroom_detail_view, name='classroom_detail'),

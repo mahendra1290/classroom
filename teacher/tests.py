@@ -3,9 +3,7 @@ from .models import Teacher
 from .models import TeachersClassRoom
 from customuser.models import User
 from django.urls import reverse
-
-TEACHER = None
-
+from django.contrib.auth.models import Group
 
 def create_teacher(name, email, password, department, phone):
     user = User.objects.create_user(
