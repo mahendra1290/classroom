@@ -38,7 +38,20 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
+  <!-- Font Awesome -->
+ 
+
+  <!-- Moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+  <!-- Tempus Dominus Bootstrap 4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
 </head>
 
 <body class="body-wrapper">
@@ -61,7 +74,7 @@
 							<li class="nav-item active">
 								<a class="nav-link" href="{% url 'customuser:homepage'  %}">Home</a>
 							</li>
-                            {% if request.user.is_authenticated %}
+      {% if request.user.is_authenticated %}
                             <li class="nav-item dropdown dropdown-slide">
                             
 								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Profile<span><i class="fa fa-angle-down"></i></span>
@@ -73,14 +86,15 @@
 
 								<!-- Dropdown list -->
 								<div class="dropdown-menu">
-									<a class="dropdown-item" href="">View</a>
-                                    <a class="dropdown-item" href="">Edit Profile</a>
+                  {%if request.user.teacher%}
+                                    <a class="dropdown-item" href="{% url 'teacher:teachers_edit' %}">Edit Profile</a>
+                  {%endif%}
 									<a class="dropdown-item" href="">My Class</a>
-									<a class="dropdown-item" href="">NOtifications</a>
+									<a class="dropdown-item" href="">Notifications</a>
 									<a class="dropdown-item" href="" data-toggle="modal"  data-target="#logout">Logout</a>
 								</div>
 							</li>
-                            {% endif %}
+      {% endif %}
                     
 							<li class="nav-item active">
 								<a class="nav-link" href="{% url 'customuser:contact'%}">Contact Us</a>

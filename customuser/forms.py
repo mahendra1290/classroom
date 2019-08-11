@@ -71,3 +71,9 @@ class UserRegisterForm(forms.ModelForm):
         attrs={'placeholder': 'Email', 'class': 'border p-3 w-100 my-2'}))
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': 'Password', 'class': 'border p-3 w-100 my-2'}))
+
+        
+class UserPasswordEditForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Current Password','class': 'form-control'}))
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'New Password','class': 'form-control'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password','class': 'form-control'}))

@@ -50,7 +50,7 @@ def homepageview(request):
         return render(request, 'home.html', {'form': form})
     else:
         if request.user.is_teacher is True:
-            return redirect('teacher:homepage')
+            return redirect('teacher:teachers_homepage')
         else:
             return redirect('student:homepage')
 
@@ -67,7 +67,7 @@ def login_view(request):
                 if request.user.is_teacher is False:
                     return redirect('student:homepage')
                 else:
-                    return redirect('teacher:homepage')
+                    return redirect('teacher:teachers_homepage')
             else:
                 messages.error(request, 'Incorrect Username or Password')
     else:
