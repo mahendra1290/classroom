@@ -8,17 +8,18 @@ TEACHER = None
 
 
 def create_teacher(name, email, password, department, phone):
-    base_user = User.objects.create_user(
+    user = User.objects.create_user(
         email=email,
         password=password,
     )
-    base_user.teacher_status = True
-    base_user.save()
+    user.is_active = True
+    user.is_teacher = True
+    user.save()
     teacher = Teacher(
         name=name,
         department=department,
         phone=phone,
-        teacher_user=base_user,
+        user=user,
     )
     teacher.save()
     return teacher
@@ -36,24 +37,25 @@ def create_classroom(title, section, subject, teacher):
 class TeacherModelTest(TestCase):
 
     def setUp(self):
-        self.base_user = User.objects.create_user(
+        self.user = User.objects.create_user(
             email="test_teacher@nitkkr.com",
             password="qaz"
         )
-        self.base_user.teacher_status = True
-        self.base_user.save()
+        self.user.is_active = True
+        self.user.is_teacher = True
+        self.user.save()
         self.teacher = Teacher(
             name='test teacher',
             department='CD',
             phone=9828127640,
-            teacher_user=self.base_user
+            user=self.user
         )
         self.teacher.save()
         global TEACHER
         TEACHER = self.teacher
 
-    def test_base_user(self):
-        self.assertEqual(self.teacher.teacher_user, self.base_user)
+    def test_user(self):
+        self.assertEqual(self.teacher.user, self.user)
 
     def test_teacher_content(self):
         self.assertEqual(f'{self.teacher.name}', 'test teacher')
@@ -65,8 +67,8 @@ class TeacherModelTest(TestCase):
             username=self.teacher.get_username(), password='qaz')
         self.assertEqual(has_logined, True)
         response = self.client.get(reverse('customuser:homepage'))
-        self.assertRedirects(response, reverse('teacher:teachers_homepage'))
-        response = self.client.get(reverse('teacher:teachers_homepage'))
+        self.assertRedirects(response, reverse('teacher:homepage'))
+        response = self.client.get(reverse('teacher:homepage'))
         self.assertTemplateUsed(response, 'teacher_window.html')
 
 
