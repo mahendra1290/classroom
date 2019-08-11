@@ -59,6 +59,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
 
     @property
+    def is_student(self):
+        return not self.is_teacher
+
+    @property
     def is_staff(self):
         return self.is_admin
 

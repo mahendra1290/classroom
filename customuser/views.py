@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 
@@ -14,24 +13,10 @@ from .models import User
 from .forms import LoginForm, UserRegisterForm
 
 
-def group_required(*group_names):
-    """Requires user membership in at least one of the groups passed in."""
-    def in_groups(u):
-        print("in group")
-        print(u)
-        if u.is_authenticated:
-            if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:
-                return True
-        return False
-    return user_passes_test(in_groups)
-
-
 def homepageview(request):
     if request.user.is_authenticated is False:
         if request.method == 'POST':
             form = TeacherRegistrationForm(request.POST)
-            print(form)
-            print(form.is_valid())
             if form.is_valid():
                 password = form.cleaned_data['password']
                 email = form.cleaned_data['email']
@@ -39,15 +24,12 @@ def homepageview(request):
                 phone = form.cleaned_data['phone']
                 department = form.cleaned_data['department']
                 user_list = User.objects.filter(email=email)
-                print("USERLIST IS ")
-                print(user_list)
                 if user_list.count() is 0:
                     user = User.objects.create_user(
                         email=email, password=password)
                     user.is_teacher = True
                     user.is_active = True
                     group = Group.objects.get(name='teacher')
-                    print(group)
                     user.groups.add(group)
                     user.save()
                     teacherobj = Teacher(
@@ -61,16 +43,16 @@ def homepageview(request):
                     messages.error(
                         request, "This email address is already registered")
             else:
-                message.error(request, "Form is invalid")
+                messages.error(request, "Form is invalid")
 
         else:
             form = TeacherRegistrationForm()
         return render(request, 'home.html', {'form': form})
     else:
         if request.user.is_teacher is True:
-            return redirect('teacher:teachers_homepage')
+            return redirect('teacher:homepage')
         else:
-            return redirect('student:student_registration')
+            return redirect('student:homepage')
 
 
 def login_view(request):
@@ -83,9 +65,9 @@ def login_view(request):
             if user_obj is not None:
                 login(request, user_obj)
                 if request.user.is_teacher is False:
-                    return redirect('student:student_homepage')
+                    return redirect('student:homepage')
                 else:
-                    return redirect('teacher:teachers_homepage')
+                    return redirect('teacher:homepage')
             else:
                 messages.error(request, 'Incorrect Username or Password')
     else:
@@ -100,6 +82,9 @@ def signup_view(request):
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
             user = User.objects.create_user(email=email, password=password)
+            group = Group.objects.get(name='student')
+            user.groups.add(group)
+            user.is_active = True
             user.save()
             return redirect('customuser:homepage')
     else:
