@@ -14,7 +14,7 @@
                     <h5>Click here to add classes</h5>
                     <br>
                     <br>
-                    <a class="nav-link text-white add-button" href=""><i class="fa fa-plus-circle"></i>ADD CLASSROOM</a>
+                    <a class="nav-link text-white add-button" href="{%url 'teacher:create_classroom' %}"><i class="fa fa-plus-circle"></i>ADD CLASSROOM</a>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
 				  </tr>
 				</thead>
 				<tbody>
-				{% for class in classroom_list %}
+				{% for class in classrooms %}
 				
 			  
 				  <tr>
@@ -129,7 +129,7 @@
 					  <div class="">
 						<ul class="list-inline justify-content-center">
 						  <li class="list-inline-item">
-							<a data-toggle="tooltip" data-placement="top" title="view" class="view" href="">
+							<a data-toggle="tooltip" data-placement="top" title="view" class="view" href="{%url 'teacher:classroom_detail' class.id %}">
 							  <i class="fa fa-eye"></i>
 							</a>
 						  </li>

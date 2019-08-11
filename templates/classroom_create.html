@@ -1,39 +1,44 @@
-{% extends 'base.html' %}
 
-{% load staticfiles%}
-{% block content %}
-
-<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
-    <div class="container">
-        <div class="site-breadcrumb">
-            <a href="">Home</a>
-            <span>Teacher Window</span>
-        </div>
-    </div>
-</div>
-<br>
-<br>
-<section class="signup-section spad">
-        <div class="signup-bg set-bg" data-setbg="{% static 'images/signup-bg.jpg'%}" ></div>
-        <div class="container-fluid">
+	{% extends "base.html" %}
+	{% load static %}
+	{% block content %}
+	
+	        
+    <section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="signup-warp">
-                        <div class="section-title text-white text-left">
-                            <h2>Add Class</h2>
-                            <p>Here you can Add Class to your column</p>
-                        </div>
-                        <!-- signup form -->
-                        <form class="signup-form" method="POST">{% csrf_token %}
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3>Create Your Classroom </h3>
+                    <h5>Click here to view your existing classes</h5>
+                    <br>
+                    <br>
+                    <a class="nav-link text-white add-button" href="{% url 'teacher:teachers_homepage' %}"><i ></i>My Classe</a>
+                </div>
+            </div>
+        </div>
+        <!-- Container End -->
+    </section>
+    <section class="login py-5 border-top-1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-8 align-item-center">
+                    <div class="border border">
+                        <h3 class="bg-gray p-4">Create Classroom</h3>
+                        <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
+                            <fieldset class="p-4">
                             {{form.title}}
                             {{form.subject}}
                             {{form.section}}
-                            <button class="site-btn" type = "submit">Add</button>
+                           
+                                <button type="submit" name="signupsubmit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Create Now</button>
+                            </fieldset>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-{% endblock content %}
+	
+	{% endblock content %}

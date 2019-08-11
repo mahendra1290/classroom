@@ -1,62 +1,57 @@
 {% extends "base.html" %}
-
-
-{% load static %}
-
 {% block content %}
-<!-- Page info -->
-<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
+
+<section class="page-title">
+	<!-- Container Start -->
 	<div class="container">
-		<div class="site-breadcrumb">
-			<a href="">Home</a>
-			<span>TITLE : {{classroom.title}}</span>
-			<span>SUBJECT: {{classroom.subject}}</span>
-			<span>SECTION: {{classroom.section}}</span>
-			
+		<div class="row">
+			<div class="col-md-9 offset-md-2 text-center">
+				<!-- Title text -->
+				<h3 style="color:  #ffc107;"> {{classroom.title}} / {{classroom.section}}</h3>
+				<br>
+				<h3>Add Assignment </h3>
+				<h5>Click here to add Assignment</h5>
+				<br>
+				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create_assignment' classroom.id  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section-sm">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<div class="product-grid-list">
+					<div class="row mt-30">
+						{% for assignment in assignment_list %}
+						<div class="col-sm-12 col-lg-4 col-md-6">
+							<!-- product card -->
+<div class="product-item bg-light">
+	<div class="card">
+		<div class="thumb-content">
+			<!-- <div class="price">$200</div> -->
+		</div>
+		<div class="card-body">
+		    <h4 class="card-title"><a href=""><i class="fa fa-folder-open-o"></i>{{assignment.title}}</a></h4>
+		    <ul class="list-inline product-meta">
+				<br>
+    	    	<li class="list-inline-item">
+		    		<a href="#"><i class="fa fa-calendar"></i>{{assignment.due_date}}</a>
+		    	</li>
+		    </ul>
+		    <p class="card-text">{{assignment.instructions}}</p>
 		</div>
 	</div>
 </div>
-<h1 class='assignmenttitle' >TITLE : <a href="">{{classroom.title}}</a></h1>
-<h1 class='assignmenttitle' style="font-size: 30px;" >ID : {{classroom.class_id}}</h1>
 
-<section class="course-section spad pb-0">
-	<div class="course-warp">
-		<ul class="course-filter controls">
-			<li class="control active" data-filter="all">My Assignment</li>
-			{% if request.user.is_teacher %}
-			<a href="{%url 'teacher:assignment:create_assignment' classroom.id %}">
-				<li>
-					<div class="addclass">Add Assignment
-			</a>
-			{% endif %}
-		</ul>
-		<div class="row course-items-area">
-			<!-- course -->
-			{% for assignment in assignment_list %}
-			<a href="{%url 'teacher:assignment:assignment_view' classroom.id assignment.id %}"
-				class="mix col-lg-3 col-md-4 col-sm-6 finance">
-				<div class="course-item">
-					<div class="course-thumb set-bg" data-setbg="img/courses/2.jpg">
-						<div class="price">Due Date: {{assignment.due_date}}</div>
-					</div>
-					<div class="course-info">
-						<div class="course-text">
-							<h5>{{assignment.title}}</h5>
-							<p>{{assignment.instructions}}r</p>
+
+
 						</div>
-						<div class="course-author">
-							<div class="ca-pic "></div>
-							<p>{{assignment.assignment_of_class.title}}
-								,<span>{{assignment.assignment_of_class.section}}</span></p>
-						</div>
+	{% endfor %} 					
 					</div>
 				</div>
-			</a>
-
-
-			{% endfor %}
+			</div>
 		</div>
+	</div>
 </section>
-<!-- course section end -->
 {% endblock content %}
-<!-- banner section end -->

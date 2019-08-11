@@ -20,7 +20,7 @@ class ClassroomCreateForm(ModelForm):
     class Meta:
         model =  TeachersClassRoom
         fields = ['title', 'section', 'subject']
-    title=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title'}))
-    section = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Section'}))
-    subject = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Subject'}))
+    title=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Title','class': 'border p-3 w-100 my-2'}))
+    section = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Section','class': 'border p-3 w-100 my-2'}))
+    subject = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Subject','class': 'border p-3 w-100 my-2'}))
 

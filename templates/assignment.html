@@ -1,66 +1,64 @@
-{% extends 'base.html' %}
 
-{% load staticfiles%}
+
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
-
-<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/1.jpg'%}">
-    <div class="container">
-        <div class="site-breadcrumb">
-            <a href="">Home</a>
-            <span>Teacher Window</span>
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
         </div>
-    </div>
-</div>
-<br>
-<br>
-{% for message in messages %}
-
-                    <div class="alert alert-danger">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
-
-                        {{ message }}
-
-                    </div>
-            {% endfor %}
-<section class="signup-section spad">
-        <div class="signup-bg set-bg" data-setbg="{% static 'images/signup-bg.jpg'%}" ></div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="signup-warp">
-                        <div class="section-title text-white text-left">
-                            <h2>Add Assignments</h2>
-                            <p>Here you can Add Assignments and display as homework</p>
+    {% endfor %}
+{% endif %}
+ <section class="ad-post bg-gray py-5">
+    <div class="container">
+        <form method="POST"  enctype="multipart/form-data" name = "formname">{% csrf_token %}
+            <!-- Post Your ad start -->
+            <fieldset class="border border-gary p-4 mb-5">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Post Assignments</h3>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="font-weight-bold pt-4 pb-1">Title: </h6>
+                             {{form.title}}
+                            <h6 class="font-weight-bold pt-4 pb-1">Instructions :</h6>
+                             {{form.instructions}}
+                        </div>
+                        <div class="col-lg-6">
+                        
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                <span>{{ form.due_date }}</span>
+                                <span class="input-group-append" data-target="#datetimepicker1"
+                                    data-toggle="datetimepicker">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </span>
+                            </span>
+                            <div class="upload-btn-wrapper">
+                                <button class="btn">Upload a file</button>
+                                {{form.assign_file}}</div>
+                            <br>
+    
                         </div>
                     </div>
-                    <!-- signup form -->
-                    <form class="signup-form" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                        {{form.title}}
-                        {{form.instructions}}
-                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                            <span>{{ form.due_date }}</span>
-                            <span class="input-group-append" data-target="#datetimepicker1"
-                                data-toggle="datetimepicker">
-                                <span class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </span>
-                        </span>
-                        <div class="upload-btn-wrapper">
-                            <button class="btn">Upload a file</button>
-                            {{form.assign_file}}</div>
-                        <br>
+            </fieldset>
+            <button type="submit" class="btn btn-primary d-block mt-2 " disabled="True" name = "submitname">Post Your Ad</button>
 
-                        <button class="site-btn" type="submit">Add</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    <script>
-            $(function () {
-              $("#datetimepicker1").datetimepicker({
-               format:'DD-MM-YYYY HH:mm:ss',
-              });
-            });
-          </script>
+        </form>
+    </div>
+</section> 
+<script>
+document.querySelector('#id_image').onchange = function(e) {
+        document.getElementById('d_block').innerHTML = "file is uploaded seccessfully..."
+    };
+ </script>
+
 
 {% endblock content %}
