@@ -77,6 +77,7 @@ def login_view(request):
 
 def signup_view(request):
     if request.method == 'POST':
+        print("signed up")
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             password = form.cleaned_data['password']

@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from assignment.models import Assignment
 from teacher.models import TeachersClassRoom
 YEAR_CHOICES = (
@@ -37,6 +38,21 @@ class Student(models.Model):
             ('can_view_classroom', 'can view classroom page'),
             ('can_view_assignment', 'can view assignment'),
         )
+
+    @classmethod
+    def is_student_registered(cls, user):
+        try:
+            student = Student.objects.get(user=user)
+            return True
+        except ObjectDoesNotExist:
+            return False
+    @classmethod
+    def get_student(cls, user):
+        try:
+            student = Student.objects.get(user=user)
+            return student
+        except ObjectDoesNotExist:
+            return None
 
 
 class Solution(models.Model):

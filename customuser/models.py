@@ -58,6 +58,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         return True
 
+    def is_in_groups(self, *group_names):
+        if self.is_authenticated:
+            if bool(self.groups.filter(name__in=group_names)) \
+                or self.is_superuser:
+                return True
+        return False
+
     @property
     def is_student(self):
         return not self.is_teacher
