@@ -78,7 +78,6 @@ def home_page_view(request):
     except ObjectDoesNotExist:
         pass
 
-@user_passes_test(must_be_a_teacher)
 def classroom_detail_view(request, pk):
     print("HELLO WORLD")
     print(pk)
