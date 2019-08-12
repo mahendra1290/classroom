@@ -3,11 +3,7 @@ from .views import add_assignment_view
 from .views import assignment_view
 from .views import AssignmentDeleteView
 
-
-
 app_name= "assignment"
-
-
 
 urlpatterns = [
     path('<int:pk>', assignment_view, name = 'detail'),   

@@ -44,7 +44,7 @@ def StudentRegistration(request, *args , **kwargs):
                 user = request.user
                 student_obj = Student(name=name,year=year,branch=branch,rollno=rollno,user=user)
                 student_obj.save()
-                return redirect('student:hompage')
+                return redirect('student:homepage')
         else:
             form=StudentRegistrationForm()
         return render(request,'register_student.html',{'form':form})
