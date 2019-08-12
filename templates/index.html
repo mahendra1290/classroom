@@ -60,7 +60,10 @@
 				
 									<li class="active" >
 						
-										<a href=""><i class="fa fa-check"></i>Submission List </a></li>
+                    <a href=""><i class="fa fa-check"></i>Submission List </a></li>
+                    <li  >
+						
+                        <a href="{% url 'teacher:assignment:assignment_file_view' assignment.classroom.id assignment.id %}"><i class="fa fa-folder"></i>View Assignment </a></li>
                             <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
                   Assignment</a></li>
                     </ul>
