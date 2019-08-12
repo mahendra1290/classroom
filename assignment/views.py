@@ -1,8 +1,8 @@
 from django.views.generic.edit import FormView
-from django.views.generic import DeleteView
 from django.views.generic import DetailView, ListView
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.urls import reverse
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 
@@ -11,13 +11,12 @@ from student.models import Solution
 from .forms import AssignmentCreateForm
 from .models import AssignmentsFile
 from .models import Assignment
+from django.contrib import messages
+from django.core.files import File
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
 
-class AssignmentDeleteView(DeleteView):
-    model = Assignment
-    def get(self, request, pk_of_class, pk):
-        return HttpResponse(render(request, 'assignment/assignment_confirm_delete.html'))
-    success_url = reverse_lazy('')
-    
 
 def add_assignment_view(request, pk_of_class):
     classroom = TeachersClassRoom.objects.get(id=pk_of_class)
@@ -47,12 +46,52 @@ def add_assignment_view(request, pk_of_class):
 
 def assignment_view(request, pk, *args, **kwargs):
     assignment = Assignment.objects.get(id=pk)
+    classroom_id = assignment.classroom.id
+    classroom = TeachersClassRoom.objects.get(pk = classroom_id)
+    students = classroom.student_set.all()
+    students_count = students.count()
     solutions = Solution.objects.filter(assignment=assignment)
+    solutions_count = solutions.count()
     files = list(AssignmentsFile.objects.filter(assignment = assignment))
+    print(files)
     context = {
         'assignment' : assignment,
         'assignment_files' : files,
-        'solutions' : solutions
+        'solutions' : solutions,
+        'solutions_count':solutions_count,
+        'students_count':students_count,
     }
     return render(request, "index.html", context)
 
+def assignment_delete_view(request, pk,*args, **kwargs):
+    assignment = Assignment.objects.get(id=pk)
+    classroom_id = assignment.classroom.id 
+    url = reverse('teacher:classroom_detail', kwargs={'pk': classroom_id})
+    teacher_email = (assignment.classroom.teacher.user.email)
+    if assignment is not None and request.user.email==teacher_email:
+        assignment.delete()
+        messages.success(request, "Successfully deleted")
+    else:
+        messages.error(request, "Please enter a valid class Id")
+        return redirect('teacher:homepage')
+    return HttpResponseRedirect(url)
+
+def assignment_file_view(request, pk, *args, **kwargs):
+    assignment = Assignment.objects.get(id=pk)
+    files = (AssignmentsFile.objects.filter(assignment = assignment))
+    print(files)
+    context = {
+        'assignment_files' : files,
+    }
+    return render(request, "assignment_file_view.html", context)
+
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    print()
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
