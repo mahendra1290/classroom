@@ -8,7 +8,7 @@ from django.conf.urls import url
 app_name="student"
 
 urlpatterns = [
+    path('window/',HomePageViewStudent, name= 'homepage'),
     path('join-class/', join_class_view, name='join_class' ),
     path('registration/', StudentRegistration, name = 'registration'),
-    path('window/',HomePageViewStudent, name= 'homepage'),
 ]

@@ -4,8 +4,6 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-
-
 from teacher.models import TeachersClassRoom
 from .models import Student
 from assignment.models import Assignment
@@ -25,7 +23,8 @@ def HomePageViewStudent(request , *args , **kwargs):
                 assignment_list.append(a[0])
         return render(request, 'student_window.html',
                       context={'classroom_list': classroom_list,
-                               'assignment_list': assignment_list
+                               'assignment_list': assignment_list,
+                               'student':student,
                                }
                       )
     else :
@@ -36,15 +35,25 @@ def StudentRegistration(request, *args , **kwargs):
     if not Student.is_student_registered(user=request.user):    
         if(request.method=='POST'):
             form = StudentRegistrationForm(request.POST)
-            if form.is_valid():
-                name = form.cleaned_data['name']
-                year = form.cleaned_data['year']
-                branch = form.cleaned_data['branch']
-                rollno = form.cleaned_data['rollno']
-                user = request.user
-                student_obj = Student(name=name,year=year,branch=branch,rollno=rollno,user=user)
-                student_obj.save()
-                return redirect('student:hompage')
+            
+            try:
+                form_rollno=Student.objects.get(rollno = request.POST['rollno'])
+            except:
+                form_rollno = None
+            if form_rollno is None:
+                    if form.is_valid():
+                        name = form.cleaned_data['name']
+                        year = form.cleaned_data['year']
+                        branch = form.cleaned_data['branch']
+                        rollno = form.cleaned_data['rollno']
+                        user = request.user
+                        student_obj = Student(name=name,year=year,branch=branch,rollno=rollno,user=user)
+                        student_obj.save()
+                        return redirect('student:homepage')
+                    else:
+                        messages.error(request, "Incorrect Details")
+            else :
+                messages.error(request, "Roll number is already registered")
         else:
             form=StudentRegistrationForm()
         return render(request,'register_student.html',{'form':form})
