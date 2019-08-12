@@ -12,6 +12,10 @@ from .forms import AssignmentCreateForm
 from .models import AssignmentsFile
 from .models import Assignment
 from django.contrib import messages
+from django.core.files import File
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
 
 
 def add_assignment_view(request, pk_of_class):
@@ -49,6 +53,7 @@ def assignment_view(request, pk, *args, **kwargs):
     solutions = Solution.objects.filter(assignment=assignment)
     solutions_count = solutions.count()
     files = list(AssignmentsFile.objects.filter(assignment = assignment))
+    print(files)
     context = {
         'assignment' : assignment,
         'assignment_files' : files,
@@ -71,3 +76,22 @@ def assignment_delete_view(request, pk,*args, **kwargs):
         return redirect('teacher:homepage')
     return HttpResponseRedirect(url)
 
+def assignment_file_view(request, pk, *args, **kwargs):
+    assignment = Assignment.objects.get(id=pk)
+    files = (AssignmentsFile.objects.filter(assignment = assignment))
+    print(files)
+    context = {
+        'assignment_files' : files,
+    }
+    return render(request, "assignment_file_view.html", context)
+
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    print()
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
