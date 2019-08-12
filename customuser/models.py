@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
         user.save()
         return user
     
-    def crate_user_for_student(self, email, password):
+    def create_user_for_student(self, email, password):
         user = self.create_user(email, password)
         try:
             group = Group.objects.get(name='student')
