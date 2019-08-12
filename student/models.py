@@ -1,8 +1,10 @@
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+
 from assignment.models import Assignment
 from teacher.models import TeachersClassRoom
+
 YEAR_CHOICES = (
     ('', 'Select Year'),
     ('firstyear','First Year'),
@@ -10,6 +12,7 @@ YEAR_CHOICES = (
     ('thirdyear','Third Year'),
     ('fourthyear','Fourth Year'),
 )
+
 BRANCH_CHOICES = (
     ('', 'Select Branch'),
     ('cse', 'Computer Engg.'),
@@ -18,7 +21,6 @@ BRANCH_CHOICES = (
     ('me', 'Mechanical Engg.'),
     ('pie', 'Production and Industial Engg.'),
     ('ce', 'Civil Engg.'),
-
 )
 
 class Student(models.Model):
@@ -46,6 +48,7 @@ class Student(models.Model):
             return True
         except ObjectDoesNotExist:
             return False
+        
     @classmethod
     def get_student(cls, user):
         try:
@@ -59,6 +62,7 @@ class Solution(models.Model):
     comment = models.CharField(max_length=100)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
+    submission_date = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
         return ("submission of " + str(self.student))
