@@ -80,11 +80,12 @@ def home_page_view(request):
 
 def classroom_detail_view(request, pk):
     classroom = TeachersClassRoom.objects.get(id=pk)
-    student_list = classroom.student_set.all()
+    students = classroom.student_set.all()
     assignment_query = Assignment.objects.filter(classroom=classroom)
     context = {
         'classroom': classroom,
-        'assignment_list': assignment_query
+        'assignment_list': assignment_query,
+        'students' : students
     }
 
     return render(request, 'classroom_detail.html',  context)

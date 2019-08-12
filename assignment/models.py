@@ -17,7 +17,7 @@ class Assignment(models.Model):
 
 
 class AssignmentsFile(models.Model):
-    file = models.FileField(upload_to='images/')
+    file = models.FileField(upload_to='assignment/files/')
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
 
     def __str__(self):
