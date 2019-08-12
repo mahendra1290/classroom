@@ -1,25 +1,23 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
 
-	{% extends "base.html" %}
-	{% load static %}
-	{% block content %}
-	
-	        
-    <section class="page-title">
-        <!-- Container Start -->
-        <div class="container">
-            <div class="row">
-                <div class="col-md-9 offset-md-2 text-center">
-                    <!-- Title text -->
-                    <h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
-    
-                    <br>
-                    <a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.id  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
-                    <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a>
-                </div>
+<section class="page-title">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 offset-md-2 text-center">
+				<!-- Title text -->
+				<h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
+
+				<br>
+				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.id  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
+                <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a></span>
             </div>
-        </div>
-    </section>
-	{% for message in messages %}
+		</div>
+	</div>
+</section>
+{% for message in messages %}
 {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
             <div class="alert alert-danger">
                 <a class="close" href="#" data-dismiss="alert">×</a>
@@ -37,32 +35,33 @@
         {%endif%}
     
     {% endfor %}
-	<section class="dashboard section">
-	  <!-- Container Start -->
-	  <div class="container">
-		<!-- Row Start -->
+
+<section class="user-profile section">
+	<div class="container">
 		<div class="row">
-		  <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-			<div class="sidebar">
-			  <!-- User Widget -->
-			  <div class="widget user-dashboard-profile">
-				<!-- User Image -->
-				<div class="profile-thumb">
-				  <img src="{% static 'images/pencil.png'%}" alt="" class="rounded-circle">
-				</div>
-				<!-- User Name -->
-				<h5 class="text-center">{{teacher.name}}</h5>
-				<p>{{teacher.email}}</p>
-				<p>{{teacher.phone}}</p>
-				<a href="{% url 'teacher:teachers_edit' %}" class="btn btn-main-sm">Edit Profile</a>
-			  </div>
-			  <!-- Dashboard Links -->
-			   <div class="widget user-dashboard-menu">
-                    <ul>  
+			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+				<div class="sidebar">
+					<!-- User Widget -->
+					<div class="widget user-dashboard-profile">
+							<!-- User Image -->
+							<div class="profile-thumb">
+							  <img src="{%static 'images/hands.jpg'%}" alt="" class="rounded-circle">
+							</div>
+							<!-- User Name -->
+							<h5 class="text-center"> {{classroom.title}}</h5>
+							<p>Subject :  {{classroom.subject}}</p>
+							<p>Section :  {{classroom.section}}</p>
+							<h2>ID :  {{classroom.class_id}}</h2>
+							<br>
+							<a href="{% url 'teacher:classroom_detail' classroom.id  %}" class="btn btn-main-sm">Go to Classroom</a>
+						  </div>
+					<!-- Dashboard Links -->
+                    <div class="widget user-dashboard-menu">
+                      <ul>  
 							<li  >
 						
 									<a href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>
-									<li  class="active" >
+									<li class="active" >
 						
 										<a href="{% url 'teacher:get_student_list' classroom.id  %}"><i class="fa fa-user"></i>Student List </a></li>
                     <li  >
@@ -71,97 +70,86 @@
                             <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
                   Class</a></li>
                     </ul>
-			  </div>
-	
-			  <!-- delete-account modal -->
-										<!-- delete account popup modal start-->
-					<!-- Modal -->
-					<div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-					  aria-hidden="true">
-					  <div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-						  <div class="modal-header border-bottom-0">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							  <span aria-hidden="true">&times;</span>
-							</button>
-						  </div>
-						  <div class="modal-body text-center">
-							<img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
-							<h6 class="py-2">Are you sure you want to delete your account?</h6>
-							<p>Do you really want to delete these records? This process cannot be undone.</p>
-							<textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
-						  </div>
-						  <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
-							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-							  <a href=""> <button type="button" class="btn btn-danger">Delete</button></a>
-						  </div>
-						</div>
-					  </div>
-					</div>
-					<!-- delete account popup modal end-->
-					<div class="modal fade" id="logoutaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-					  aria-hidden="true">
-					  <div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-						  <div class="modal-header border-bottom-0">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							  <span aria-hidden="true">&times;</span>
-							</button>
-						  </div>
-						  <div class="modal-body text-center">
-							<img src="images/account/Account1.png" class="img-fluid mb-2" alt="">
-							<h6 class="py-2">Are you sure you want to Logout your account?</h6>
-							<p>Keep smiling and selling products</p>
-						  </div>
-						  <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
-							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-							<a href = "{% url 'customuser:logout'%}"><button type="button" class="btn btn-danger">Logout</button></a>
-						  </div>
-						</div>
-					  </div>
-					</div>
-			  <!-- delete-account modal -->
-	
-			</div>
-		  </div>
-		  <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-			<!-- Recently Favorited -->
-			<div class="widget dashboard-container my-adslist">
-			  <h3 class="widget-header">Student List</h3>
-									
-					<table class="table table-responsive product-dashboard-table">
-							<thead>
-							  <tr>
-								<th>Name</th>
-								<th >Rollno</th>
-                                <th >Email</th>
-							  </tr>
-							</thead>
-							<tbody>
-						<tr>
-					{% for student in students %}
-
-					  <td class="product-details">
-						<a><h3 class="title" style = "text-transform: uppercase;">{{ loop.index }} {{student.name}}</h3></a>
-                        
-					  </td>
-                      <td class="product-details"><span class="categories">{{student.rollno}}</span></td>
-                      <td class="product-details"><span class="categories">{{student.user.email}}</span></td>
-					  <td class="action" data-title="Action">
-					  </td>
-					</tr>
-					<tr>
-
-		
-				{% endfor %}	   
-				</tbody>
-			  </table>
-	
+          </div>
+				</div>
+                <div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <h6 class="py-2">Are you sure you want to delete this class?</h6>
+                        <p>Do you really want to delete these records? This process cannot be undone.</p>
+                        <textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
+                      </div>
+                      <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a href="{% url 'teacher:classroom_delete' classroom.id %}"> <button type="button" class="btn btn-danger">Delete</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- delete account popup modal end-->
 			</div>
 
-		<!-- Row End -->
-	  </div>
-	  <!-- Container End -->
-	</section>
+                <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+                        <!-- Recently Favorited -->
+                        <div class="widget dashboard-container my-adslist">
+                          <h3 class="widget-header">Student List</h3>
+                                                
+                                <table class="table table-responsive product-dashboard-table">
+                                        <thead>
+                                          <tr>
+                                            <th>Name</th>
+                                            <th >Rollno</th>
+                                            <th >Email</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                    <tr>
+                                {% for student in students %}
+            
+                                  <td class="product-details">
+                                    <a><h3 class="title" style = "text-transform: uppercase;">{{ loop.index }} {{student.name}}</h3></a>
+                                    
+                                  </td>
+                                  <td class="product-details"><span class="categories">{{student.rollno}}</span></td>
+                                  <td class="product-details"><span class="categories">{{student.user.email}}</span></td>
+                                  <td class="action" data-title="Action">
+                                  </td>
+                                </tr>
+                                <tr>
+            
+                    
+                            {% endfor %}	   
+                            </tbody>
+                          </table>
+                
+                        </div>
+            
+                    <!-- Row End -->
+                  </div>
 
-	{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+</section>
+
+{% endblock content %}
