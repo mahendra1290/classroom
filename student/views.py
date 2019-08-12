@@ -17,14 +17,15 @@ def HomePageViewStudent(request , *args , **kwargs):
         if not Student.is_student_registered(request.user):
             return redirect (reverse('student:registration'))
         student = Student.get_student(user=request.user)
-        classroom_list = student.my_classes.all()
+        classrooms = student.my_classes.all()
         assignment_list = []
-        for i in classroom_list:
-            a = Assignment.objects.filter(assignment_of_class=i)
+        for i in classrooms:
+            a = Assignment.objects.filter(classroom=i)
             if a.count() > 0:
                 assignment_list.append(a[0])
         return render(request, 'student_window.html',
-                      context={'classroom_list': classroom_list,
+                      context={
+                               'classrooms': classrooms,
                                'assignment_list': assignment_list,
                                'student':student,
                                }
@@ -62,8 +63,8 @@ def StudentRegistration(request, *args , **kwargs):
         return redirect('student:homepage')
 
 
-@login_required
 def join_class_view(request):
+    print(request.method)
     if request.method == 'POST':
         form = JoinClassForm(request.POST)
         if form.is_valid():
@@ -76,7 +77,7 @@ def join_class_view(request):
             except ObjectDoesNotExist:
                 messages.error(request, 'Please enter a valid class code')
                 return render(request, 'join_class.html', {'form':form})
-            return redirect('student:hompage')
+            return redirect('student:homepage')
     else:
         form = JoinClassForm()
     return render(request, 'join_class.html', {'form':form})

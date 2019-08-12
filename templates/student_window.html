@@ -13,7 +13,7 @@
                     <h3>Join Class </h3>
                     <h5>Click here to join class</h5>
                     <br>
-                    <a class="nav-link text-white add-button" href="{% url 'student:join_class' %}"><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
+                    <a href="{%url 'student:join_class' %}" class="nav-link text-white add-button" href=""><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
 			<div class="widget dashboard-container my-adslist">
 			  <h3 class="widget-header">My Classes</h3>
 			  
-					{%if count is 1%}
+					{%if classrooms is not None %}
 									
 					<table class="table table-responsive product-dashboard-table">
 							<thead>
