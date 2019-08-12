@@ -28,17 +28,19 @@
       <!--for demo wrap-->
 
       <h1>LIST OF SUBMITTED STUDENTS</h1>
+      {% for solution in solutions %}
       <div class="tbl-header">
         <table cellpadding="0" cellspacing="0" border="0">
           <thead>
             <tr>
-              <th>NAME</th>
-              <th>ROLL NO.</th>
-              <th>SUBMISSIONS</th>
+              <p></p><th>NAME : {{solution.student}}</th></p>
+              <th>ROLL NO.{{solution.student.rollno}}</th>
+              <th>SUBMISSIONS{{solution}}</th>
             </tr>
           </thead>
         </table>
       </div>
+      {% endfor %}
       <div class="tbl-content">
         <table cellpadding="0" cellspacing="0" border="0">
           <tbody>
