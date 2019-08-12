@@ -48,19 +48,19 @@
 			  <div class="widget user-dashboard-profile">
 				<!-- User Image -->
 				<div class="profile-thumb">
-				  <img src="{% static 'images/pencil.png'%}" alt="" class="rounded-circle">
+				  <img src="{% static 'images/student.png'%}" alt="" class="rounded-circle">
 				</div>
 				<!-- User Name -->
 				<h5 class="text-center">{{student.name}}</h5>
-				<p>{{student.email}}</p>
+				<p>Rollno : {{student.rollno}}</p>
 				
-				<a href="{% url 'teacher:teachers_edit' %}" class="btn btn-main-sm">Edit Profile</a>
+				<a href="{% url 'student:join_class' %}" class="btn btn-main-sm">Join Classroom</a>
 			  </div>
 			  <!-- Dashboard Links -->
 			   <div class="widget user-dashboard-menu">
 						  <ul>  
-								<li class="active"><a href="{% url 'teacher:homepage' %}"><i class="fa fa-bookmark-o"></i> My Classes</a></li>
-						  <li  ><a href="{% url 'teacher:teachers_edit' %}"><i class="fa fa-user"></i>Edit Profile</a></li>
+								<li class="active"><a href=""><i class="fa fa-bookmark-o"></i> My Classes</a></li>
+						  <li  ><a href=""><i class="fa fa-user"></i>Edit Profile</a></li>
 								
 								<li><a href=""data-toggle="modal" data-target="#logoutaccount"><i class="fa fa-cog"></i> Logout</a></li>
 								<li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
@@ -136,7 +136,7 @@
 							</thead>
 							<tbody>
 						<tr>
-					{% for class in classrooms %}
+					{% for class in classroom_list %}
 
 					  <td class="product-details">
 						<h3 class="title" style = "text-transform: uppercase;">{{class.title}}</h3>
@@ -150,12 +150,12 @@
 						<div class="">
 						  <ul class="list-inline justify-content-center">
 							<li class="list-inline-item">
-							  <a data-toggle="tooltip" data-placement="top" title="view" class="view" href="{%url 'teacher:classroom_detail' class.id %}">
+							  <a data-toggle="tooltip" data-placement="top" title="view" class="view" href="">
 								<i class="fa fa-eye"></i>
 							  </a>
 							</li>
 							<li class="list-inline-item">
-							  <a class="edit" data-toggle="tooltip" data-placement="top" title="Edit" href="{% url 'teacher:classroom_edit' class.id %}">
+							  <a class="edit" data-toggle="tooltip" data-placement="top" title="Edit" href="">
 								<i class="fa fa-pencil"></i>
 							  </a>
 							</li>
@@ -185,12 +185,12 @@
 							</div>
 							<div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
 							  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-							  <a href="{% url 'teacher:classroom_delete' class.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+							  <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
 							</div>
 		
 				{% endfor %}
 			{%else%}
-					  <h3>No classes to show. Click on JOIN CLASSROOM to create new classes.</h3>
+					  <h3>No classes to show. Click on JOIN CLASSROOM to add new classes.</h3>
 			{%endif%}
 								   
 				</tbody>
