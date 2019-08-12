@@ -1,16 +1,18 @@
-from django.contrib.auth.models import Group
-from django.contrib.auth import authenticate, login, logout
-
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
+
+from django.shortcuts import render
+from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import HttpResponse
 from django.views.generic import TemplateView
 
-from customuser import urls
-from student import urls
 from teacher.models import Teacher
 from teacher.forms import TeacherRegistrationForm
 from .models import User
-from .forms import LoginForm, UserRegisterForm
+from .forms import LoginForm 
+from .forms import UserRegisterForm
 
 
 def homepageview(request):
@@ -44,7 +46,6 @@ def homepageview(request):
                         request, "This email address is already registered")
             else:
                 messages.error(request, "Form is invalid")
-
         else:
             form = TeacherRegistrationForm()
         return render(request, 'home.html', {'form': form})

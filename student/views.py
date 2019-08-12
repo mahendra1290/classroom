@@ -35,6 +35,7 @@ def StudentRegistration(request, *args , **kwargs):
     if not Student.is_student_registered(user=request.user):    
         if(request.method=='POST'):
             form = StudentRegistrationForm(request.POST)
+<<<<<<< HEAD
             
             try:
                 form_rollno=Student.objects.get(rollno = request.POST['rollno'])
@@ -54,6 +55,17 @@ def StudentRegistration(request, *args , **kwargs):
                         messages.error(request, "Incorrect Details")
             else :
                 messages.error(request, "Roll number is already registered")
+=======
+            if form.is_valid():
+                name = form.cleaned_data['name']
+                year = form.cleaned_data['year']
+                branch = form.cleaned_data['branch']
+                rollno = form.cleaned_data['rollno']
+                user = request.user
+                student_obj = Student(name=name,year=year,branch=branch,rollno=rollno,user=user)
+                student_obj.save()
+                return redirect('student:homepage')
+>>>>>>> a793e00537385208088d8c7582c4cee97120d093
         else:
             form=StudentRegistrationForm()
         return render(request,'register_student.html',{'form':form})

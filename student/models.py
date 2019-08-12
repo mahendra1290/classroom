@@ -60,11 +60,9 @@ class Solution(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
 
-
     def __str__(self):
         return ("submission of " + str(self.student))
     
-
 class SolutionFile(models.Model):
     file = models.FileField(upload_to='submissions/')
     submission = models.ForeignKey(Solution, on_delete=models.CASCADE)

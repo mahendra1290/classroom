@@ -1,13 +1,16 @@
 from django.views.generic.edit import FormView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView, ListView
-from .forms import AssignmentCreateForm
-from .models import AssignmentsFile, Assignment
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from teacher.models import TeachersClassRoom
 from django.http import HttpResponseRedirect
+
+from teacher.models import TeachersClassRoom
+from student.models import Solution
+from .forms import AssignmentCreateForm
+from .models import AssignmentsFile
+from .models import Assignment
 
 class AssignmentDeleteView(DeleteView):
     model = Assignment
@@ -43,11 +46,13 @@ def add_assignment_view(request, pk_of_class):
     return render(request, 'assignment.html', {'form': form,'classroom':classroom})
 
 def assignment_view(request, pk, *args, **kwargs):
-    a = Assignment.objects.get(id=pk)
-    files = list(AssignmentsFile.objects.filter(assignment = a))
+    assignment = Assignment.objects.get(id=pk)
+    solutions = Solution.objects.filter(assignment=assignment)
+    files = list(AssignmentsFile.objects.filter(assignment = assignment))
     context = {
-        'assignment' : a,
-        'assignment_files' : files
+        'assignment' : assignment,
+        'assignment_files' : files,
+        'solutions' : solutions
     }
     return render(request, "index.html", context)
 
