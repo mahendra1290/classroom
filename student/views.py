@@ -20,6 +20,7 @@ def HomePageViewStudent(request , *args , **kwargs):
         classrooms = student.my_classes.all()
         assignment_list = []
         for i in classrooms:
+            
             a = Assignment.objects.filter(classroom=i)
             if a.count() > 0:
                 assignment_list.append(a[0])
