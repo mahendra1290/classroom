@@ -60,6 +60,9 @@
 							<li  >
 						
 									<a href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>
+									<li  >
+						
+										<a href="{% url 'teacher:get_student_list' classroom.id  %}"><i class="fa fa-user"></i>Student List </a></li>
                     <li  >
 
 						<a href="{% url 'teacher:classroom_edit' classroom.pk %}"><i class="fa fa-pencil"></i>Edit Class </a></li>

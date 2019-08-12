@@ -80,15 +80,24 @@ def home_page_view(request):
 
 def classroom_detail_view(request, pk):
     classroom = TeachersClassRoom.objects.get(id=pk)
-    students = classroom.student_set.all()
     assignment_query = Assignment.objects.filter(classroom=classroom)
     context = {
         'classroom': classroom,
         'assignment_list': assignment_query,
+    }
+    return render(request, 'classroom_detail.html',  context)
+
+def get_student_list(request, pk):
+    classroom = TeachersClassRoom.objects.get(id=pk)
+    students = classroom.student_set.all()
+    print(classroom)
+    print(students)
+    context = {
+        'classroom': classroom,
         'students' : students
     }
+    return render(request, 'get_student_list.html',  context)
 
-    return render(request, 'classroom_detail.html',  context)
 
 def teacher_edit_view(request):
     teacher_obj = Teacher.objects.get(user= request.user)
