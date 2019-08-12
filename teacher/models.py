@@ -33,8 +33,8 @@ class Teacher(models.Model):
             ("can_create_classroom", 'can create a classroom'),
             ("can_create_assignment", '')
         )
-
-
+    
+    
 class TeachersClassRoom(models.Model):
     class_id = models.SlugField(max_length=10, unique=True)
     title = models.CharField(max_length=20)
