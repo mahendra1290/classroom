@@ -79,10 +79,7 @@ def home_page_view(request):
         pass
 
 def classroom_detail_view(request, pk):
-    print("HELLO WORLD")
-    print(pk)
     classroom = TeachersClassRoom.objects.get(id=pk)
-    print(classroom)
     student_list = classroom.student_set.all()
     assignment_query = Assignment.objects.filter(classroom=classroom)
     context = {

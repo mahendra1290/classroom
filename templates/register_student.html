@@ -3,7 +3,21 @@
 {%load static%}
 
 {% block content %}
-
+<section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3>Register Here </h3>
+                    <h5>FInal step to access the classroom services</h5>
+                    <br>
+                    <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a>
+                </div>
+            </div>
+        </div>
+        <!-- Container End -->
+	</section>
 {% for message in messages %}
 {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
             <div class="alert alert-danger">
@@ -28,26 +42,27 @@
             <div class="site-breadcrumb">
             </div>
         </div>
-<section class="contact-page spad pb-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="contact-form-warp">
-                        <div class="section-title text-white text-left">
-                            <h2>Student Registration</h2>
-                            <p>Hola Students!! Register yourself to take unstopable benifit on maroon classroom</p>
+        <section class="login py-5 border-top-1">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5 col-md-8 align-item-center">
+                            <div class="border border">
+                                <h3 class="bg-gray p-4">Register Here</h3>
+                                <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
+                                    <fieldset class="p-4">
+                                    <span> {{form.branch}}</span>
+                                 
+                                    <span>{{form.year}}</span>
+                                        {{form.name}}
+                                        {{form.rollno}}
+                                       
+                                        <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Register Now</button>
+                                    </fieldset>
+                                </form>
+                            </div>
                         </div>
-                        <form class="contact-form" method="POST">{% csrf_token %}
-                            {{form.name}}
-                            {{form.rollno}}
-                            {{form.year}}
-                            {{form.branch}}
-                            <button class="site-btn" type = "submit">Register</button>
-                        </form>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
 {% endblock content %}

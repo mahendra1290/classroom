@@ -1,45 +1,60 @@
 
-{% extends "base.html" %}
-{% load static %}
-
-{% block content %}
-
-
-<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/2.jpg'%}">
-    <div class="container">
-            <div class="site-breadcrumb">
-                <a href="{% url 'customuser:homepage' %}">Home</a>
-                <span>Join Class</span>
+        {% extends "base.html" %}
+        {% load static %}
+        {% block content %}
+        
+                
+        <section class="page-title">
+            <!-- Container Start -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 offset-md-2 text-center">
+                        <!-- Title text -->
+                        <h3>Join Classroom </h3>
+                        <h5>Click here to view your existing classes</h5>
+                        <br>
+                        <br>
+                        <a class="nav-link text-white add-button" href="{% url 'student:homepage' %}"><i ></i>My Classes</a>
+                    </div>
                 </div>
             </div>
-        </div>
+            <!-- Container End -->
+        </section>
         {% for message in messages %}
-
-                    <div class="alert alert-danger">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
-
-                        {{ message }}
-
-                    </div>
-            {% endfor %}
-<section class="contact-page spad pb-0">
-        <div class="container" style = "padding-bottom:40px; ">
-            <center>
-                <div class="col-lg-8">
-                    <div class="contact-form-warp">
-                        <div class="section-title text-white text-left">
-                            <h2>Join Class</h2>
-                            <p>Join Class to see its Assignment</p>
+    {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+    
+                    {{ message }} 
+    
+                </div>
+                {%else%}
+                <div class="alert alert-success">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+    
+                    {{ message }} 
+    
+                </div>
+            {%endif%}
+        
+        {% endfor %}
+        <section class="login py-5 border-top-1">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-8 align-item-center">
+                        <div class="border border">
+                            <h3 class="bg-gray p-4">Join Classroom</h3>
+                            <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
+                                <fieldset class="p-4">
+                                {{form.class_id}}
+                               
+                                    <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Join Now</button>
+                                </fieldset>
+                            </form>
                         </div>
-                        <form class="contact-form" method="POST">{% csrf_token %}
-                            {{form.class_id}}
-     
-                            <button class="site-btn" type = "submit">Join</button>
-                        </form>
                     </div>
                 </div>
-                </center>
-        </div>
-    </section>
-
-{% endblock content %}
+            </div>
+        </section>
+        
+        {% endblock content %}
