@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -18,6 +19,27 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save(using=self._db)
+        return user
+
+    def create_user_for_teacher(self, email, password):
+        user = self.create_user(email, password)
+        try:
+            group = Group.objects.get(name='teacher')
+            user.groups.add(group)
+        except ObjectDoesNotExist:
+            print("group not present")
+        user.is_teacher = True
+        user.save()
+        return user
+    
+    def crate_user_for_student(self, email, password):
+        user = self.create_user(email, password)
+        try:
+            group = Group.objects.get(name='student')
+            user.groups.add(group)
+        except ObjectDoesNotExist:
+            print("group not present")
+        user.save()
         return user
 
     def create_superuser(self,email,password):
