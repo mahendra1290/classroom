@@ -5,14 +5,23 @@
 {% block content %}
 
 {% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
 
-<div class="alert alert-danger">
-    <a class="close" href="#" data-dismiss="alert">×</a>
+                {{ message }} 
 
-    {{ message }}
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
 
-</div>
-{% endfor %}
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
 
 <div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/5.jpg'%}">
     <div class="container">
