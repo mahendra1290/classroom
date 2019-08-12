@@ -2,3 +2,4 @@
 */__pycache__/*.pyc
 .vscode/*.json
 db.sqlite3
+media/
