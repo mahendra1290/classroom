@@ -180,7 +180,7 @@
 							</div>
 							<div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
 							  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-							  <a href=""><button type="button" class="btn btn-danger">Delete</button></a>
+							  <a href="{% url 'student:classroom_exit_view' class.id %}"><button type="button" class="btn btn-danger">Exit</button></a>
 							</div>
 		
 				{% endfor %}

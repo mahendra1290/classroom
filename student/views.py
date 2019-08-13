@@ -129,4 +129,12 @@ def classroom_detail_view(request, pk):
     return render(request, 'classroom_detail.html',  context)
 
 
-
+def classroom_exit_view(request,pk):
+    classroom = TeachersClassRoom.objects.get(pk=pk)
+    if classroom is not None:
+        student.my_classes.remove(classroom)
+        student.save()
+        messages.success(request, "Successfully exit the classroom")
+    else: 
+        messages.error(request, 'Classroom doesnot exist')
+    return redrect('student:homepage')
