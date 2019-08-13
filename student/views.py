@@ -9,6 +9,7 @@ from assignment.models import Assignment
 from .models import Student
 from .forms import StudentRegistrationForm
 from .forms import JoinClassForm
+from .forms import SolutionCreateForm
 
 
 @login_required
@@ -126,3 +127,6 @@ def classroom_detail_view(request, pk):
         'assignment_list': assignment_query,
     }
     return render(request, 'classroom_detail.html',  context)
+
+
+

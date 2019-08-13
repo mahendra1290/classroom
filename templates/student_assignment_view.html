@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+
+<section class="page-title">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 offset-md-2 text-center">
+				<!-- Title text -->
+				<h3 style="color:  #ffc107;">{{assignment.title}} / {{assignment.classroom.title}} </h3>
+
+				<br>
+				<a class="nav-link text-white add-button" href="{% url 'student:classroom_detail' assignment.classroom.id %}"><i class="fa fa-folder"></i>Go to class</a>
+                <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a></span>
+            </div>
+		</div>
+	</div>
+</section>
+{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
+
+<section class="user-profile section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+				<div class="sidebar">
+					<!-- User Widget -->
+					<div class="widget user-dashboard-profile">
+							<!-- User Image -->
+							<div class="profile-thumb">
+							  <img src="{%static 'images/assignment.jpg'%}" alt="" class="rounded-circle">
+							</div>
+							<!-- User Name -->
+							<h5 class="text-center"  style = "text-transform: uppercase;"> {{assignment.title}}</h5>
+							<p>Due Date : {{assignment.due_date}}</p>
+							<p >Class: {{assignment.classroom.title}}</p>
+							<br>
+							<a href="{% url 'student:classroom_detail' assignment.classroom.id %}" class="btn btn-main-sm">Go to Classroom</a>
+						  </div>
+					<!-- Dashboard Links -->
+                    <div class="widget user-dashboard-menu">
+                      <ul>  
+				
+									<li class="active" >
+						
+                    <a href=""><i class="fa fa-folder"></i>View Assignment </a></li>
+                    <li  >
+						
+                        <a href="{% url 'student:assignment:solution_create_view' assignment.classroom.id assignment.id %}" target="blank"><i class="fa fa-check"></i>Submit Solutions</a></li>
+
+                    </ul>
+          </div>
+				</div>
+                <!-- delete account popup modal end-->
+			</div>
+            <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+                    <!-- Recently Favorited -->
+                    <div class="widget dashboard-container my-adslist">
+                      <h3 class="widget-header">Click on link to download the Assignment Files</h3>
+                      {% for files in assignment_files %}
+                    
+                      <span><a class="nav-link text-white add-button" href="{{files.file.url}}" target="blank"><i class="fa fa-download"></i>Download</a></span><br>
+                      {% endfor %}
+                    </div>
+                </div>       
+               
+        </div>
+    </div>
+	</div>
+</div>
+</section>
+
+{% endblock content %}
