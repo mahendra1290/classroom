@@ -56,14 +56,14 @@
 						  </div>
 					<!-- Dashboard Links -->
                     <div class="widget user-dashboard-menu">
-                      <ul>  
+                            <ul>  
 				
-									<li  >
+									<li >
 						
-                    <a href=""><i class="fa fa-folder"></i>View Assignment </a></li>
-                    <li class="active" >
+                    <a href="{% url 'student:assignment:detail' assignment.classroom.id assignment.id %}"><i class="fa fa-folder"></i>View Assignment </a></li>
+                    <li  class="active" >
 						
-                        <a href="" target="blank"><i class="fa fa-check"></i>Submit Solutions</a></li>
+                        <a href="{% url 'student:assignment:solution_create_view' assignment.classroom.id assignment.id %}" ><i class="fa fa-check"></i>Submit Solutions</a></li>
 
                     </ul>
           </div>
@@ -75,6 +75,7 @@
             
             <section class="ad-post bg-gray py-5">
                     <div class="container">
+                        {%if count is 0%}
                         <form method="POST"  enctype="multipart/form-data" name = "formname">{% csrf_token %}
                             <!-- Post Your ad start -->
                             <fieldset class="border border-gary p-5 mb-5">
@@ -97,7 +98,16 @@
                             <button type="submit" class="btn btn-primary d-block mt-2 " name = "submitname">Submit</button>
                         </fieldset>
                         </form>
+                        
                     </div>
+                    {%else%}
+                    <center><h2 style="color:#597bf9;">Successfully Submitted</h2></center>
+                        <br>
+                        {% for files in solution_files %}
+                    
+                        <span><a class="nav-link text-white add-button" href="{{files.file.url}}" target="_blank" ><i class="fa fa-download"></i>{{files.filename}} </a></span><br><br>
+                        {% endfor %}
+                        {%endif%}
                 </section> 
 
 					

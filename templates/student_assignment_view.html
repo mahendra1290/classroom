@@ -60,10 +60,10 @@
 				
 									<li class="active" >
 						
-                    <a href=""><i class="fa fa-folder"></i>View Assignment </a></li>
+                    <a href="{% url 'student:assignment:detail' assignment.classroom.id assignment.id %}"><i class="fa fa-folder"></i>View Assignment </a></li>
                     <li  >
 						
-                        <a href="{% url 'student:assignment:solution_create_view' assignment.classroom.id assignment.id %}" target="blank"><i class="fa fa-check"></i>Submit Solutions</a></li>
+                        <a href="{% url 'student:assignment:solution_create_view' assignment.classroom.id assignment.id %}" ><i class="fa fa-check"></i>Submit Solutions</a></li>
 
                     </ul>
           </div>
@@ -76,7 +76,7 @@
                       <h3 class="widget-header">Click on link to download the Assignment Files</h3>
                       {% for files in assignment_files %}
                     
-                      <span><a class="nav-link text-white add-button" href="{{files.file.url}}" target="blank"><i class="fa fa-download"></i>Download</a></span><br>
+                      <span><a class="nav-link text-white add-button" href="{{files.file.url}}" target="_blank" ><i class="fa fa-download"></i>{{files.filename}} </a></span><br><br>
                       {% endfor %}
                     </div>
                 </div>       

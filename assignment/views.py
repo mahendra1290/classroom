@@ -96,24 +96,34 @@ def assignment_file_view(request, pk, *args, **kwargs):
 
 
 def solution_create_view(request, pk, *args, **kwargs):
+
     assignment =Assignment.objects.get(id = pk)
-    form  = SolutionCreateForm()
-    if request.method=='POST':
-        form  = SolutionCreateForm(request.POST,request.FILES)
-        files = request.FILES.getlist('solution_file')
-        print(form)
-        if form.is_valid():
-            comment = form.cleaned_data['comment']
-            student = Student.objects.get(user = request.user)
-            solution_obj = Solution(comment=comment,student = student, assignment=assignment)
-            solution_obj.save()
-            for f in files:
-                solution_file = SolutionFile(file=f, submission=solution_obj)
-                solution_file.save()
-            messages.success(request, "Solution to assignment is successfully submitted")
-            return redirect('customuser:homepage')
-        else:
-            messages.error(request, "Please enter valid info")
-    return render(request,'student_solution_view.html',{'form':form, 'assignment':assignment})
+    student = Student.objects.get(user = request.user)
+    sol  =Solution.objects.get(assignment=assignment, student=student)
+    print(sol)
+    solfiles = SolutionFile.objects.filter(submission=sol)
+    print(solfiles)
+    if solfiles is None:
+        count=0
+        form  = SolutionCreateForm()
+        if request.method=='POST':
+            form  = SolutionCreateForm(request.POST,request.FILES)
+            files = request.FILES.getlist('solution_file')
+            print(form)
+            if form.is_valid():
+                comment = form.cleaned_data['comment']
+                solution_obj = Solution(comment=comment,student = student, assignment=assignment)
+                solution_obj.save()
+                for f in files:
+                    solution_file = SolutionFile(file=f, submission=solution_obj)
+                    solution_file.save()
+                messages.success(request, "Solution to assignment is successfully submitted")
+                return redirect('customuser:homepage')
+            else:
+                messages.error(request, "Please enter valid info")
+        return render(request,'student_solution_view.html',{'form':form, 'assignment':assignment,'count':count})
+    else:
+        count =1
+        return render(request,'student_solution_view.html',{'solution_files':solfiles,'count':count,'assignment':assignment})
 
 
