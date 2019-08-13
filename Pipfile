@@ -11,6 +11,7 @@ pylint = "*"
 docutils = "*"
 doc8 = "*"
 pygments = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
