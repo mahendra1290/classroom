@@ -84,3 +84,45 @@ def join_class_view(request):
     else:
         form = JoinClassForm()
     return render(request, 'join_class.html', {'form': form})
+
+def student_edit_view(request):
+    student = Student.objects.get(user = request.user)
+    print(student)
+    if Student.is_student_registered(user=request.user):
+        if(request.method == 'POST'):
+            form = StudentRegistrationForm(request.POST)
+            try:
+                form_rollno = Student.objects.get(
+                    rollno=request.POST['rollno'])
+                if form_rollno == Student.objects.get(rollno = student.rollno):
+                    form_rollno=None
+            except:
+                form_rollno = None
+            if form_rollno is None:
+                    if form.is_valid():
+                        student.name = form.cleaned_data['name']
+                        student.year = form.cleaned_data['year']
+                        student.branch = form.cleaned_data['branch']
+                        student.rollno = form.cleaned_data['rollno']
+                        user = request.user
+                        student.save()
+                        messages.success(request, "Profile updated successfully")
+                        return redirect('student:homepage')
+                    else:
+                        messages.error(request, "Incorrect Details")
+            else:
+                messages.error(request, "Roll number is already registered")
+        else:
+            form = StudentRegistrationForm(initial={'name':student.name, 'year':student.year, 'branch':student.branch,'rollno':student.rollno})
+        return render(request, 'student_edit_view.html', {'form': form})
+    else:
+        return redirect('student:homepage')
+
+def classroom_detail_view(request, pk):
+    classroom = TeachersClassRoom.objects.get(id=pk)
+    assignment_query = Assignment.objects.filter(classroom=classroom)
+    context = {
+        'classroom': classroom,
+        'assignment_list': assignment_query,
+    }
+    return render(request, 'classroom_detail.html',  context)

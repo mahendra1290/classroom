@@ -86,12 +86,3 @@ def assignment_file_view(request, pk, *args, **kwargs):
     return render(request, "assignment_file_view.html", context)
 
 
-def download(request, path):
-    file_path = os.path.join(settings.MEDIA_ROOT, path)
-    print()
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
-    raise Http404
