@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-
+import os
 from assignment.models import Assignment
 from teacher.models import TeachersClassRoom
 
@@ -73,3 +73,6 @@ class SolutionFile(models.Model):
 
     def __str__(self):
         return str(self.file)
+
+    def filename(self):
+        return os.path.basename(self.file.name)

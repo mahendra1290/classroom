@@ -2,6 +2,7 @@ from django.db import models
 from teacher.models import TeachersClassRoom
 from datetime import datetime
 from django.urls import reverse
+import os
 
 class Assignment(models.Model):
     title = models.CharField(max_length=100)
@@ -22,3 +23,6 @@ class AssignmentsFile(models.Model):
 
     def __str__(self):
         return str(self.file)
+    
+    def filename(self):
+        return os.path.basename(self.file.name)
