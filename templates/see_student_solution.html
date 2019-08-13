@@ -1,0 +1,8 @@
+<html>
+    <body>
+        <h1>Solution of {{student}} / {{student.rollno}}:</h1>
+        {% for files in solution_files %}
+        <a href="{{files.file.url}}" target="blank">{{files.filename}}</a><br>
+        {% endfor %}
+    </body>
+</html>

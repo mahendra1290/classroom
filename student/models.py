@@ -60,6 +60,7 @@ class Student(models.Model):
 
 class Solution(models.Model):
     comment = models.CharField(max_length=100)
+    student_slug = models.SlugField(max_length=10, unique=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
     submission_date = models.DateTimeField(auto_now_add = True)
