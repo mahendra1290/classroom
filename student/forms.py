@@ -1,5 +1,7 @@
 from django import forms
 from .models import Student
+from .models import Solution
+
 YEAR_CHOICES = (
     ('', 'Select Year'),
     ('firstyear','First Year'),
@@ -35,3 +37,12 @@ class JoinClassForm(forms.Form):
 
 
 
+class SolutionCreateForm(forms.Form):
+    class Meta:
+        model = Solution
+        fields = ['comment', 'solution_file', ]
+
+    comment = forms.CharField(widget=forms.Textarea(
+        attrs={'placeholder': 'Give any comments','class':'border p-3 w-100'}))
+    solution_file = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={'multiple': True,'class': ''}))

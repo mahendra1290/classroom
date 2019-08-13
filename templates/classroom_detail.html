@@ -125,7 +125,11 @@
 											</div>
 								
 											<div class="card-body">
+												{%if request.user.teacher%}
 												<a href="{%url 'teacher:assignment:detail' classroom.pk assignment.pk %}">
+												{%else%}
+												<a href="{%url 'student:assignment:detail' classroom.pk assignment.pk %}">
+												{%endif%}
 													<h4 class="card-title">{{assignment.title}}</h4>
 												</a>
 												<ul class="list-inline product-meta">
