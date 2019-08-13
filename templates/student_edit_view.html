@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{%load static%}
+
+{% block content %}
+<section class="page-title">
+    <!-- Container Start -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 offset-md-2 text-center">
+                <!-- Title text -->
+                <h3>Join Class </h3>
+                <h5>Click here to join class</h5>
+                <br>
+                <a href="{%url 'student:join_class' %}" class="nav-link text-white add-button" href=""><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
+                <a href="{%url 'customuser:homepage' %}" class="nav-link text-white add-button" href=""><i class="fa fa-home"></i>HOME</a>
+            </div>
+        </div>
+    </div>
+    <!-- Container End -->
+</section>
+{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <div class="alert alert-danger">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+
+            {{ message }} 
+
+        </div>
+        {%else%}
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">×</a>
+
+            {{ message }} 
+
+        </div>
+    {%endif%}
+
+{% endfor %}
+
+<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/5.jpg'%}">
+    <div class="container">
+            <div class="site-breadcrumb">
+            </div>
+        </div>
+        <section class="login py-5 border-top-1">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-5 col-md-8 align-item-center">
+                            <div class="border border">
+                                <h3 class="bg-gray p-4">Edit Profile</h3>
+                                <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
+                                    <fieldset class="p-4">
+                                    <span> {{form.branch}}</span>
+                                 
+                                    <span>{{form.year}}</span>
+                                        {{form.name}}
+                                        {{form.rollno}}
+                                       
+                                        <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Register Now</button>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+{% endblock content %}

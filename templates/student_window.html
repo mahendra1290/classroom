@@ -60,7 +60,7 @@
 			   <div class="widget user-dashboard-menu">
 						  <ul>  
 								<li class="active"><a href=""><i class="fa fa-bookmark-o"></i> My Classes</a></li>
-						  <li  ><a href=""><i class="fa fa-user"></i>Edit Profile</a></li>
+						  <li  ><a href="{% url 'student:student_edit_view' %}"><i class="fa fa-user"></i>Edit Profile</a></li>
 								
 								<li><a href=""data-toggle="modal" data-target="#logoutaccount"><i class="fa fa-cog"></i> Logout</a></li>
 								<li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
@@ -150,18 +150,13 @@
 						<div class="">
 						  <ul class="list-inline justify-content-center">
 							<li class="list-inline-item">
-							  <a data-toggle="tooltip" data-placement="top" title="view" class="view" href="">
+							  <a data-toggle="tooltip" data-placement="top" title="view" class="view" href="{%url 'student:classroom_detail' class.pk  %}">
 								<i class="fa fa-eye"></i>
 							  </a>
 							</li>
 							<li class="list-inline-item">
-							  <a class="edit" data-toggle="tooltip" data-placement="top" title="Edit" href="">
-								<i class="fa fa-pencil"></i>
-							  </a>
-							</li>
-							<li class="list-inline-item">
-							  <a class="delete"  data-toggle="modal" data-target="#deleteproduct" href="" data-placement="top" title="Delete" >
-								<i class="fa fa-trash"></i>
+							  <a class="delete"  data-toggle="modal" data-target="#deleteproduct" href="" data-placement="top" title="Exit" >
+								<i class="fa fa-sign-out"></i>
 							  </a>
 							</li>
 						  </ul>

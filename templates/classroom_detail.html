@@ -8,10 +8,13 @@
 		<div class="row">
 			<div class="col-md-9 offset-md-2 text-center">
 				<!-- Title text -->
+				
 				<h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
 
 				<br>
+				{%if request.user.teacher %}
 				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.id  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
+				{%endif%}
 			</div>
 		</div>
 	</div>
@@ -51,23 +54,31 @@
 							<p>Subject :  {{classroom.subject}}</p>
 							<p>Section :  {{classroom.section}}</p>
 							<h2>ID :  {{classroom.class_id}}</h2>
-							<br>
+							<br>{%if request.user.teacher %}
 							<a href="{% url 'teacher:assignment:create' classroom.id  %}" class="btn btn-main-sm">Add Assignment</a>
+							{%endif%}
 						  </div>
 					<!-- Dashboard Links -->
                     <div class="widget user-dashboard-menu">
                       <ul>  
 							<li  >
 						
-									<a href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>
+									<a href="{% url 'customuser:homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>{%if request.user.teacher %}
 									<li  >
 						
 										<a href="{% url 'teacher:get_student_list' classroom.id  %}"><i class="fa fa-user"></i>Student List </a></li>
+									
                     <li  >
 
-						<a href="{% url 'teacher:classroom_edit' classroom.pk %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
+						<a href="{% url 'teacher:classroom_edit' classroom.pk %}"><i class="fa fa-pencil"></i>Edit Class </a></li>	
+
                             <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
-                  Class</a></li>
+				  Class</a></li>
+								{%else%}
+								<li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-sign-out"></i>Leave
+									Class</a></li>
+				  {%endif%}
+				  
                     </ul>
           </div>
 				</div>
@@ -98,7 +109,7 @@
 				<!-- Edit Profile Welcome Text -->
 				<div class="widget welcome-message">
 					<h2>Assignments</h2>
-					<p>Click on add assignment to add new assignment.</p>
+					{%if request.user.teacher %}<p>Click on add assignment to add new assignment.</p>{%endif%}
 				</div>
 			<div class="row">
 				<div class="col-md-9">
