@@ -668,22 +668,11 @@ ul.pagination .active a {
 }
 
 .bg-1 {
-    background: url('/static/imgage/hero.jpg');
+    background: url('/static/images/hero.jpg');
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-.bg-2 {
-    background: url(../images/subscription-back.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.bg-3 {
-    background: url(../images/cta-background.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-}
 
 .bg-4 {
     background: #5672f9;
