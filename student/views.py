@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse
+
+
 from teacher.models import TeachersClassRoom
 from assignment.models import Assignment
 from .models import Student
@@ -12,52 +16,63 @@ from .forms import JoinClassForm
 from .forms import SolutionCreateForm
 
 
-@login_required
-def HomePageViewStudent(request, *args, **kwargs):
-    if request.user.is_student:
-        if not Student.is_student_registered(request.user):
-            return redirect(reverse('student:registration'))
-        student = Student.get_student(user=request.user)
-        classrooms = student.my_classes.all()
-        assignment_list = []
-        for i in classrooms:
-            a = Assignment.objects.filter(classroom=i)
-            if a.count() > 0:
-                assignment_list.append(a[0])
-        return render(request, 'student_window.html',
-                      context={
-                               'classrooms': classrooms,
-                               'assignment_list': assignment_list,
-                               'student': student,
-                      }
-                      )
+def user_is_student_check(user):
+    if user.is_authenticated and user.is_student:
+        return True
     else:
-        raise PermissionDenied
+        return False
 
 
-@login_required
+def user_is_student_registered(user):
+    if user_is_student_check(user):
+        if Student.is_student_registered(user):
+            return True
+    else:
+        return False
+
+
+def IsRollnoRegistered(user, rollno):
+    student = Student.objects.filter(rollno=rollno)
+    if student.count() is 0:
+        return True
+    else:
+        login_student = Student.objects.get(user=user)
+        if login_student.rollno == student.first().rollno:
+            return True
+        else:
+            return False
+
+
+@user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
+def HomePageViewStudent(request, *args, **kwargs):
+    if not Student.is_student_registered(request.user):
+        return redirect(reverse('student:registration'))
+    student = Student.get_student(user=request.user)
+    classrooms = student.my_classes.all()
+    return render(request, 'student_window.html',
+                {'classrooms': classrooms, 'student': student})
+
+
+@user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
 def StudentRegistration(request, *args, **kwargs):
     if not Student.is_student_registered(user=request.user):
         if(request.method == 'POST'):
             form = StudentRegistrationForm(request.POST)
-            try:
-                form_rollno = Student.objects.get(
-                    rollno=request.POST['rollno'])
-            except:
-                form_rollno = None
-            if form_rollno is None:
-                    if form.is_valid():
-                        name = form.cleaned_data['name']
-                        year = form.cleaned_data['year']
-                        branch = form.cleaned_data['branch']
-                        rollno = form.cleaned_data['rollno']
-                        user = request.user
-                        student_obj = Student(
-                            name=name, year=year, branch=branch, rollno=rollno, user=user)
-                        student_obj.save()
-                        return redirect('student:homepage')
-                    else:
-                        messages.error(request, "Incorrect Details")
+            form_rollno = IsRollnoRegistered(
+                user=request.user, rollno=request.POST['rollno'])
+            if form_rollno:
+                if form.is_valid():
+                    name = form.cleaned_data['name']
+                    year = form.cleaned_data['year']
+                    branch = form.cleaned_data['branch']
+                    rollno = form.cleaned_data['rollno']
+                    user = request.user
+                    student_obj = Student(
+                        name=name, year=year, branch=branch, rollno=rollno, user=user)
+                    student_obj.save()
+                    return redirect('student:homepage')
+                else:
+                    messages.error(request, "Incorrect Details")
             else:
                 messages.error(request, "Roll number is already registered")
         else:
@@ -67,8 +82,8 @@ def StudentRegistration(request, *args, **kwargs):
         return redirect('student:homepage')
 
 
+@user_passes_test(user_is_student_registered, login_url='customuser:permission_denied')
 def join_class_view(request):
-    print(request.method)
     if request.method == 'POST':
         form = JoinClassForm(request.POST)
         if form.is_valid():
@@ -86,41 +101,44 @@ def join_class_view(request):
         form = JoinClassForm()
     return render(request, 'join_class.html', {'form': form})
 
-def student_edit_view(request):
-    student = Student.objects.get(user = request.user)
-    print(student)
-    if Student.is_student_registered(user=request.user):
-        if(request.method == 'POST'):
-            form = StudentRegistrationForm(request.POST)
-            try:
-                form_rollno = Student.objects.get(
-                    rollno=request.POST['rollno'])
-                if form_rollno == Student.objects.get(rollno = student.rollno):
-                    form_rollno=None
-            except:
-                form_rollno = None
-            if form_rollno is None:
-                    if form.is_valid():
-                        student.name = form.cleaned_data['name']
-                        student.year = form.cleaned_data['year']
-                        student.branch = form.cleaned_data['branch']
-                        student.rollno = form.cleaned_data['rollno']
-                        user = request.user
-                        student.save()
-                        messages.success(request, "Profile updated successfully")
-                        return redirect('student:homepage')
-                    else:
-                        messages.error(request, "Incorrect Details")
-            else:
-                messages.error(request, "Roll number is already registered")
-        else:
-            form = StudentRegistrationForm(initial={'name':student.name, 'year':student.year, 'branch':student.branch,'rollno':student.rollno})
-        return render(request, 'student_edit_view.html', {'form': form})
-    else:
-        return redirect('student:homepage')
 
+@user_passes_test(user_is_student_registered, login_url='customuser:permission_denied')
+def student_edit_view(request):
+    student = Student.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = StudentRegistrationForm(request.POST)
+        form_rollno = IsRollnoRegistered(
+            user=request.user, rollno=request.POST['rollno'])
+        if form_rollno:
+            if form.is_valid():
+                student.name = form.cleaned_data['name']
+                student.year = form.cleaned_data['year']
+                student.branch = form.cleaned_data['branch']
+                student.rollno = form.cleaned_data['rollno']
+                user = request.user
+                student.save()
+                messages.success(request, "Profile updated successfully")
+                return redirect('student:homepage')
+            else:
+                messages.error(request, "Incorrect Details")
+        else:
+            messages.error(request, "Roll number is already registered")
+    else:
+        form = StudentRegistrationForm(initial={
+                                       'name': student.name,
+                                       'year': student.year,
+                                       'branch': student.branch,
+                                       'rollno': student.rollno})
+    return render(request, 'student_edit_view.html', {'form': form})
+
+
+@user_passes_test(user_is_student_registered, login_url='customuser:permission_denied')
 def classroom_detail_view(request, pk):
-    classroom = TeachersClassRoom.objects.get(id=pk)
+    try:
+        classroom = TeachersClassRoom.objects.get(id=pk)
+    except:
+        messages.error(request, "Permission Denied")
+        return redirect('customuser:permission_denied')
     assignment_query = Assignment.objects.filter(classroom=classroom)
     context = {
         'classroom': classroom,
@@ -129,12 +147,15 @@ def classroom_detail_view(request, pk):
     return render(request, 'classroom_detail.html',  context)
 
 
-def classroom_exit_view(request,pk):
-    classroom = TeachersClassRoom.objects.get(pk=pk)
-    if classroom is not None:
-        student.my_classes.remove(classroom)
-        student.save()
-        messages.success(request, "Successfully exit the classroom")
-    else: 
-        messages.error(request, 'Classroom doesnot exist')
-    return redrect('student:homepage')
+@user_passes_test(user_is_student_registered, login_url='customuser:permission_denied')
+def classroom_exit_view(request, pk):
+    student = Student.objects.get(user=request.user)
+    try:
+        classroom = TeachersClassRoom.objects.get(pk=pk)
+    except:
+        messages.error(request, 'You are not registered to classroom')
+        return redirect('customuser:permission_denied')
+    student.my_classes.remove(classroom)
+    student.save()
+    messages.success(request, "Successfully exit the classroom")
+    return redirect('student:homepage')

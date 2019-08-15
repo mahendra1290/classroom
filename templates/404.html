@@ -1,13 +1,35 @@
+
+
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div id="notfound">
-    <div class="notfound">
-        <div class="notfound-404">
-            <h1>Oops!</h1>
-            <h2>404 - The Page can't be found</h2>
-        </div>
-        <a href="{% url 'customuser:homepage' %}">Go to Homepage</a>
-    </div>
-</div>
+{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
+	<div id="notfound">
+		<div class="notfound">
+			<div class="notfound-404">
+				<h1>Oops!</h1>
+				<h2>404 - The Page can't be found</h2>
+			</div>
+			<a href="{% url 'customuser:homepage' %}">Go to Homepage</a>
+		</div>
+	</div>
+
+
 {% endblock content %}

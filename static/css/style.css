@@ -668,11 +668,22 @@ ul.pagination .active a {
 }
 
 .bg-1 {
-    background: url('/static/images/hero.jpg');
+    background: url('/static/imgage/hero.jpg');
     background-size: cover;
     background-repeat: no-repeat;
 }
 
+.bg-2 {
+    background: url(../images/subscription-back.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.bg-3 {
+    background: url(../images/cta-background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 .bg-4 {
     background: #5672f9;
@@ -2874,11 +2885,6 @@ input {
     top: 0;
     opacity: 0;
   }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 650ba6efa3a1e337aff8b292dce285dbb286277b
   #notfound {
     position: relative;
     height: 100vh;
@@ -2978,3 +2984,4 @@ input {
       padding: 7px 15px;
       font-size: 14px;
     }
+  }
