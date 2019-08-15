@@ -8,11 +8,16 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import HttpResponse
 from django.views.generic import TemplateView
 
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+
+
 from teacher.models import Teacher
 from teacher.forms import TeacherRegistrationForm
 from .models import User
-from .forms import LoginForm 
+from .forms import LoginForm
 from .forms import UserRegisterForm
+from .forms import ContactForm
 
 
 
@@ -52,6 +57,7 @@ def homepageview(request):
 def permission_denied_view(request):
     return render(request, '404.html')
 
+  
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -78,13 +84,16 @@ def signup_view(request):
         if form.is_valid():
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
-            user = User.objects.create_user_for_student(email=email, password=password)
-            messages.success(request, "Successfully registered. Click on login and fill details.")
+            user = User.objects.create_user_for_student(
+                email=email, password=password)
+            messages.success(
+                request, "Successfully registered. Click on login and fill details.")
             return redirect('customuser:login')
         else:
             user = User.objects.filter(email=request.POST['email'])
             if user.count() > 0:
-                messages.error(request, "This email address is already registered")
+                messages.error(
+                    request, "This email address is already registered")
             else:
                 messages.error(request, "Incorrect details.")
     else:
@@ -103,5 +112,30 @@ def delete_user(request):
     return redirect('customuser:homepage')
 
 
-def contactus(request):
-    return render(request, "contactus.html")
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        print(form)
+        if form.is_valid():
+            current_site = get_current_site(request)
+            sender_name = form.cleaned_data['name']
+            sender_email = form.cleaned_data['email']
+            message = "{0}/{1} has sent you a new message:\n\n{2}".format(
+                        sender_name,sender_email, form.cleaned_data['message'])
+            mail_subject = 'Contact Us Reply'
+            email = EmailMessage(
+                        mail_subject, message, to=['piyushbhutaniynr@gmail.com']
+            )
+            email.send()
+            mail_subject = "Thanks for Contacting"
+            message = "Thanks for contacting us.Please take a moment to share feedback on your conversation experience with us."
+            email = EmailMessage(
+                        mail_subject, message, to=[sender_email]
+            )
+            email.send()
+            messages.success(request, "Thankyou for your response.")
+            return redirect('customuser:homepage')
+    else:
+        form = ContactForm()
+
+    return render(request, 'contactus.html', {'form': form})

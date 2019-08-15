@@ -4,7 +4,7 @@ from django.conf.urls import url
 from django.contrib.auth import authenticate, login,logout
 
 from .views import homepageview
-from .views import contactus
+from .views import contact_us
 from .views import login_view
 from .views import signup_view
 from .views import logout_view
@@ -19,5 +19,7 @@ urlpatterns = [
     path('login/', login_view, name = 'login'),
     path('logout/', logout_view, name = 'logout'),
     path('signup/', signup_view, name = 'signup'),
-    path('contact/', contactus, name = 'contact'),
+    path('contact/', contact_us, name = 'contact'),
+    path('delete/', delete_user, name = 'delete'),
+
 ]
