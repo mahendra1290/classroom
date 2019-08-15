@@ -31,10 +31,6 @@ class UserAdminCreationForm(forms.ModelForm):
 
 
 class UserAdminChangeForm(forms.ModelForm):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    password hash display field.
-    """
     password = ReadOnlyPasswordHashField()
 
     class Meta:
@@ -42,24 +38,22 @@ class UserAdminChangeForm(forms.ModelForm):
         fields = ('email', 'password', 'is_active', 'is_admin', 'is_teacher')
 
     def clean_password(self):
-        # Regardless of what the user provides, return the initial value.
-        # This is done here, rather than on the field, because the
-        # field does not have access to the initial value
         return self.initial["password"]
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(max_length=50, required=True, 
-        widget=forms.EmailInput(
-            attrs={'placeholder': 'Username', 'class': 'border p-3 w-100 my-2'}
-            )
-        )
+    email = forms.EmailField(max_length=50, required=True,
+                             widget=forms.EmailInput(
+                                 attrs={'placeholder': 'Username',
+                                        'class': 'border p-3 w-100 my-2'}
+                             )
+                             )
     password = forms.CharField(
-        max_length=50, required=True, 
+        max_length=50, required=True,
         widget=forms.PasswordInput(
             attrs={'placeholder': 'Password', 'class': 'border p-3 w-100 my-2'}
-            )
         )
+    )
 
 
 class UserRegisterForm(forms.ModelForm):
@@ -72,8 +66,20 @@ class UserRegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'placeholder': 'Password', 'class': 'border p-3 w-100 my-2'}))
 
-        
+
 class UserPasswordEditForm(forms.Form):
-    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Current Password','class': 'form-control'}))
-    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'New Password','class': 'form-control'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password','class': 'form-control'}))
+    old_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'Current Password', 'class': 'form-control'}))
+    new_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'New Password', 'class': 'form-control'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}))
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={'placeholder': 'Name', 'class': 'form-control', 'required': 'required'}))
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Email', 'class': 'form-control', 'required': 'required'}))
+    message = forms.CharField(widget=forms.Textarea(
+        attrs={'placeholder': 'Message', 'class': 'border w-100 p-3 mt-3 mt-lg-4', 'required': 'required'}))

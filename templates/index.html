@@ -11,7 +11,7 @@
 				<h3 style="color:  #ffc107;">{{assignment.title}} / {{assignment.classroom.title}} </h3>
 
 				<br>
-				<a class="nav-link text-white add-button" href="{% url 'teacher:classroom_detail' assignment.classroom.id %}"><i class="fa fa-folder"></i>Go to class</a>
+				<a class="nav-link text-white add-button" href="{% url 'teacher:classroom_detail' assignment.classroom.id %}"><i class="fa fa-folder"></i>Go to Classroom</a>
                 <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a></span>
             </div>
 		</div>
@@ -111,7 +111,7 @@
             
                                   <td class="product-details">
                                     <a><h3 class="title" style = "text-transform: uppercase;">{{solution.student}}</h3></a>
-                                    
+                                    <span><strong>Submitted on: </strong><time>{{solution.submission_date}}</time> </span>
                                   </td>
                                   <td class="product-details"><span class="categories">{{solution.student.rollno}}</span></td>
                                   <td class="product-details"><span class="categories">{{solution.comment}}   </span></td>

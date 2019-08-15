@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
     'customuser',
     'teacher',
     'assignment',
@@ -54,6 +55,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'classroom.urls'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'response.maroon@gmail.com'
+EMAIL_HOST_PASSWORD = 'loveyou@myself'
+EMAIL_PORT = 587
 
 TEMPLATES = [
     {

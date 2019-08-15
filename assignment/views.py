@@ -143,10 +143,8 @@ def solution_create_view(request, pk, *args, **kwargs):
 
 
 def see_student_solution(request, pk,student_slug, *args, **kwargs):
-    print('HELLO WORLD')
     sol  =Solution.objects.get(student_slug=student_slug)
     assignment = Assignment.objects.get(pk =pk)
     solfiles = SolutionFile.objects.filter(submission=sol)
     student = sol.student
-    print(solfiles)
     return render(request,'see_student_solution.html',{'solution_files':solfiles,'assignment':assignment, 'student':student})
