@@ -31,13 +31,6 @@ from customuser.forms import UserPasswordEditForm
 from student.models import Student
 from assignment.models import Assignment
 
-def is_class_id_used(class_id):
-    try:
-        classroom = TeachersClassRoom.objects.get(class_id=class_id)
-        return True
-    except ObjectDoesNotExist:
-        return False
-
 
 def user_is_teacher_check(user):
     if user.is_authenticated:
@@ -45,7 +38,6 @@ def user_is_teacher_check(user):
         if teacher.count() > 0:
             return True
     return False
-
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def classroom_create_view(request, *args, **kwargs):
