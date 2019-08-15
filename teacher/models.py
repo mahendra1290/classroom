@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.crypto import get_random_string
 
 from django.urls import reverse
 
@@ -23,7 +24,26 @@ class Teacher(models.Model):
 
     def get_username(self):
         return self.user.email
+    
+    def can_take_phone_number(self , new_phone_number:int)->bool:
+        teacher = Teacher.objects.filter(phone=new_phone_number)
+        if teacher.count() > 0 and teacher[0].phone is not self.phone:
+            return False
+        else:
+            return True
 
+    def update_name(self , new_name:str):
+        self.name = new_name
+        self.save()
+
+    def update_department(self, new_department:str):
+        self.department = new_department
+        self.save()
+
+    def update_phone_number(self, new_phone_number:int)->bool:
+        self.phone = new_phone_number
+        self.save()
+    
     def __str__(self):
         return (self.name)
 
@@ -41,6 +61,15 @@ class TeachersClassRoom(models.Model):
     section = models.CharField(max_length=10)
     subject = models.CharField(max_length=30)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+    def set_class_id(self):
+        while True:
+            class_id = get_random_string(
+                length=6, allowed_chars='abcdefghijklmnopqrstuv0123456789')
+            classroom = TeachersClassRoom.objects.filter(class_id=class_id)
+            if classroom.count() == 0:
+                self.class_id = class_id
+                break
 
     def get_absolute_url(self):
         return reverse('teacher:classroom_detail', args=[self.pk])

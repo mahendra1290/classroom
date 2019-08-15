@@ -12,6 +12,7 @@ docutils = "*"
 doc8 = "*"
 pygments = "*"
 gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"

@@ -20,6 +20,7 @@ from .forms import UserRegisterForm
 from .forms import ContactForm
 
 
+
 def homepageview(request):
     if request.user.is_authenticated is False:
         if request.method == 'POST':
@@ -56,7 +57,7 @@ def homepageview(request):
 def permission_denied_view(request):
     return render(request, '404.html')
 
-
+  
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
