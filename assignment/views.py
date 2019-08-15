@@ -1,26 +1,27 @@
+import os
+
 from django.views.generic.edit import FormView
 from django.views.generic import DetailView, ListView
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.utils.crypto import get_random_string
 from django.urls import reverse
 from django.urls import reverse_lazy
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import Http404
 from django.shortcuts import redirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.files import File
+from django.contrib import messages
+from django.conf import settings
 
 from teacher.models import TeachersClassRoom
 from student.models import Solution
 from .forms import AssignmentCreateForm
 from .models import AssignmentsFile
 from .models import Assignment
-from django.contrib import messages
-from django.core.files import File
-import os
-from django.conf import settings
-from django.http import HttpResponse, Http404
 from student.forms import SolutionCreateForm
 from student.models import Student, Solution, SolutionFile
-from django.utils.crypto import get_random_string
-from django.core.exceptions import ObjectDoesNotExist
 
 
 def add_assignment_view(request, pk_of_class):
@@ -77,7 +78,7 @@ def assignment_view(request, pk, *args, **kwargs):
 def assignment_delete_view(request, pk,*args, **kwargs):
     assignment = Assignment.objects.get(id=pk)
     classroom_id = assignment.classroom.id 
-    url = reverse('teacher:classroom_detail', kwargs={'pk': classroom_id})
+    url = reverse_lazy('teacher:classroom_detail', kwargs={'pk': classroom_id})
     teacher_email = (assignment.classroom.teacher.user.email)
     if assignment is not None and request.user.email==teacher_email:
         assignment.delete()

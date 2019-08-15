@@ -15,6 +15,7 @@ from .forms import LoginForm
 from .forms import UserRegisterForm
 
 
+
 def homepageview(request):
     if request.user.is_authenticated is False:
         if request.method == 'POST':
@@ -47,6 +48,9 @@ def homepageview(request):
         else:
             return redirect('student:homepage')
 
+
+def permission_denied_view(request):
+    return render(request, '404.html')
 
 def login_view(request):
     if request.method == 'POST':

@@ -13,9 +13,6 @@ class TeacherRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password','class': 'border p-3 w-100 my-2'}))
     phone = forms.IntegerField(widget = forms.NumberInput(attrs={'placeholder':'Phone','class': 'border p-3 w-100 my-2'}))
     
-
-
-
 class ClassroomCreateForm(forms.ModelForm):
     class Meta:
         model =  TeachersClassRoom
@@ -28,6 +25,5 @@ class TeacherEditForm(forms.ModelForm):
     class Meta:
         model=Teacher
         fields=['name','department','phone',]
-
     name =forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Name','class': 'border p-3 w-100 my-2'}))
     phone = forms.IntegerField(widget = forms.NumberInput(attrs={'placeholder':'Phone','class': 'border p-3 w-100 my-2'}))

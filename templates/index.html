@@ -3,156 +3,158 @@
 {% block content %}
 
 <section class="page-title">
-	<!-- Container Start -->
-	<div class="container">
-		<div class="row">
-			<div class="col-md-9 offset-md-2 text-center">
-				<!-- Title text -->
-				<h3 style="color:  #ffc107;">{{assignment.title}} / {{assignment.classroom.title}} </h3>
+    <!-- Container Start -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 offset-md-2 text-center">
+                <!-- Title text -->
+                <h3 style="color:  #ffc107;">{{assignment.title}} / {{assignment.classroom.title}} </h3>
 
-				<br>
-				<a class="nav-link text-white add-button" href="{% url 'teacher:classroom_detail' assignment.classroom.id %}"><i class="fa fa-folder"></i>Go to class</a>
-                <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a></span>
+                <br>
+                <a class="nav-link text-white add-button"
+                    href="{% url 'teacher:classroom_detail' assignment.classroom.id %}"><i class="fa fa-folder"></i>Go
+                    to class</a>
+                <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i
+                            class="fa fa-home"></i>HOME</a></span>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </section>
 {% for message in messages %}
 {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
-            <div class="alert alert-danger">
-                <a class="close" href="#" data-dismiss="alert">×</a>
+<div class="alert alert-danger">
+    <a class="close" href="#" data-dismiss="alert">×</a>
 
-                {{ message }} 
+    {{ message }}
 
-            </div>
-            {%else%}
-            <div class="alert alert-success">
-                <a class="close" href="#" data-dismiss="alert">×</a>
+</div>
+{%else%}
+<div class="alert alert-success">
+    <a class="close" href="#" data-dismiss="alert">×</a>
 
-                {{ message }} 
+    {{ message }}
 
-            </div>
-        {%endif%}
-    
-    {% endfor %}
+</div>
+{%endif%}
+
+{% endfor %}
 
 <section class="user-profile section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
-				<div class="sidebar">
-					<!-- User Widget -->
-					<div class="widget user-dashboard-profile">
-							<!-- User Image -->
-							<div class="profile-thumb">
-							  <img src="{%static 'images/assignment.jpg'%}" alt="" class="rounded-circle">
-							</div>
-							<!-- User Name -->
-							<h5 class="text-center"  style = "text-transform: uppercase;"> {{assignment.title}}</h5>
-							<p>Due Date : {{assignment.due_date}}</p>
-							<p >Class: {{assignment.classroom.title}}</p>
-							<br>
-							<a href="{% url 'teacher:classroom_detail' assignment.classroom.id %}" class="btn btn-main-sm">Go to Classroom</a>
-						  </div>
-					<!-- Dashboard Links -->
-                    <div class="widget user-dashboard-menu">
-                      <ul>  
-				
-									<li class="active" >
-						
-                    <a href=""><i class="fa fa-check"></i>Submission List </a></li>
-                    <li  >
-						
-                        <a href="{% url 'teacher:assignment:assignment_file_view' assignment.classroom.id assignment.id %}"><i class="fa fa-folder"></i>View Assignment </a></li>
-                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
-                  Assignment</a></li>
-                    </ul>
-          </div>
-				</div>
-                <div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-                  aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header border-bottom-0">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body text-center">
-                        <h6 class="py-2">Are you sure you want to delete this assignment?</h6>
-                        <p>Do you really want to delete these records? This process cannot be undone.</p>
-                      </div>
-                      <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <a href="{% url 'teacher:assignment:delete' assignment.classroom.id assignment.id %}"> <button type="button" class="btn btn-danger">Delete</button></a>
-                      </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                <div class="sidebar">
+                    <!-- User Widget -->
+                    <div class="widget user-dashboard-profile">
+                        <!-- User Image -->
+                        <div class="profile-thumb">
+                            <img src="{%static 'images/assignment.jpg'%}" alt="" class="rounded-circle">
+                        </div>
+                        <!-- User Name -->
+                        <h5 class="text-center" style="text-transform: uppercase;"> {{assignment.title}}</h5>
+                        <p>Due Date : {{assignment.due_date}}</p>
+                        <p>Class: {{assignment.classroom.title}}</p>
+                        <br>
+                        <a href="{% url 'teacher:classroom_detail' assignment.classroom.id %}"
+                            class="btn btn-main-sm">Go to Classroom</a>
                     </div>
-                  </div>
+                    <!-- Dashboard Links -->
+                    <div class="widget user-dashboard-menu">
+                        <ul>
+
+                            <li class="active">
+
+                                <a href=""><i class="fa fa-check"></i>Submission List </a></li>
+                            <li>
+
+                                <a
+                                    href="{% url 'teacher:assignment:assignment_file_view' assignment.classroom.id assignment.id %}"><i
+                                        class="fa fa-folder"></i>View Assignment </a></li>
+                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i
+                                        class="fa fa-power-off"></i>Delete
+                                    Assignment</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom-0">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <h6 class="py-2">Are you sure you want to delete this assignment?</h6>
+                                <p>Do you really want to delete these records? This process cannot be undone.</p>
+                            </div>
+                            <div
+                                class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                <a href="{% url 'teacher:assignment:delete' assignment.classroom.id assignment.id %}">
+                                    <button type="button" class="btn btn-danger">Delete</button></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- delete account popup modal end-->
-			</div>
+            </div>
 
-                <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-                        <!-- Recently Favorited -->
-                        <div class="widget dashboard-container my-adslist">
-                          <h3 class="widget-header">Submission List  <br> <span> Submitted Students:  </span><span style="color:red;">  {{solutions_count}} / {{students_count}} </span> </h3>           
-                                <table class="table table-responsive product-dashboard-table">
-                                        <thead>
-                                          <tr>
-                                            <th>Name</th>
-                                            <th >Rollno</th>
-                                            <th>Comments</th>
-                                            <th >Submissions</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                    <tr>
+            <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+                <!-- Recently Favorited -->
+                <div class="widget dashboard-container my-adslist">
+                    <h3 class="widget-header">Submission List <br> <span> Submitted Students: </span><span
+                            style="color:red;"> {{solutions_count}} / {{students_count}} </span> </h3>
+                    <table class="table table-responsive product-dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Rollno</th>
+                                <th>Comments</th>
+                                <th>Submissions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
                                 {% for solution in solutions %}
-            
-                                  <td class="product-details">
-                                    <a><h3 class="title" style = "text-transform: uppercase;">{{solution.student}}</h3></a>
-                                    
-                                  </td>
-                                  <td class="product-details"><span class="categories">{{solution.student.rollno}}</span></td>
-                                  <td class="product-details"><span class="categories">{{solution.comment}}   </span></td>
-                                  <td class=" product-details action" data-title="Action">
-                                      <li class="list-inline-item">
-                                          <a data-toggle="tooltip" data-placement="top" target="_blank" title="view" class="view" href="{%url 'student:assignment:see_student_solution' solution.assignment.classroom.id solution.assignment.id solution.student_slug  %}">
-                                          <i class="fa fa-eye"></i>
-                                          </a>
-                                        </li>
-                                        </ul>
-                                      </div>
-                                  </td>
-                                </tr>
-                                <tr>
-            
-                    
-                            {% endfor %}	   
-                            </tbody>
-                          </table>
-                
-                        </div>
-            
-                    <!-- Row End -->
-                  </div>
+
+                                <td class="product-details">
+                                    <a>
+                                        <h3 class="title" style="text-transform: uppercase;">{{solution.student}}</h3>
+                                    </a>
+
+                                </td>
+                                <td class="product-details"><span class="categories">{{solution.student.rollno}}</span>
+                                </td>
+                                <td class="product-details"><span class="categories">{{solution.comment}} </span></td>
+                                <td class=" product-details action" data-title="Action">
+                                    <li class="list-inline-item">
+                                        <a data-toggle="tooltip" data-placement="top" target="_blank" title="view"
+                                            class="view"
+                                            href="{%url 'student:assignment:see_student_solution' solution.assignment.classroom.id solution.assignment.id solution.student_slug  %}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </li>
+                                    </ul>
+                </div>
+                </td>
+                </tr>
+                <tr>
 
 
+                    {% endfor %}
+                    </tbody>
+                    </table>
 
+            </div>
 
-
-
-
-
-
-
-
-
-
-
+            <!-- Row End -->
+        </div>
 				</div>
 			</div>
 		</div>
+
 </section>
 
 {% endblock content %}
