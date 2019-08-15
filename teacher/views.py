@@ -39,6 +39,7 @@ def user_is_teacher_check(user):
             return True
     return False
 
+
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def classroom_create_view(request, *args, **kwargs):
     if request.method == 'POST':
@@ -54,7 +55,8 @@ def classroom_create_view(request, *args, **kwargs):
             return render(request, 'classroom_create.html', {'form': form})
     else:
         form = ClassroomCreateForm()
-    return render(request, 'classroom_create.html', {'form':form})
+    return render(request, 'classroom_create.html', {'form': form})
+
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def home_page_view(request):
@@ -82,6 +84,7 @@ def classroom_detail_view(request, pk):
     }
     return render(request, 'classroom_detail.html',  context)
 
+
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def get_student_list(request, pk):
     try:
@@ -94,6 +97,7 @@ def get_student_list(request, pk):
         'students': students
     }
     return render(request, 'get_student_list.html',  context)
+
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def teacher_edit_view(request):
@@ -139,7 +143,8 @@ def teacher_edit_view(request):
                             request, 'Password is updated successfully')
                         return redirect('teacher:homepage')
                 elif new_password != confirm_password:
-                    messages.error(request, 'new password and confirm password must be same')
+                    messages.error(
+                        request, 'new password and confirm password must be same')
                 else:
                     messages.error(request, 'Current Password is not correct.')
                 return render(request, 'teacher_editprofile.html', {
@@ -171,7 +176,7 @@ def classroom_delete_view(request, pk):
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def classroom_edit_view(request, pk):
     form = ClassroomCreateForm()
-    try: 
+    try:
         classroom = TeachersClassRoom.objects.get(id=pk)
     except ObjectDoesNotExist:
         raise Http404
@@ -183,11 +188,10 @@ def classroom_edit_view(request, pk):
             classroom.section = form.cleaned_data['section']
             classroom.save()
             messages.success(
-                    request, "Classroom desctription has been updated")
+                request, "Classroom desctription has been updated")
             return redirect(reverse('teacher:classroom_detail', kwargs={'pk': pk}))
         else:
             messages.error(request, "Please enter valid details")
     else:
         form = ClassroomCreateForm(instance=classroom)
     return render(request, 'classroom_edit_view.html', {'form': form})
-  

@@ -124,7 +124,7 @@
 			<div class="widget dashboard-container my-adslist">
 			  <h3 class="widget-header">My Classes</h3>
 			  
-					{%if count is 1%}
+					{%if classrooms%}
 									
 					<table class="table table-responsive product-dashboard-table">
 							<thead>
@@ -190,7 +190,7 @@
 		
 				{% endfor %}
 			{%else%}
-					  <h3>No classes to show. Click on ADD CLASSROOM to create new classes.</h3>
+					  <h3>No classes to show >> <a href="{% url 'teacher:create_classroom' %}">Add Classroom</a></h3>
 			{%endif%}
 								   
 				</tbody>

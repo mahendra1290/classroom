@@ -14,7 +14,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.contrib import messages
 from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
 
+from teacher.models import Teacher
 from teacher.models import TeachersClassRoom
 from student.models import Solution
 from .forms import AssignmentCreateForm
@@ -24,8 +26,20 @@ from student.forms import SolutionCreateForm
 from student.models import Student, Solution, SolutionFile
 
 
+def user_is_teacher_check(user):
+    if user.is_authenticated:
+        teacher = Teacher.objects.filter(user=user)
+        if teacher.count() > 0:
+            return True
+    return False
+
+
+@user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def add_assignment_view(request, pk_of_class):
-    classroom = TeachersClassRoom.objects.get(id=pk_of_class)
+    try:
+        classroom = TeachersClassRoom.objects.get(id=pk_of_class)
+    except ObjectDoesNotExist:
+        raise Http404
     if request.method == 'POST':
         form = AssignmentCreateForm(request.POST, request.FILES)
         print(form)
@@ -75,6 +89,8 @@ def assignment_view(request, pk, *args, **kwargs):
         }
         return render(request, "student_assignment_view.html", context)
 
+
+@user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def assignment_delete_view(request, pk,*args, **kwargs):
     assignment = Assignment.objects.get(id=pk)
     classroom_id = assignment.classroom.id 
@@ -105,9 +121,9 @@ def is_student_slug_used(student_slug):
         return False
 
 def solution_create_view(request, pk, *args, **kwargs):
-    assignment =Assignment.objects.get(id = pk)
-    student = Student.objects.get(user = request.user)
     try:
+        assignment =Assignment.objects.get(id = pk)
+        student = Student.objects.get(user = request.user)
         sol  =Solution.objects.get(assignment=assignment, student=student)
     except:
         sol=None
@@ -143,6 +159,7 @@ def solution_create_view(request, pk, *args, **kwargs):
         return render(request,'student_solution_view.html',{'solution_files':solfiles,'count':count,'assignment':assignment})
 
 
+@user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def see_student_solution(request, pk,student_slug, *args, **kwargs):
     print('HELLO WORLD')
     sol  =Solution.objects.get(student_slug=student_slug)
