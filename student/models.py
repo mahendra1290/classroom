@@ -49,6 +49,12 @@ class Student(models.Model):
             ('can_view_assignment', 'can view assignment'),
         )
 
+    def can_get_rollnumber(self, new_rollnumber):
+        student = Student.objects.filter(rollno=new_rollnumber)
+        if student.count() == 0 or self.rollno == new_rollnumber:
+            return True
+        return False
+    
     @classmethod
     def is_student_registered(cls, user):
         try:

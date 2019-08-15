@@ -31,18 +31,6 @@ def user_is_student_registered(user):
         return False
 
 
-def IsRollnoRegistered(user, rollno):
-    student = Student.objects.filter(rollno=rollno)
-    if student.count() is 0:
-        return True
-    else:
-        login_student = Student.objects.get(user=user)
-        if login_student.rollno == student.first().rollno:
-            return True
-        else:
-            return False
-
-
 @user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
 def HomePageViewStudent(request, *args, **kwargs):
     if not Student.is_student_registered(request.user):
@@ -58,9 +46,9 @@ def StudentRegistration(request, *args, **kwargs):
     if not Student.is_student_registered(user=request.user):
         if(request.method == 'POST'):
             form = StudentRegistrationForm(request.POST)
-            form_rollno = IsRollnoRegistered(
-                user=request.user, rollno=request.POST['rollno'])
-            if form_rollno:
+            rollno = request.POST['rollno']
+            student = Student.objects.filter(rollno=rollno)
+            if student.count() == 0:
                 if form.is_valid():
                     name = form.cleaned_data['name']
                     year = form.cleaned_data['year']
@@ -107,9 +95,7 @@ def student_edit_view(request):
     student = Student.objects.get(user=request.user)
     if request.method == 'POST':
         form = StudentRegistrationForm(request.POST)
-        form_rollno = IsRollnoRegistered(
-            user=request.user, rollno=request.POST['rollno'])
-        if form_rollno:
+        if student.can_get_rollnumber(request.POST['rollno']):
             if form.is_valid():
                 student.name = form.cleaned_data['name']
                 student.year = form.cleaned_data['year']
