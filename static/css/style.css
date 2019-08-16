@@ -2898,17 +2898,17 @@ input {
   
   .notfound .notfound-404 h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 236px;
+    font-size: 136px;
     font-weight: 200;
     margin: 0px;
-    color: #211b19;
+    color: #25af0f;
     text-transform: uppercase;
     position: absolute;
     left: 50%;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
   }
   
   .notfound .notfound-404 h2 {
@@ -2917,8 +2917,8 @@ input {
     font-weight: 400;
     text-transform: uppercase;
     color: #211b19;
-    background: #fff;
-    padding: 10px 5px;
+    /* background: #fff; */
+    /* padding: 10px 5px; */
     margin: auto;
     display: inline-block;
     position: absolute;
