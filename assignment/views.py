@@ -26,6 +26,7 @@ from .models import AssignmentsFile
 from .models import Assignment
 
 
+
 def user_is_teacher_check(user):
     if user.is_authenticated:
         teacher = Teacher.objects.filter(user=user)
@@ -33,6 +34,10 @@ def user_is_teacher_check(user):
             return True
     return False
 
+def user_is_student_check(user):
+    if user_is_teacher_check(user):
+        return False
+    return True
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def add_assignment_view(request, slug_of_class):
@@ -65,9 +70,8 @@ def add_assignment_view(request, slug_of_class):
 def assignment_view(request, slug, *args, **kwargs):
     assignment = Assignment.objects.get(slug=slug)
     files = list(AssignmentsFile.objects.filter(assignment=assignment))
-    if not request.user.is_student:
-        classroom_id = assignment.classroom.id
-        classroom = TeachersClassRoom.objects.get(pk=classroom_id)
+    if request.user.is_teacher:
+        classroom = assignment.classroom
         students = classroom.student_set.all()
         students_count = students.count()
         solutions = Solution.objects.filter(assignment=assignment)
@@ -117,41 +121,42 @@ def assignment_file_view(request, slug, *args, **kwargs):
     return render(request, "assignment_file_view.html", context)
 
 
-def solution_create_view(request, pk, *args, **kwargs):
-    try:
-        assignment = Assignment.objects.get(id=pk)
-        student = Student.objects.get(user=request.user)
-        sol = Solution.objects.get(assignment=assignment, student=student)
-    except:
-        sol = None
-    if sol is not None:
-        solfiles = SolutionFile.objects.filter(submission=sol)
-    else:
-        solfiles = None
-    if solfiles is None:
-        count = 0
+@user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
+def solution_create_view(request, slug, *args, **kwargs):
+    assignment = Assignment.objects.filter(slug=slug).first()
+    student = Student.objects.get(user=request.user)
+    if (assignment is None or 
+            not student.has_access_to_assignment(assignment)):
+        return render(request, '404.html')
+
+    if not student.has_submitted_solution(assignment):
         form = SolutionCreateForm()
         if request.method == 'POST':
             form = SolutionCreateForm(request.POST, request.FILES)
             files = request.FILES.getlist('solution_file')
             if form.is_valid():
                 comment = form.cleaned_data['comment']
-                solution_obj = Solution(
+                solution = Solution(
                     comment=comment, student=student, assignment=assignment)
-                solution_obj.save()
+                solution.save()
                 for f in files:
                     solution_file = SolutionFile(
-                        file=f, submission=solution_obj)
+                        file=f, submission=solution)
                     solution_file.save()
                 messages.success(
                     request, "Solution to assignment is successfully submitted")
                 return redirect('customuser:homepage')
             else:
                 messages.error(request, "Please enter valid info")
-        return render(request, 'student_solution_view.html', {'form': form, 'assignment': assignment, 'count': count})
+        return render(request, 'student_solution_view.html',
+                      {'form': form, 'assignment': assignment})
     else:
-        count = 1
-        return render(request, 'student_solution_view.html', {'solution_files': solfiles, 'count': count, 'assignment': assignment})
+        solution = student.get_solution(assignment=assignment)
+        solution_files = solution.get_files()
+        return render(request, 'student_solution_view.html',
+                      {'solution_files': solution_files,
+                       'assignment': assignment,
+                       'solution': solution})
 
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
