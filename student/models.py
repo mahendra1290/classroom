@@ -50,6 +50,29 @@ class Student(models.Model):
             ('can_view_classroom', 'can view classroom page'),
             ('can_view_assignment', 'can view assignment'),
         )
+    
+    def has_access_to_assignment(self, assignment):
+        joined_classrooms = self.my_classes.all()
+        classroom = assignment.classroom
+        if classroom in joined_classrooms:
+            return True
+        return False
+
+    def get_solution(self, assignment):
+        if (self.has_access_to_assignment(assignment) 
+                and self.has_submitted_solution(assignment)):
+            print("yes i have soliton")
+            solution = Solution.objects.filter(
+                assignment=assignment, student=self)
+            return solution.first()
+        return None
+
+    def has_submitted_solution(self, assignment):
+        solution_exist = Solution.objects.filter(assignment=assignment, student=self).exists()
+        print(f"{solution_exist} solution exist")
+        if solution_exist:
+            return True
+        return False
 
     def can_get_rollnumber(self, new_rollnumber):
         student = Student.objects.filter(rollno=new_rollnumber)
@@ -81,6 +104,10 @@ class Solution(models.Model):
     assignment = models.ForeignKey(
         Assignment, on_delete=models.CASCADE, null=True)
     submission_date = models.DateTimeField(auto_now_add=True)
+
+    def get_files(self):
+        files = SolutionFile.objects.filter(submission=self)
+        return files
 
     def save(self, *args, **kwargs):
         self.slug = unique_slug_generator(self)

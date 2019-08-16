@@ -129,7 +129,7 @@ def classroom_detail_view(request, slug):
     except:
         messages.error(request, "Permission Denied")
         return redirect('customuser:permission_denied')
-    assignment_query = Assignment.objects.filter(classroom=classroom)
+    assignment_query = Assignment.objects.filter(classroom=classroom).order_by('-pub_date')
     context = {
         'classroom': classroom,
         'assignment_list': assignment_query,
