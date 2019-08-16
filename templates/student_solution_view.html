@@ -74,8 +74,7 @@
             
             
             <section class="ad-post bg-gray py-5">
-                    <div class="container">
-                        {%if count is 0%}
+                        {%if not solution%}
                         <form method="POST"  enctype="multipart/form-data" name = "formname">{% csrf_token %}
                             <!-- Post Your ad start -->
                             <fieldset class="border border-gary p-5 mb-5">
@@ -98,8 +97,6 @@
                             <button type="submit" class="btn btn-primary d-block mt-2 " name = "submitname">Submit</button>
                         </fieldset>
                         </form>
-                        
-                    </div>
                     {%else%}
                     <center><h2 style="color:#597bf9;">Successfully Submitted</h2></center>
                         <br>
