@@ -34,6 +34,13 @@ def user_is_teacher_check(user):
     return False
 
 
+def user_is_student_check(user):
+    if user.is_authenticated:
+        student = Student.objects.filter(user=user)
+        if student.count() > 0:
+            return True
+    return False
+
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def add_assignment_view(request, slug_of_class):
     try:
@@ -46,25 +53,30 @@ def add_assignment_view(request, slug_of_class):
         form = AssignmentCreateForm(request.POST, request.FILES)
         files = request.FILES.getlist('assign_file')
         if form.is_valid():
-            assign = Assignment(
+            assignment = Assignment(
                 title=form.cleaned_data['title'],
                 instructions=form.cleaned_data['instructions'],
                 classroom=classroom,
                 due_date=form.cleaned_data['due_date']
             )
-            assign.save()
+            assignment.save()
             for f in files:
-                assignment_file = AssignmentsFile(file=f, assignment=assign)
+                assignment_file = AssignmentsFile(file=f, assignment=assignment)
                 assignment_file.save()
             return HttpResponseRedirect(reverse_lazy('teacher:classroom_detail' , args=(slug_of_class,)))
     else:
         form = AssignmentCreateForm()
     return render(request, 'assignment.html', {'form': form,'classroom':classroom})
 
-def assignment_view(request, slug, *args, **kwargs):
-    assignment = Assignment.objects.get(slug=slug)
-    files = list(AssignmentsFile.objects.filter(assignment = assignment))
-    if not request.user.is_student:
+
+@user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
+def teachers_assignment_view(request, slug, *args, **kwargs):
+    try:
+        assignment = Assignment.objects.get(slug=slug)
+        files = list(AssignmentsFile.objects.filter(assignment=assignment))
+    except ObjectDoesNotExist:
+        return render(request, '404.html')
+    if request.user.is_teacher:
         classroom_id = assignment.classroom.id
         classroom = TeachersClassRoom.objects.get(pk = classroom_id)
         students = classroom.student_set.all()
@@ -79,13 +91,20 @@ def assignment_view(request, slug, *args, **kwargs):
             'students_count':students_count,
         }
         return render(request, "index.html", context)
-    else:
-        context= {
-            'assignment':assignment,
-            'assignment_files' : files,
-        }
-        return render(request, "student_assignment_view.html", context)
 
+
+@user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
+def students_assignment_view(request, slug, *args, **kwargs):
+    try :
+        assignment = Assignment.objects.get(slug=slug)
+        files = list(AssignmentsFile.objects.filter(assignment=assignment))
+    except ObjectDoesNotExist:
+        return render(request, '404.html')
+    context = {
+        'assignment': assignment,
+        'assignment_files': files,
+    }
+    return render(request, "student_assignment_view.html", context)
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def assignment_delete_view(request, slug,*args, **kwargs):
