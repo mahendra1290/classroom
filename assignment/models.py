@@ -22,7 +22,7 @@ class Assignment(models.Model):
         print(f"slud added {self.slug}")
 
     def get_files(self):
-        files = AssignmentsFile.objects.filter(ssignment=self)
+        files = AssignmentsFile.objects.filter(assignment=self)
         return files
     
     def __str__(self):

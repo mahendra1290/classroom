@@ -47,9 +47,8 @@ def classroom_create_view(request, *args, **kwargs):
         if form.is_valid():
             classroom = form.save(commit=False)
             classroom.teacher = Teacher.objects.get(user=request.user)
-            classroom.set_class_id()
             classroom.save()
-            return redirect(reverse('teacher:classroom_detail', kwargs={'pk': classroom.pk}))
+            return redirect(reverse('teacher:classroom_detail', kwargs={'slug': classroom.slug}))
         else:
             form = ClassroomCreateForm()
             return render(request, 'classroom_create.html', {'form': form})
@@ -72,9 +71,12 @@ def home_page_view(request):
     return render(request, 'teacher_window.html', context=context)
 
 
-def classroom_detail_view(request, pk):
+@user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
+def classroom_detail_view(request, slug):
     try:
-        classroom = TeachersClassRoom.objects.get(id=pk)
+        classroom = TeachersClassRoom.objects.get(slug=slug)
+        if not classroom.belongs_to_teacher(request.user):
+            return render(request, '404.html')
     except ObjectDoesNotExist:
         raise Http404
     assignment_query = Assignment.objects.filter(classroom=classroom)
@@ -86,9 +88,11 @@ def classroom_detail_view(request, pk):
 
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
-def get_student_list(request, pk):
+def get_student_list(request, slug):
     try:
-        classroom = TeachersClassRoom.objects.get(id=pk)
+        classroom = TeachersClassRoom.objects.get(slug=slug)
+        if not classroom.belongs_to_teacher(request.user):
+            return render(request, '404.html')
     except ObjectDoesNotExist:
         raise Http404
     students = classroom.student_set.all()
@@ -163,9 +167,11 @@ def teacher_edit_view(request):
 
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
-def classroom_delete_view(request, pk):
+def classroom_delete_view(request, slug):
     try:
-        classroom = TeachersClassRoom.objects.get(id=pk)
+        classroom = TeachersClassRoom.objects.get(slug=slug)
+        if not classroom.belongs_to_teacher(request.user):
+            return render(request, '404.html')
     except ObjectDoesNotExist:
         raise Http404
     classroom.delete()
@@ -174,10 +180,12 @@ def classroom_delete_view(request, pk):
 
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
-def classroom_edit_view(request, pk):
+def classroom_edit_view(request, slug):
     form = ClassroomCreateForm()
     try:
-        classroom = TeachersClassRoom.objects.get(id=pk)
+        classroom = TeachersClassRoom.objects.get(slug=slug)
+        if not classroom.belongs_to_teacher(request.user):
+            return render(request, '404.html')
     except ObjectDoesNotExist:
         raise Http404
     if request.method == 'POST':
@@ -189,7 +197,7 @@ def classroom_edit_view(request, pk):
             classroom.save()
             messages.success(
                 request, "Classroom desctription has been updated")
-            return redirect(reverse('teacher:classroom_detail', kwargs={'pk': pk}))
+            return redirect(reverse('teacher:classroom_detail', kwargs={'slug': slug}))
         else:
             messages.error(request, "Please enter valid details")
     else:

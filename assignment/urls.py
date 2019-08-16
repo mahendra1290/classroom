@@ -9,10 +9,10 @@ from django.conf.urls.static import static
 app_name= "assignment"
 
 urlpatterns = [
-    path('<int:pk>', assignment_view, name = 'detail'),   
-    path('<int:pk>/files', assignment_file_view, name = 'assignment_file_view'),  
-    path('<int:pk>/solution-submit', solution_create_view, name = 'solution_create_view'),  
+    path('<str:slug>', assignment_view, name = 'detail'),   
+    path('<str:slug>/files', assignment_file_view, name = 'assignment_file_view'),  
+    path('<str:slug>/solution-submit', solution_create_view, name = 'solution_create_view'),  
     path('add/', add_assignment_view, name = 'create'),
-    path('delete/<int:pk>', assignment_delete_view, name = 'delete'),
-    path('<int:pk>/solution/<str:student_slug>', see_student_solution, name = 'see_student_solution'),  
+    path('delete/<str:slug>', assignment_delete_view, name = 'delete'),
+    path('<str:slug_of_assignment>/solution/<str:slug>', see_student_solution, name = 'see_student_solution'),  
 ]

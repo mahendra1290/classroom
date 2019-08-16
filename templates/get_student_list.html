@@ -11,7 +11,7 @@
 				<h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
 
 				<br>
-				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.id  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
+				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.slug  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
                 <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a></span>
             </div>
 		</div>
@@ -53,7 +53,7 @@
 							<p>Section :  {{classroom.section}}</p>
 							<h2>ID :  {{classroom.class_id}}</h2>
 							<br>
-							<a href="{% url 'teacher:classroom_detail' classroom.id  %}" class="btn btn-main-sm">Go to Classroom</a>
+							<a href="{% url 'teacher:classroom_detail' classroom.slug  %}" class="btn btn-main-sm">Go to Classroom</a>
 						  </div>
 					<!-- Dashboard Links -->
                     <div class="widget user-dashboard-menu">
@@ -63,10 +63,10 @@
 									<a href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>
 									<li class="active" >
 						
-										<a href="{% url 'teacher:get_student_list' classroom.id  %}"><i class="fa fa-user"></i>Student List </a></li>
+										<a href="{% url 'teacher:get_student_list' classroom.slug  %}"><i class="fa fa-user"></i>Student List </a></li>
                     <li  >
 
-						<a href="{% url 'teacher:classroom_edit' classroom.pk %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
+						<a href="{% url 'teacher:classroom_edit' classroom.slug %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
                             <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
                   Class</a></li>
                     </ul>
@@ -88,7 +88,7 @@
                       </div>
                       <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <a href="{% url 'teacher:classroom_delete' classroom.id %}"> <button type="button" class="btn btn-danger">Delete</button></a>
+                        <a href="{% url 'teacher:classroom_delete' classroom.slug %}"> <button type="button" class="btn btn-danger">Delete</button></a>
                       </div>
                     </div>
                   </div>

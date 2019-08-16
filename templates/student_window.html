@@ -150,12 +150,12 @@
 						<div class="">
 						  <ul class="list-inline justify-content-center">
 							<li class="list-inline-item">
-							  <a data-toggle="tooltip" data-placement="top" title="view" class="view" href="{%url 'student:classroom_detail' class.pk  %}">
+							  <a data-toggle="tooltip" data-placement="top" title="view" class="view" href="{%url 'student:classroom_detail' class.slug  %}">
 								<i class="fa fa-eye"></i>
 							  </a>
 							</li>
 							<li class="list-inline-item">
-							  <a class="delete"  data-toggle="modal" data-target="#deleteproduct" href="{%url 'student:classroom_exit_view' class.pk  %}" data-placement="top" title="Exit" >
+							  <a class="delete"  data-toggle="modal" data-target="#deleteproduct" href="{%url 'student:classroom_exit_view' class.slug  %}" data-placement="top" title="Exit" >
 								<i class="fa fa-sign-out"></i>
 							  </a>
 							</li>
@@ -180,7 +180,7 @@
 							</div>
 							<div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
 							  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-							  <a href="{% url 'student:classroom_exit_view' class.id %}"><button type="button" class="btn btn-danger">Exit</button></a>
+							  <a href="{% url 'student:classroom_exit_view' class.slug %}"><button type="button" class="btn btn-danger">Exit</button></a>
 							</div>
 		
 				{% endfor %}

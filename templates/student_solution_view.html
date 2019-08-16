@@ -11,7 +11,7 @@
 				<h3 style="color:  #ffc107;">{{assignment.title}} / {{assignment.classroom.title}} </h3>
 
 				<br>
-				<a class="nav-link text-white add-button" href="{% url 'student:classroom_detail' assignment.classroom.id %}"><i class="fa fa-folder"></i>Go to Classroom</a>
+				<a class="nav-link text-white add-button" href="{% url 'student:classroom_detail' assignment.classroom.slug %}"><i class="fa fa-folder"></i>Go to Classroom</a>
                 <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a></span>
             </div>
 		</div>
@@ -52,7 +52,7 @@
 							<p>Due Date : {{assignment.due_date}}</p>
 							<p >Class: {{assignment.classroom.title}}</p>
 							<br>
-							<a href="{% url 'student:classroom_detail' assignment.classroom.id %}" class="btn btn-main-sm">Go to Classroom</a>
+							<a href="{% url 'student:classroom_detail' assignment.classroom.slug %}" class="btn btn-main-sm">Go to Classroom</a>
 						  </div>
 					<!-- Dashboard Links -->
                     <div class="widget user-dashboard-menu">
@@ -60,10 +60,10 @@
 				
 									<li >
 						
-                    <a href="{% url 'student:assignment:detail' assignment.classroom.id assignment.id %}"><i class="fa fa-folder"></i>View Assignment </a></li>
+                    <a href="{% url 'student:assignment:detail' assignment.classroom.slug assignment.slug %}"><i class="fa fa-folder"></i>View Assignment </a></li>
                     <li  class="active" >
 						
-                        <a href="{% url 'student:assignment:solution_create_view' assignment.classroom.id assignment.id %}" ><i class="fa fa-check"></i>Submit Solutions</a></li>
+                        <a href="{% url 'student:assignment:solution_create_view' assignment.classroom.slug assignment.slug %}" ><i class="fa fa-check"></i>Submit Solutions</a></li>
 
                     </ul>
           </div>
