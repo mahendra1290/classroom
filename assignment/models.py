@@ -1,17 +1,30 @@
+import os
+
 from django.db import models
 from teacher.models import TeachersClassRoom
 from datetime import datetime
 from django.urls import reverse
-import os
+
+from .utils import unique_slug_generator
 
 class Assignment(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=30)
+    slug = models.SlugField(max_length=30, unique=True)
     instructions = models.CharField(max_length=100)
     due_date =  models.DateTimeField( blank=True, null = True)
     pub_date = models.DateField(auto_now=True, null=True)
     classroom = models.ForeignKey(
         TeachersClassRoom, on_delete=models.CASCADE)
+    
+    def save(self, *args, **kwargs):
+        self.slug = unique_slug_generator(self)
+        super().save(*args, **kwargs)
+        print(f"slud added {self.slug}")
 
+    def get_files(self):
+        files = AssignmentsFile.objects.filter(ssignment=self)
+        return files
+    
     def __str__(self):
         return self.title
 

@@ -3,7 +3,9 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from assignment.models import Assignment
 from teacher.models import TeachersClassRoom
+
 from django.core.validators import RegexValidator
+from .utils import unique_slug_generator
 
 import os
 
@@ -74,11 +76,16 @@ class Student(models.Model):
 
 class Solution(models.Model):
     comment = models.CharField(max_length=50)
-    student_slug = models.SlugField(max_length=10, unique=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=10, unique=True)
     assignment = models.ForeignKey(
         Assignment, on_delete=models.CASCADE, null=True)
     submission_date = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = unique_slug_generator(self)
+        super().save(*args, **kwargs)
+        print(f"slud added to solution {self.slug}")
 
     def __str__(self):
         return ("submission of " + str(self.student))

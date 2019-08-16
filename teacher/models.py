@@ -1,8 +1,10 @@
 from django.db import models
 from django.conf import settings
-from django.utils.crypto import get_random_string
 
 from django.urls import reverse
+
+from .utils import unique_slug_generator
+from .utils import unique_class_id_generator
 
 DEPARTMENT_CHOICES = (
     ('', 'Select Department'),
@@ -57,19 +59,25 @@ class Teacher(models.Model):
     
 class TeachersClassRoom(models.Model):
     class_id = models.SlugField(max_length=10, unique=True)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=30)
+    slug = models.SlugField(max_length=30, unique=True)
     section = models.CharField(max_length=10)
     subject = models.CharField(max_length=30)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
-    def set_class_id(self):
-        while True:
-            class_id = get_random_string(
-                length=6, allowed_chars='abcdefghijklmnopqrstuv0123456789')
-            classroom = TeachersClassRoom.objects.filter(class_id=class_id)
-            if classroom.count() == 0:
-                self.class_id = class_id
-                break
+    def save(self, *args, **kwargs):
+        self.class_id = unique_class_id_generator(self)
+        self.slug = unique_slug_generator(self)
+        super().save(*args, **kwargs)
+        print(f"slud added for classroom {self.slug}")
+        print(f"class id added {self.class_id}")
+
+            
+    def belongs_to_teacher(self, user):
+        teacher = self.teacher
+        if teacher.user == user:
+            return True
+        return False
 
     def get_absolute_url(self):
         return reverse('teacher:classroom_detail', args=[self.pk])
