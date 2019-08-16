@@ -14,7 +14,7 @@ def unique_slug_generator(instance, new_slug=None):
 
     if qs_exists:
         new_slug = get_random_string(
-            length=6, allowed_chars='abcdefghijklmnopqrstuv0123456789')
+            length=10, allowed_chars='abcdefghijkl-@*&%!#mnopqrstuv0123456789')
 
         return unique_slug_generator(instance, new_slug=new_slug)
     return slug
