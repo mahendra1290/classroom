@@ -9,6 +9,10 @@ from django.shortcuts import HttpResponse
 from django.views.generic import TemplateView
 
 from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 
 
@@ -35,10 +39,20 @@ def homepageview(request):
                         email=email, password=password)
                     teacherobj.user = user
                     teacherobj.save()
-                    messages.success(
-                        request, "Successfully created. Login to give assignments")
-                    return redirect('customuser:login')
-
+                    mail_subject = 'Activate your Maroon account.'
+                    current_site = get_current_site(request)
+                    message = render_to_string('acc_active_email.html', {
+                        'user': user,
+                        'domain': current_site.domain,
+                        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token':account_activation_token.make_token(user),
+                    })
+                    email = EmailMessage(
+                        mail_subject, message, to=[email]
+                    )
+                    email.send()
+                    messages.info(request,'Please confirm your email address to complete the registration')
+                    return redirect('customuser:homepage')
                 else:
                     messages.error(
                         request, "This email address is already registered")
@@ -59,23 +73,28 @@ def permission_denied_view(request):
 
   
 def login_view(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user_obj = authenticate(username=username, password=password)
-            if user_obj is not None:
-                login(request, user_obj)
-                if request.user.is_teacher:
-                    return redirect('teacher:homepage')
+        if request.method == 'POST':
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                username = form.cleaned_data['email']
+                password = form.cleaned_data['password']
+                user_obj = User.objects.filter(email=username)
+                if user_obj.count()>0:
+                    user_obj=user_obj.first()
+                    if user_obj.is_active:
+                        user_obj = authenticate(username=username, password=password)
+                        login(request, user_obj)
+                        if request.user.is_teacher:
+                            return redirect('teacher:homepage')
+                        else:
+                            return redirect('student:registration')
+                    else:
+                        messages.error(request,"The entered email address is not verified")
                 else:
-                    return redirect('student:registration')
-            else:
-                messages.error(request, 'Incorrect Username or Password')
-    else:
-        form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+                    messages.error(request, 'Incorrect Username or Password')
+        else:
+            form = LoginForm()
+        return render(request, 'login.html', {'form': form})
 
 
 def signup_view(request):
@@ -86,9 +105,20 @@ def signup_view(request):
             email = form.cleaned_data['email']
             user = User.objects.create_user_for_student(
                 email=email, password=password)
-            messages.success(
-                request, "Successfully registered. Click on login and fill details.")
-            return redirect('customuser:login')
+            mail_subject = 'Activate your Maroon account.'
+            current_site = get_current_site(request)
+            message = render_to_string('acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            email = EmailMessage(
+                        mail_subject, message, to=[email]
+            )
+            email.send()
+            messages.info(request,'Please confirm your email address to complete the registration')
+            return redirect('customuser:homepage')
         else:
             user = User.objects.filter(email=request.POST['email'])
             if user.count() > 0:
@@ -100,6 +130,20 @@ def signup_view(request):
         form = UserRegisterForm()
     return render(request, 'signup.html', {'form': form})
 
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+
+        return render(request,'confirm.html')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 def logout_view(request):
     logout(request)
@@ -115,7 +159,6 @@ def delete_user(request):
 def contact_us(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
-        print(form)
         if form.is_valid():
             current_site = get_current_site(request)
             sender_name = form.cleaned_data['name']

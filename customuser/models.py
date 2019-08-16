@@ -29,6 +29,7 @@ class UserManager(BaseUserManager):
         except ObjectDoesNotExist:
             print("group not present")
         user.is_teacher = True
+        user.is_active=False
         user.save()
         return user
     
@@ -39,6 +40,7 @@ class UserManager(BaseUserManager):
             user.groups.add(group)
         except ObjectDoesNotExist:
             print("group not present")
+        user.is_active=False
         user.save()
         return user
 
@@ -60,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         unique=True,
     )
     is_teacher = models.BooleanField(default = False)
-    is_active = models.BooleanField(default = True)
+    is_active = models.BooleanField(default = False)
     is_admin = models.BooleanField(default = False)
    
 

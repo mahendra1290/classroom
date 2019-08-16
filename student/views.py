@@ -33,12 +33,16 @@ def user_is_student_registered(user):
 
 @user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
 def HomePageViewStudent(request, *args, **kwargs):
-    if not Student.is_student_registered(request.user):
-        return redirect(reverse('student:registration'))
-    student = Student.get_student(user=request.user)
-    classrooms = student.my_classes.all()
-    return render(request, 'student_window.html',
-                {'classrooms': classrooms, 'student': student})
+    if request.user.is_active:
+        if not Student.is_student_registered(request.user):
+            return redirect(reverse('student:registration'))
+        student = Student.get_student(user=request.user)
+        classrooms = student.my_classes.all()
+        return render(request, 'student_window.html',
+                    {'classrooms': classrooms, 'student': student})
+    else:
+        messages.error(request, "The email address is not verified")
+        return redirect('customuser:homepage')
 
 
 @user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
