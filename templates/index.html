@@ -11,7 +11,7 @@
 				<h3 style="color:  #ffc107;">{{assignment.title}} / {{assignment.classroom.title}} </h3>
 
 				<br>
-				<a class="nav-link text-white add-button" href="{% url 'teacher:classroom_detail' assignment.classroom.id %}"><i class="fa fa-folder"></i>Go to Classroom</a>
+				<a class="nav-link text-white add-button" href="{% url 'teacher:classroom_detail' assignment.classroom.slug %}"><i class="fa fa-folder"></i>Go to Classroom</a>
                 <span> <a class="nav-link text-white add-button" href="{% url 'customuser:homepage' %}"><i class="fa fa-home"></i>HOME</a></span>
             </div>
 		</div>
@@ -52,7 +52,7 @@
 							<p>Due Date : {{assignment.due_date}}</p>
 							<p >Class: {{assignment.classroom.title}}</p>
 							<br>
-							<a href="{% url 'teacher:classroom_detail' assignment.classroom.id %}" class="btn btn-main-sm">Go to Classroom</a>
+							<a href="{% url 'teacher:classroom_detail' assignment.classroom.slug %}" class="btn btn-main-sm">Go to Classroom</a>
 						  </div>
 					<!-- Dashboard Links -->
                     <div class="widget user-dashboard-menu">
@@ -63,7 +63,7 @@
                     <a href=""><i class="fa fa-check"></i>Submission List </a></li>
                     <li  >
 						
-                        <a href="{% url 'teacher:assignment:assignment_file_view' assignment.classroom.id assignment.id %}"><i class="fa fa-folder"></i>View Assignment </a></li>
+                        <a href="{% url 'teacher:assignment:assignment_file_view' assignment.classroom.slug assignment.slug %}"><i class="fa fa-folder"></i>View Assignment </a></li>
                             <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
                   Assignment</a></li>
                     </ul>
@@ -84,7 +84,7 @@
                       </div>
                       <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                        <a href="{% url 'teacher:assignment:delete' assignment.classroom.id assignment.id %}"> <button type="button" class="btn btn-danger">Delete</button></a>
+                        <a href="{% url 'teacher:assignment:delete' assignment.classroom.slug assignment.slug %}"> <button type="button" class="btn btn-danger">Delete</button></a>
                       </div>
                     </div>
                   </div>
@@ -117,7 +117,7 @@
                                   <td class="product-details"><span class="categories">{{solution.comment}}   </span></td>
                                   <td class=" product-details action" data-title="Action">
                                       <li class="list-inline-item">
-                                          <a data-toggle="tooltip" data-placement="top" target="_blank" title="view" class="view" href="{%url 'student:assignment:see_student_solution' solution.assignment.classroom.id solution.assignment.id solution.student_slug  %}">
+                                          <a data-toggle="tooltip" data-placement="top" target="_blank" title="view" class="view" href="{%url 'student:assignment:see_student_solution' solution.assignment.classroom.slug solution.assignment.slug solution.slug  %}">
                                           <i class="fa fa-eye"></i>
                                           </a>
                                         </li>
