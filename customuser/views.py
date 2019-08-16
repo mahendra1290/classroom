@@ -167,7 +167,7 @@ def contact_us(request):
                         sender_name,sender_email, form.cleaned_data['message'])
             mail_subject = 'Contact Us Reply'
             email = EmailMessage(
-                        mail_subject, message, to=['piyushbhutaniynr@gmail.com']
+                        mail_subject, message, to=['response.maroon@gmail.com']
             )
             email.send()
             mail_subject = "Thanks for Contacting"
