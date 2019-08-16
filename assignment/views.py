@@ -125,6 +125,7 @@ def assignment_file_view(request, slug, *args, **kwargs):
 @user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
 def solution_create_view(request, slug, *args, **kwargs):
     assignment = Assignment.objects.filter(slug=slug).first()
+    slug_of_class = assignment.classroom.slug 
     student = Student.objects.get(user=request.user)
     if (assignment is None or 
             not student.has_access_to_assignment(assignment)):
@@ -132,9 +133,6 @@ def solution_create_view(request, slug, *args, **kwargs):
     if not student.has_submitted_solution(assignment):
         now = timezone.now().isoformat()
         assignment_duedate =assignment.due_date.isoformat()
-        print("TIME")
-        print(now)
-        print(assignment_duedate)
         if now<assignment_duedate:
             form = SolutionCreateForm()
             if request.method == 'POST':
@@ -151,14 +149,16 @@ def solution_create_view(request, slug, *args, **kwargs):
                         solution_file.save()
                     messages.success(
                         request, "Solution to assignment is successfully submitted")
-                    return redirect('customuser:homepage')
+                    return redirect(reverse('student:assignment:detail',
+                                kwargs={'slug_of_class':slug_of_class,'slug': slug}))
                 else:
                     messages.error(request, "Please enter valid info")
             return render(request, 'student_solution_view.html',
                         {'form': form, 'assignment': assignment})
         else:
             messages.error(request,"You cannot submit solutions now. Time Reached!!")
-            return redirect(reverse('student:assignmentS', kwargs={'slug': slug}))
+            return redirect(reverse('student:assignment:detail',
+                                kwargs={'slug_of_class':slug_of_class,'slug': slug}))
     else:
         solution = student.get_solution(assignment=assignment)
         solution_files = solution.get_files()
