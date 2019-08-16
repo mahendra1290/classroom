@@ -53,6 +53,7 @@
 				<!-- User Name -->
 				<h5 class="text-center">{{student.name}}</h5>
 				<p>Rollno : {{student.rollno}}</p>
+				<p>{{student.user.email}}
 				
 				<a href="{% url 'student:join_class' %}" class="btn btn-main-sm">Join Classroom</a>
 			  </div>
@@ -185,7 +186,8 @@
 		
 				{% endfor %}
 			{%else%}
-					  <h3>No classes to show. Click on JOIN CLASSROOM to add new classes.</h3>
+			<h3>No classes to show >> <a href="{%url 'student:join_class' %}">JOin
+				Classroom</a></h3>
 			{%endif%}
 								   
 				</tbody>
