@@ -130,6 +130,7 @@
 				<div class="col-md-9">
 					<div class="product-grid-list">
 						<div class="row mt-30">
+							{% if assignment_list %}
 								{% for assignment in assignment_list %}
 								<div class="col-sm-12 col-lg-4 col-md-6">
 									<!-- product card -->
@@ -161,6 +162,11 @@
 								
 								</div>
 								{%endfor%}
+								{%else%}
+								<h3>
+									No Assignments To Show...<a href="{% url 'teacher:assignment:create' classroom.slug  %}">ADD NEW</a>
+								</h3>
+								{%endif%}
 							</div>
 							</div>
 							</div>

@@ -8,9 +8,9 @@ from django.urls import reverse
 from .utils import unique_slug_generator
 
 class Assignment(models.Model):
-    title = models.CharField(max_length=30)
-    slug = models.SlugField(max_length=30, unique=True)
-    instructions = models.CharField(max_length=100)
+    title = models.CharField(max_length=40)
+    slug = models.SlugField(max_length=40, unique=True)
+    instructions = models.CharField(max_length=150)
     due_date =  models.DateTimeField( blank=True, null = True)
     pub_date = models.DateTimeField(auto_now_add=True, null=True)
     classroom = models.ForeignKey(

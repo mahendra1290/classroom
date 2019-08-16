@@ -62,7 +62,7 @@ class TeachersClassRoom(models.Model):
     title = models.CharField(max_length=30)
     slug = models.SlugField(max_length=30, unique=True)
     section = models.CharField(max_length=10)
-    subject = models.CharField(max_length=30)
+    subject = models.CharField(max_length=40)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):

@@ -98,7 +98,7 @@ class Student(models.Model):
 
 
 class Solution(models.Model):
-    comment = models.CharField(max_length=50)
+    comment = models.CharField(max_length=150)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=10, unique=True)
     assignment = models.ForeignKey(
