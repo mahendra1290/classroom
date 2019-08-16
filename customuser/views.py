@@ -22,7 +22,7 @@ from .models import User
 from .forms import LoginForm
 from .forms import UserRegisterForm
 from .forms import ContactForm
-
+from .forms import ForgetPasswordForm,PasswordRecoveryForm
 
 
 def homepageview(request):
@@ -73,6 +73,7 @@ def permission_denied_view(request):
 
   
 def login_view(request):
+    if not request.user.is_authenticated:
         if request.method == 'POST':
             form = LoginForm(request.POST)
             if form.is_valid():
@@ -83,11 +84,14 @@ def login_view(request):
                     user_obj=user_obj.first()
                     if user_obj.is_active:
                         user_obj = authenticate(username=username, password=password)
-                        login(request, user_obj)
-                        if request.user.is_teacher:
-                            return redirect('teacher:homepage')
+                        if user_obj is not None:
+                            login(request, user_obj)
+                            if request.user.is_teacher:
+                                return redirect('teacher:homepage')
+                            else:
+                                return redirect('student:registration')
                         else:
-                            return redirect('student:registration')
+                            messages.error(request, "Incorrect Username or Password")
                     else:
                         messages.error(request,"The entered email address is not verified")
                 else:
@@ -95,40 +99,45 @@ def login_view(request):
         else:
             form = LoginForm()
         return render(request, 'login.html', {'form': form})
+    else:
+        return redirect('customuser:homepage')
 
 
 def signup_view(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
-            user = User.objects.create_user_for_student(
-                email=email, password=password)
-            mail_subject = 'Activate your Maroon account.'
-            current_site = get_current_site(request)
-            message = render_to_string('acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
-            })
-            email = EmailMessage(
-                        mail_subject, message, to=[email]
-            )
-            email.send()
-            messages.info(request,'Please confirm your email address to complete the registration')
-            return redirect('customuser:homepage')
-        else:
-            user = User.objects.filter(email=request.POST['email'])
-            if user.count() > 0:
-                messages.error(
-                    request, "This email address is already registered")
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            form = UserRegisterForm(request.POST)
+            if form.is_valid():
+                password = form.cleaned_data['password']
+                email = form.cleaned_data['email']
+                user = User.objects.create_user_for_student(
+                    email=email, password=password)
+                mail_subject = 'Activate your Maroon account.'
+                current_site = get_current_site(request)
+                message = render_to_string('acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token':account_activation_token.make_token(user),
+                })
+                email = EmailMessage(
+                            mail_subject, message, to=[email]
+                )
+                email.send()
+                messages.info(request,'Please confirm your email address to complete the registration')
+                return redirect('customuser:homepage')
             else:
-                messages.error(request, "Incorrect details.")
+                user = User.objects.filter(email=request.POST['email'])
+                if user.count() > 0:
+                    messages.error(
+                        request, "This email address is already registered")
+                else:
+                    messages.error(request, "Incorrect details.")
+        else:
+            form = UserRegisterForm()
+        return render(request, 'signup.html', {'form': form})
     else:
-        form = UserRegisterForm()
-    return render(request, 'signup.html', {'form': form})
+        return redirect('customuser:homepage')
 
 def activate(request, uidb64, token):
     try:
@@ -182,3 +191,62 @@ def contact_us(request):
         form = ContactForm()
 
     return render(request, 'contactus.html', {'form': form})
+
+
+def forgetpassword(request):
+    if not request.user.is_authenticated:
+        form =ForgetPasswordForm()
+        if request.method=='POST':
+            form = ForgetPasswordForm(request.POST)
+            if form.is_valid():
+                email=form.cleaned_data['email']
+                user = User.objects.filter(email=email)
+                if user.count()>0:
+                    user=user.first()
+                    mail_subject = 'Password Recovery'
+                    current_site = get_current_site(request)
+                    message = render_to_string('forget_email.html', {
+                        'user': user,
+                        'domain': current_site.domain,
+                        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token':account_activation_token.make_token(user),
+                    })
+                    email = EmailMessage(
+                                mail_subject, message, to=[email]
+                    )
+                    email.send()
+                    messages.info(
+                        request, 'Passowrd recovery link has been sent to the registered email id')
+                    return redirect('customuser:homepage')
+            else:
+                messages.error(request,"Invalid email address")
+        
+        return render(request,'forget.html',{'form':form})
+    else:
+        return redirect('customuser:homepage')
+
+def changepassword(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        form = PasswordRecoveryForm()
+        if request.method=='POST':
+            form = PasswordRecoveryForm(request.POST)
+            if form.is_valid():
+                new_password = form.cleaned_data['new_password']
+                confirm_password = form.cleaned_data['confirm_password']
+                if new_password==confirm_password:
+                    user.set_password(new_password)
+                    user.save()
+                    messages.success(request,'Password updated successfully')
+                    return redirect('customuser:login')
+                else:
+                    messages.error(request,"Password doesnot match.")
+            else:
+                messages.error(request, "Invalid Details")
+        return render(request,'changepassword.html',{'form':form})
+    else:
+        return HttpResponse('Activation link is invalid!')

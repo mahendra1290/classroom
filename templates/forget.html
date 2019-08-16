@@ -9,8 +9,9 @@
         <div class="row">
             <div class="col-md-9 offset-md-2 text-center">
                 <!-- Title text -->
-                <h3>Login to access the uninterrupted services</h3>
-                <h5>Maroon provides you to join class and submit responses.</h5>
+                <h3>Forget Password</h3>
+                <br>
+                <h5>A password recovery link will be send to registered email address</h5>
             </div>
         </div>
     </div>
@@ -41,15 +42,11 @@
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-8 align-item-center">
                 <div class="border">
-                    <h3 class="bg-gray p-4">Login Now</h3>
+                    <h3 class="bg-gray p-4">Forget Password</h3>
                     <form method = "POST">{% csrf_token %}
                         <fieldset class="p-4">
                             {{form.email}}
-                            {{form.password}}
-                            <button type="submit" class="d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3">Log in</button>
-                            <a class="mt-3 d-block  text-primary" href="{% url 'customuser:forgetpassword'  %}">Forgot Password?</a>
-                            <a class="mt-3 d-inline-block text-primary" href="{% url 'customuser:signup'  %}">Create an Account</a>
-                        </fieldset>
+                            <button type="submit" class="d-block py-3 px-5 bg-primary text-white border-0 rounded font-weight-bold mt-3">Submit</button>                        </fieldset>
                     </form>
                 </div>
             </div>

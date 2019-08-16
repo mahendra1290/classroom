@@ -83,3 +83,14 @@ class ContactForm(forms.Form):
         attrs={'placeholder': 'Email', 'class': 'form-control', 'required': 'required'}))
     message = forms.CharField(widget=forms.Textarea(
         attrs={'placeholder': 'Message', 'class': 'border w-100 p-3 mt-3 mt-lg-4', 'required': 'required'}))
+
+class ForgetPasswordForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Email', 'class': 'form-control', 'required': 'required'}
+    ))
+
+class PasswordRecoveryForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'New Password', 'class': 'form-control'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': 'Confirm Password', 'class': 'form-control'}))

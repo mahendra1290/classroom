@@ -1,0 +1,13 @@
+
+{% autoescape off %}
+Hello ,
+
+Please click on the link to change your password,http://{{ domain }}{% url 'customuser:changepassword' uidb64=uid token=token %}
+Maroon Classroom is a free web service, developed by Maroon for schools, that aims to simplify creating, distributing, and grading assignments in a paperless way. The primary purpose of Maroon Classroom is to streamline the process of sharing files between teachers and students.
+
+
+Regards:
+Team MAROON
+
+Password recovery link must not be shared with anyone. Our team will never ask you to share such links withs us.
+{% endautoescape %}

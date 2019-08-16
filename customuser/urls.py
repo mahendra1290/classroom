@@ -10,7 +10,7 @@ from .views import signup_view
 from .views import logout_view
 from .views import delete_user
 from .views import permission_denied_view
-from .views import activate
+from .views import activate,forgetpassword,changepassword
 
 app_name="customuser"
 
@@ -22,7 +22,10 @@ urlpatterns = [
     path('signup/', signup_view, name = 'signup'),
     path('contact/', contact_us, name = 'contact'),
     path('delete/', delete_user, name = 'delete'),
+    path('forgetpassword/', forgetpassword, name = 'forgetpassword'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         activate, name='activate'),
+    url(r'^changepassword/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        changepassword, name='changepassword'),
 
 ]
