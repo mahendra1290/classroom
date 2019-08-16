@@ -75,7 +75,7 @@ def assignment_view(request, slug, *args, **kwargs):
         classroom = assignment.classroom
         students = classroom.student_set.all()
         students_count = students.count()
-        solutions = Solution.objects.filter(assignment=assignment)
+        solutions = Solution.objects.filter(assignment=assignment).order_by('submission_date')
         solutions_count = solutions.count()
         context = {
             'assignment': assignment,
@@ -129,7 +129,6 @@ def solution_create_view(request, slug, *args, **kwargs):
     if (assignment is None or 
             not student.has_access_to_assignment(assignment)):
         return render(request, '404.html')
-
     if not student.has_submitted_solution(assignment):
         now = timezone.now().isoformat()
         assignment_duedate =assignment.due_date.isoformat()
