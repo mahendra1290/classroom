@@ -146,7 +146,7 @@
 								{% for class in classrooms %}
 
 								<td class="product-details">
-									<a href="{%url 'teacher:classroom_detail' class.pk  %}">
+									<a href="{%url 'teacher:classroom_detail' class.slug  %}">
 										<h3 class="title" style="text-transform: uppercase;">{{class.title}}</h3>
 									</a>
 									<h3 class="title">ID : {{class.class_id}}</h3>
@@ -161,13 +161,13 @@
 										<ul class="list-inline justify-content-center">
 											<li class="list-inline-item">
 												<a data-toggle="tooltip" data-placement="top" title="view" class="view"
-													href="{%url 'teacher:classroom_detail' class.id %}">
+													href="{%url 'teacher:classroom_detail' class.slug %}">
 													<i class="fa fa-eye"></i>
 												</a>
 											</li>
 											<li class="list-inline-item">
 												<a class="edit" data-toggle="tooltip" data-placement="top" title="Edit"
-													href="{% url 'teacher:classroom_edit' class.id %}">
+													href="{% url 'teacher:classroom_edit' class.slug %}">
 													<i class="fa fa-pencil"></i>
 												</a>
 											</li>
@@ -201,7 +201,7 @@
 												class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
 												<button type="button" class="btn btn-primary"
 													data-dismiss="modal">Cancel</button>
-												<a href="{% url 'teacher:classroom_delete' class.id %}"><button
+												<a href="{% url 'teacher:classroom_delete' class.slug %}"><button
 														type="button" class="btn btn-danger">Delete</button></a>
 											</div>
 
