@@ -27,8 +27,8 @@ def user_is_student_registered(user):
     if user_is_student_check(user):
         if Student.is_student_registered(user):
             return True
-    else:
         return False
+    return False
 
 
 @user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
@@ -123,9 +123,9 @@ def student_edit_view(request):
 
 
 @user_passes_test(user_is_student_registered, login_url='customuser:permission_denied')
-def classroom_detail_view(request, pk):
+def classroom_detail_view(request, slug):
     try:
-        classroom = TeachersClassRoom.objects.get(id=pk)
+        classroom = TeachersClassRoom.objects.get(slug=slug)
     except:
         messages.error(request, "Permission Denied")
         return redirect('customuser:permission_denied')
@@ -138,10 +138,10 @@ def classroom_detail_view(request, pk):
 
 
 @user_passes_test(user_is_student_registered, login_url='customuser:permission_denied')
-def classroom_exit_view(request, pk):
+def classroom_exit_view(request, slug):
     student = Student.objects.get(user=request.user)
     try:
-        classroom = TeachersClassRoom.objects.get(pk=pk)
+        classroom = TeachersClassRoom.objects.get(slug=slug)
     except:
         messages.error(request, 'You are not registered to classroom')
         return redirect('customuser:permission_denied')

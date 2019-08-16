@@ -13,7 +13,7 @@ urlpatterns = [
     path('join-class/', join_class_view, name='join_class' ),
     path('edit/', student_edit_view, name='student_edit_view' ),
     path('registration/', StudentRegistration, name = 'registration'),
-    path('classroom-<int:pk>/', classroom_detail_view, name='classroom_detail'),
-    path('classroom-<int:pk>/exit', classroom_exit_view, name='classroom_exit_view'),
-    path('classroom-<int:pk_of_class>/assignment/', include('assignment.urls')),
+    path('classroom/<str:slug>/', classroom_detail_view, name='classroom_detail'),
+    path('classroom/<str:slug>/exit', classroom_exit_view, name='classroom_exit_view'),
+    path('classroom/<str:slug_of_class>/assignment/', include('assignment.urls')),
 ]
