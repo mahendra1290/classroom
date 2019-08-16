@@ -119,8 +119,12 @@
 			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 				<!-- Edit Profile Welcome Text -->
 				<div class="widget welcome-message">
-					<h2>Assignments</h2>
-					{%if request.user.teacher %}<p>Click on add assignment to add new assignment.</p>{%endif%}
+					<span style="font-size: 30px;">Assignments</span>
+					{%if request.user.teacher %}<span style="float: right;">												
+						<a data-toggle="tooltip" data-placement="top" title="Add" class="view"
+						href="{% url 'teacher:assignment:create' classroom.slug  %}">
+						<i class="fa fa-plus-circle" style="font-size: 40px;"></i>
+					</a></span>{%endif%}
 				</div>
 			<div class="row">
 				<div class="col-md-9">

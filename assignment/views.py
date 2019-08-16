@@ -15,6 +15,7 @@ from django.core.files import File
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
+from django.utils import timezone
 
 from teacher.models import Teacher
 from teacher.models import TeachersClassRoom
@@ -124,32 +125,40 @@ def assignment_file_view(request, slug, *args, **kwargs):
 @user_passes_test(user_is_student_check, login_url='customuser:permission_denied')
 def solution_create_view(request, slug, *args, **kwargs):
     assignment = Assignment.objects.filter(slug=slug).first()
+    slug_of_class = assignment.classroom.slug 
     student = Student.objects.get(user=request.user)
     if (assignment is None or 
             not student.has_access_to_assignment(assignment)):
         return render(request, '404.html')
-
     if not student.has_submitted_solution(assignment):
-        form = SolutionCreateForm()
-        if request.method == 'POST':
-            form = SolutionCreateForm(request.POST, request.FILES)
-            files = request.FILES.getlist('solution_file')
-            if form.is_valid():
-                comment = form.cleaned_data['comment']
-                solution = Solution(
-                    comment=comment, student=student, assignment=assignment)
-                solution.save()
-                for f in files:
-                    solution_file = SolutionFile(
-                        file=f, submission=solution)
-                    solution_file.save()
-                messages.success(
-                    request, "Solution to assignment is successfully submitted")
-                return redirect('customuser:homepage')
-            else:
-                messages.error(request, "Please enter valid info")
-        return render(request, 'student_solution_view.html',
-                      {'form': form, 'assignment': assignment})
+        now = timezone.now().isoformat()
+        assignment_duedate =assignment.due_date.isoformat()
+        if now<assignment_duedate:
+            form = SolutionCreateForm()
+            if request.method == 'POST':
+                form = SolutionCreateForm(request.POST, request.FILES)
+                files = request.FILES.getlist('solution_file')
+                if form.is_valid():
+                    comment = form.cleaned_data['comment']
+                    solution = Solution(
+                        comment=comment, student=student, assignment=assignment)
+                    solution.save()
+                    for f in files:
+                        solution_file = SolutionFile(
+                            file=f, submission=solution)
+                        solution_file.save()
+                    messages.success(
+                        request, "Solution to assignment is successfully submitted")
+                    return redirect(reverse('student:assignment:detail',
+                                kwargs={'slug_of_class':slug_of_class,'slug': slug}))
+                else:
+                    messages.error(request, "Please enter valid info")
+            return render(request, 'student_solution_view.html',
+                        {'form': form, 'assignment': assignment})
+        else:
+            messages.error(request,"You cannot submit solutions now. Time Reached!!")
+            return redirect(reverse('student:assignment:detail',
+                                kwargs={'slug_of_class':slug_of_class,'slug': slug}))
     else:
         solution = student.get_solution(assignment=assignment)
         solution_files = solution.get_files()

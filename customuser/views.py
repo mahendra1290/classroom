@@ -216,7 +216,7 @@ def forgetpassword(request):
                     )
                     email.send()
                     messages.info(
-                        request, 'Passowrd recovery link has been sent to the registered email id')
+                        request, 'Password recovery link has been sent to the registered email id')
                     return redirect('customuser:homepage')
             else:
                 messages.error(request,"Invalid email address")

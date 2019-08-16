@@ -52,7 +52,7 @@
 						</div>
 						<!-- User Name -->
 						<h5 class="text-center">{{teacher.name}}</h5>
-						<p>{{teacher.email}}</p>
+						<p>{{teacher.user.email}}</p>
 						<p>{{teacher.phone}}</p>
 						<a href="{% url 'teacher:teachers_edit' %}" class="btn btn-main-sm">Edit Profile</a>
 					</div>
@@ -129,8 +129,14 @@
 			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist">
-					<h3 class="widget-header">My Classes</h3>
-
+						<span style="font-size: 20px;">My Classes</span>
+						<span style="float: right;">												
+							<a data-toggle="tooltip" data-placement="top" title="Add" class="view"
+							href="{% url 'teacher:create_classroom' %}">
+							<i class="fa fa-plus-circle" style="font-size: 30px;"></i>
+						</a></span>
+							<br>
+							<br>
 					{%if classrooms%}
 
 					<table class="table table-responsive product-dashboard-table">
