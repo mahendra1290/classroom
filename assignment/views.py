@@ -74,7 +74,7 @@ def assignment_view(request, slug, *args, **kwargs):
         classroom = assignment.classroom
         students = classroom.student_set.all()
         students_count = students.count()
-        solutions = Solution.objects.filter(assignment=assignment)
+        solutions = Solution.objects.filter(assignment=assignment).order_by('submission_date')
         solutions_count = solutions.count()
         context = {
             'assignment': assignment,

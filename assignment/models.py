@@ -12,7 +12,7 @@ class Assignment(models.Model):
     slug = models.SlugField(max_length=30, unique=True)
     instructions = models.CharField(max_length=100)
     due_date =  models.DateTimeField( blank=True, null = True)
-    pub_date = models.DateField(auto_now=True, null=True)
+    pub_date = models.DateTimeField(auto_now_add=True, null=True)
     classroom = models.ForeignKey(
         TeachersClassRoom, on_delete=models.CASCADE)
     
