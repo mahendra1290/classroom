@@ -43,13 +43,13 @@
                 <div class="col-lg-5 col-md-8 align-item-center">
                     <div class="border border">
                         <h3 class="bg-gray p-4">Edit Classroom</h3>
-                        <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
+                        <form method = "POST" >{% csrf_token %}
                             <fieldset class="p-4">
                             {{form.title}}
                             {{form.subject}}
                             {{form.section}}
                            
-                                <button type="submit" name="signupsubmit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Edit</button>
+                                <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Edit</button>
                             </fieldset>
                         </form>
                     </div>

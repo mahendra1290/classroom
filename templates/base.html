@@ -81,10 +81,13 @@
 								</div>
 							</li>
       {% endif %}
-                    
-							<li class="nav-item active">
-								<a class="nav-link" href="{% url 'customuser:contact'%}">Contact Us</a>
-							</li>
+      <li class="nav-item active">
+          <a class="nav-link" href="{% url 'customuser:contact'%}">Contact Us</a>
+        </li>
+               		<li class="nav-item active">
+								<a class="nav-link" href="{% url 'customuser:developers_page'%}"><i class="fa fa-user"></i>Devs Column</a>
+							</li>     
+
 
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
@@ -99,7 +102,7 @@
                         {% endif %} 
                         {%if request.user.is_authenticated is False%}
 							<li class="nav-item">
-								<a class="nav-link text-white add-button" href="{% url 'customuser:signup'  %}"><i class="fa fa-plus-circle"></i>Signup</a>
+								<a class="nav-link text-white add-button" href="{% url 'customuser:signup'  %}"></i>Signup</a>
               </li>
               {%endif %}
 						</ul>
@@ -137,91 +140,6 @@
 {% endblock content %}
 <section>
 
-  <section class=" section">
-    <!-- Container Start -->
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <!-- Section title -->
-          <div class="section-title">
-            <h2>All Departments</h2>
-            <p>Browse the Departments according to your need!!</p>
-          </div>
-          <div class="row">
-            <!-- Category list -->
-            <div class="col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-              <div class="category-block">
-                <div class="header">
-                  <i class="fa fa-laptop icon-bg-1"></i> 
-                  <h4>Computer Science</h4>
-                </div>
-              </div>
-            </div> <!-- /Category List -->
-            <!-- Category list -->
-            <div class="col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-              <div class="category-block">
-                <div class="header">
-                  <i class="fa fa-book icon-bg-2"></i> 
-                  <h4>Electrical</h4>
-                </div>
-
-              </div>
-            </div> <!-- /Category List -->
-            <!-- Category list -->
-            <div class="col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-              <div class="category-block">
-                <div class="header">
-                  <i class="fa fa-car icon-bg-3"></i> 
-                  <h4>Electronics</h4>
-                </div>
-
-              </div>
-            </div> <!-- /Category List -->
-            <!-- Category list -->
-            <div class="col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-              <div class="category-block">
-                <div class="header">
-                  <i class="fa fa-home icon-bg-4"></i> 
-                  <h4> Mechanical</h4>
-                </div>
-
-              </div>
-            </div> <!-- /Category List -->
-            <!-- Category list -->
-            <div class="col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-              <div class="category-block">
-                <div class="header">
-                  <i class="fa fa-briefcase icon-bg-5"></i> 
-                  <h4>Production</h4>
-                </div>
-
-              </div>
-            </div> <!-- /Category List -->
-            <!-- Category list -->
-            {% comment %} <div class="col-lg-3 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-              <div class="category-block">
-                <div class="header">
-                  <i class="fa fa-car icon-bg-6"></i> 
-                  <h4>Vehicles</h4>
-                </div>
-
-              </div>
-            </div> <!-- /Category List -->
-            <!-- Category list --> {% endcomment %}
-            <div class="col-lg-4 offset-lg-0 col-md-5 offset-md-1 col-sm-6 col-6">
-              <div class="category-block">
-                <div class="header">
-                  <i class="fa fa-paw icon-bg-7"></i> 
-                  <h4>Civil</h4>
-            </div> 
-            
-            
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Container End -->
-  </section>
   
 
 <footer class="footer section section-sm">
@@ -242,9 +160,8 @@
         <div class="block">
           <h4>Site Pages</h4>
           <ul>
-            <li><a href="">Aboutus</a></li>
-            <li><a href="">How It works</a></li>
-            <li><a href="">Contact us</a></li>
+            <li><a href="{% url 'customuser:homepage' %}">Home</a></li>
+            <li><a href="{% url 'customuser:contact' %}">Contact us</a></li>
             <li><a href="terms-condition.html">Terms & Conditions</a></li>
           </ul>
         </div>
@@ -259,12 +176,12 @@
           <div class="mobile d-flex">
             <a href="">
               <!-- Icon -->
-              <img src="{%static 'images/phone-icon.png'%}" alt="mobile-icon">
+              <img src="{%static 'images/phone-icon.png'%}" alt="coming soon..">
             </a>
-            <p>Get the Dealsy Mobile App and Save more</p>
+            <p>Get the mobile app</p>
           </div>
           <div class="download-btn d-flex my-3">
-            <a href="#"><img src="{%static 'images/google-play-store.png'%}" class="img-fluid" alt=""></a>
+            <a href="#"><img src="{%static 'images/google-play-store.png'%}" class="img-fluid" alt="coming soon.."></a>
             <a href="#" class=" ml-3"><img src="{%static 'images/cta-background.png'%}" class="img-fluid" alt=""></a>
           </div>
         </div>
@@ -286,14 +203,6 @@
               document.write(CurrentYear)
             </script>. All Rights Reserved</p>
         </div>
-      </div>
-      <div class="col-sm-6 col-12">
-        <!-- Social Icons -->
-        <ul class="social-media-icons text-right">
-          <li><a class="fa fa-facebook" href="" target="_blank"></a></li>
-          <li><a class="fa fa-twitter" href="" target="_blank"></a></li>
-          <li><a class="fa fa-pinterest-p" href="" target="_blank"></a></li>
-        </ul>
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from .utils import unique_slug_generator
 from .utils import unique_class_id_generator
+from phonenumber_field.modelfields import PhoneNumberField
 
 DEPARTMENT_CHOICES = (
     ('', 'Select Department'),
@@ -22,7 +23,7 @@ class Teacher(models.Model):
     name = models.CharField(max_length=20)
     department = models.CharField(
         max_length=50, choices=DEPARTMENT_CHOICES, default='', blank=True)
-    phone = models.IntegerField()
+    phone = PhoneNumberField(unique = True, null=True, blank = False, region = 'IN', max_length = 13) 
 
     def get_username(self):
         return self.user.email

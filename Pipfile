@@ -13,6 +13,8 @@ doc8 = "*"
 pygments = "*"
 gunicorn = "*"
 whitenoise = "*"
+django-phonenumber-field = "*"
+phonenumbers = "*"
 
 [requires]
 python_version = "3.7"

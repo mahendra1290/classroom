@@ -28,8 +28,7 @@
             <div class="row">
                 <div class="col-md-9 offset-md-2 text-center">
                     <!-- Title text -->
-                    <h3 style="color:  #ffc107;"> Class Title :<a href="" style = "text-transform: uppercase;color: #f5f5f5;" >{{classroom.title}} </a> </h3>
-                    <h3 style="color:  #ffc107;"> Section :{{classroom.section}}  </h3>
+                    <h3><a href="" style = "text-transform: uppercase;color: #ffc107;" >{{classroom.title}} </a> </h3>
                     <br>
                     <a class="nav-link text-white add-button" href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i>  All Classes</a>
                 </div>
@@ -69,7 +68,7 @@
                     </div>
             </fieldset>
 
-            <button type="submit" class="btn btn-primary d-block mt-2 " name = "submitname">Post Assignment</button>
+            <button type="submit" onclick="change()" class="btn btn-primary d-block mt-2 " id="postassignment" name = "submitname">Create</button>
 
         </form>
     </div>
@@ -81,6 +80,10 @@
                format:'DD-MM-YYYY HH:mm:ss',
               });
             });
+            function change();
+            {
+                document.getElementById("postassignment").value="Creating..";
+            }
           </script>
 
 

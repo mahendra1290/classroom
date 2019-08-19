@@ -37,7 +37,7 @@
                     </div>
                     <!-- Dashboard Links -->
                      <div class="widget user-dashboard-menu">
-                                <ul>      <li ><a href="{% url 'teacher:homepage' %}"><i class="fa fa-bookmark-o"></i> My Classes</a></li>
+                                <ul>      <li ><a href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i> My Classes</a></li>
                                 <li class="active"  ><a  href="{% url 'teacher:teachers_edit' %}"><i class="fa fa-user"></i>Edit Profile</a></li>
                                   
                                       <li><a href=""data-toggle="modal" data-target="#logoutaccount"><i class="fa fa-cog"></i> Logout</a></li>
@@ -101,26 +101,8 @@
 				<!-- Edit Profile Welcome Text -->
 				<div class="widget welcome-message">
 					<h2>Edit profile</h2>
-					<p>Here you can edit your details. Give accurate details for better selling</p>
+				
 				</div>
-{% for message in messages %}
-{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
-            <div class="alert alert-danger">
-                <a class="close" href="#" data-dismiss="alert">×</a>
-
-                {{ message }} 
-
-            </div>
-            {%else%}
-            <div class="alert alert-success">
-                <a class="close" href="#" data-dismiss="alert">×</a>
-
-                {{ message }} 
-
-            </div>
-        {%endif%}
-    
-    {% endfor %}
 
 				<div class="row">
 					<div class="col-lg-6 col-md-6">

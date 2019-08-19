@@ -148,7 +148,7 @@ def teacher_edit_view(request):
                         return redirect('teacher:homepage')
                 elif new_password != confirm_password:
                     messages.error(
-                        request, 'new password and confirm password must be same')
+                        request, 'New Password and Confirm Password must be same')
                 else:
                     messages.error(request, 'Current Password is not correct.')
                 return render(request, 'teacher_editprofile.html', {

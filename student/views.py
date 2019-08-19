@@ -88,6 +88,7 @@ def join_class_view(request):
             except ObjectDoesNotExist:
                 messages.error(request, 'Please enter a valid class code')
                 return render(request, 'join_class.html', {'form': form})
+            messages.success(request,"Successfully joined.")
             return redirect('student:homepage')
     else:
         form = JoinClassForm()
@@ -109,6 +110,7 @@ def student_edit_view(request):
                 student.save()
                 messages.success(request, "Profile updated successfully")
                 return redirect('student:homepage')
+            
             else:
                 messages.error(request, "Incorrect Details")
         else:

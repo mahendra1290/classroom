@@ -1,0 +1,120 @@
+
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+	
+
+<section class="blog single-blog section">
+	<div class="container">
+		<div class="row">
+            <center>
+			<div class="col-md-8 offset-md-1 col-lg-9 offset-lg-0">
+				<article class="single-post">
+					<h3>Developed and Maintained </h3>
+					<ul class="list-inline">
+						<li class="list-inline-item">by</li>
+						<h3>Piyush and Mahendra</h3>
+					</ul>
+					<img src="{% static 'images/coder.png'%}" alt="article-01">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed eiusmod tempor incididunt  labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip.ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident. 
+					sunt in culpa qui officia deserunt mollit anim id est laborum.</p> 
+					
+					<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+
+					<p>sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+					<ul class="social-circle-icons list-inline">
+				  		<li class="list-inline-item text-center"><a class="fa fa-facebook" href=""></a></li>
+				  		<li class="list-inline-item text-center"><a class="fa fa-twitter" href=""></a></li>
+				  		<li class="list-inline-item text-center"><a class="fa fa-google-plus" href=""></a></li>
+				  		<li class="list-inline-item text-center"><a class="fa fa-pinterest-p" href=""></a></li>
+				  		<li class="list-inline-item text-center"><a class="fa fa-linkedin" href=""></a></li>
+				  	</ul>
+                </article>
+                
+				<div class="block comment">
+					<h4>Leave A Comment</h4>
+                    <form method="POST">{% csrf_token %}
+                            <fieldset class="p-4">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-6 py-2">
+                                            {{form.name}}
+                                        </div>
+                                        <div class="col-lg-6 pt-2">
+                                           {{form.email}}
+                                        </div>
+                                    </div>
+                                </div>
+                               {{form.message}}
+                                <div class="btn-grounp">
+                                    <button type="submit" class="btn btn-transparent">Leave Comment</button>
+                                </div>
+                            </fieldset>
+                        </form>
+				</div>
+            </div>
+            <div class="col-md-4">
+                    <div class="sidebar">
+                        <div class="widget price text-center">
+                            <h4>Price</h4>
+                            <p>$230</p>
+                        </div>
+                        <!-- User Profile widget -->
+                        <div class="widget user">
+                            <img class="rounded-circle" src="images/user/user-thumb.jpg" alt="">
+                            <h4><a href="">Jonathon Andrew</a></h4>
+                            <p class="member-time">Member Since Jun 27, 2017</p>
+                            <a href="">See all ads</a>
+                            <ul class="list-inline mt-20">
+                                <li class="list-inline-item"><a href="" class="btn btn-contact">Contact</a></li>
+                                <li class="list-inline-item"><a href="" class="btn btn-offer">Make an offer</a></li>
+                            </ul>
+                        </div>
+                        <!-- Map Widget -->
+                        <div class="widget map">
+                            <div class="map">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                        <!-- Rate Widget -->
+                        <div class="widget rate">
+                            <!-- Heading -->
+                            <h5 class="widget-header text-center">What would you rate
+                            <br>
+                            this product</h5>
+                            <!-- Rate -->
+                            <div class="starrr"></div>
+                        </div>
+                        <!-- Safety tips widget -->
+                        <div class="widget disclaimer">
+                            <h5 class="widget-header">Safety Tips</h5>
+                            <ul>
+                                <li>Meet seller at a public place</li>
+                                <li>Check the item before you buy</li>
+                                <li>Pay only after collecting the item</li>
+                                <li>Pay only after collecting the item</li>
+                            </ul>
+                        </div>
+                        <!-- Coupon Widget -->
+                        <div class="widget coupon text-center">
+                            <!-- Coupon description -->
+                            <p>Have a great product to post ? Share it with
+                                your fellow users.
+                            </p>
+                            <!-- Submii button -->
+                            <a href="" class="btn btn-transparent-white">Submit Listing</a>
+                        </div>
+                        
+                    </div>
+                </div>
+        </center>
+            
+
+        </div>
+        
+	</div>
+</section>
+
+
+{% endblock content %}

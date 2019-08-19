@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-md-9 offset-md-2 text-center">
 				<!-- Title text -->
-				<h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
+				<h3 style="color:  #ffc107;">{{classroom.title}} </h3>
 
 				<br>
 				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.slug  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
@@ -67,7 +67,7 @@
                     <li  >
 
 						<a href="{% url 'teacher:classroom_edit' classroom.slug %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
-                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
+                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-cog"></i>Delete
                   Class</a></li>
                     </ul>
           </div>
@@ -99,6 +99,7 @@
                 <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
                         <!-- Recently Favorited -->
                         <div class="widget dashboard-container my-adslist">
+                          {%if students%}
                           <h3 class="widget-header">Student List</h3>
                                                 
                                 <table class="table table-responsive product-dashboard-table">
@@ -114,7 +115,7 @@
                                 {% for student in students %}
             
                                   <td class="product-details">
-                                    <a><h3 class="title" style = "text-transform: uppercase;">{{ loop.index }} {{student.name}}</h3></a>
+                                    <a><h3 class="title" style = "text-transform: uppercase;">{{student.name}}</h3></a>
                                     
                                   </td>
                                   <td class="product-details"><span class="categories">{{student.rollno}}</span></td>
@@ -128,7 +129,9 @@
                             {% endfor %}	   
                             </tbody>
                           </table>
-                
+                          {%else%}
+                          <h3>No Students have joined the class.</h3>
+                            {%endif%}
                         </div>
             
                     <!-- Row End -->

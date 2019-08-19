@@ -156,7 +156,7 @@ def solution_create_view(request, slug, *args, **kwargs):
             return render(request, 'student_solution_view.html',
                         {'form': form, 'assignment': assignment})
         else:
-            messages.error(request,"You cannot submit solutions now. Time Reached!!")
+            messages.error(request,"The deadline to submit the assignment is over.")
             return redirect(reverse('student:assignment:detail',
                                 kwargs={'slug_of_class':slug_of_class,'slug': slug}))
     else:
