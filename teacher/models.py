@@ -66,14 +66,15 @@ class TeachersClassRoom(models.Model):
     subject = models.CharField(max_length=40)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
-    def save(self, *args, **kwargs):
+    def set_class_id(self):
         self.class_id = unique_class_id_generator(self)
-        self.slug = unique_slug_generator(self)
-        super().save(*args, **kwargs)
-        print(f"slud added for classroom {self.slug}")
-        print(f"class id added {self.class_id}")
 
-            
+    def save(self, *args, **kwargs):
+        if self.class_id == "":
+            self.set_class_id()
+        self.slug = unique_slug_generator(self)
+        super().save(*args, **kwargs) 
+
     def belongs_to_teacher(self, user):
         teacher = self.teacher
         if teacher.user == user:
