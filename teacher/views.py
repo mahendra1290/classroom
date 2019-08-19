@@ -197,7 +197,7 @@ def classroom_edit_view(request, slug):
             classroom.save()
             messages.success(
                 request, "Classroom desctription has been updated")
-            return redirect(reverse('teacher:classroom_detail', kwargs={'slug': slug}))
+            return redirect(reverse('teacher:classroom_detail', kwargs={'slug': classroom.slug}))
         else:
             messages.error(request, "Please enter valid details")
     else:
