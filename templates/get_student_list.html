@@ -99,6 +99,7 @@
                 <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
                         <!-- Recently Favorited -->
                         <div class="widget dashboard-container my-adslist">
+                          {%if students%}
                           <h3 class="widget-header">Student List</h3>
                                                 
                                 <table class="table table-responsive product-dashboard-table">
@@ -114,7 +115,7 @@
                                 {% for student in students %}
             
                                   <td class="product-details">
-                                    <a><h3 class="title" style = "text-transform: uppercase;">{{ loop.index }} {{student.name}}</h3></a>
+                                    <a><h3 class="title" style = "text-transform: uppercase;">{{student.name}}</h3></a>
                                     
                                   </td>
                                   <td class="product-details"><span class="categories">{{student.rollno}}</span></td>
@@ -128,7 +129,9 @@
                             {% endfor %}	   
                             </tbody>
                           </table>
-                
+                          {%else%}
+                          <h3>No Students have joined the class.</h3>
+                            {%endif%}
                         </div>
             
                     <!-- Row End -->
