@@ -10,7 +10,7 @@ from .views import signup_view
 from .views import logout_view
 from .views import delete_user
 from .views import permission_denied_view
-from .views import activate,forgetpassword,changepassword
+from .views import activate,forgetpassword,changepassword,developers_page
 
 app_name="customuser"
 
@@ -27,5 +27,6 @@ urlpatterns = [
         activate, name='activate'),
     url(r'^changepassword/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         changepassword, name='changepassword'),
+    path('developerspage/', developers_page, name = 'developers_page'),
 
 ]
