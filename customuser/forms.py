@@ -51,7 +51,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(
         max_length=50, required=True,
         widget=forms.PasswordInput(
-            attrs={'placeholder': 'Password', 'class': 'border p-3 w-100 my-2'}
+            attrs={'placeholder': 'Password', 'class': 'border p-3 w-100 my-2 show_password' }
         )
     )
 

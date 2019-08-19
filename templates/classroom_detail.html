@@ -9,7 +9,7 @@
 			<div class="col-md-9 offset-md-2 text-center">
 				<!-- Title text -->
 				
-				<h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
+				<h3 style="color:  #ffc107;">{{classroom.title}} </h3>
 
 				<br>
 				{%if request.user.teacher %}
@@ -72,7 +72,7 @@
 
 						<a href="{% url 'teacher:classroom_edit' classroom.slug %}"><i class="fa fa-pencil"></i>Edit Class </a></li>	
 
-                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
+                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-cog"></i>Delete
 				  Class</a></li>
 								{%else%}
 								<li><a href="{% url 'student:classroom_exit_view' classroom.slug %}" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-sign-out"></i>Leave

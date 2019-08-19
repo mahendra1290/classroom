@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-md-9 offset-md-2 text-center">
 				<!-- Title text -->
-				<h3 style="color:  #ffc107;"> Class ID :  {{classroom.class_id}} </h3>
+				<h3 style="color:  #ffc107;">{{classroom.title}} </h3>
 
 				<br>
 				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.slug  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
@@ -67,7 +67,7 @@
                     <li  >
 
 						<a href="{% url 'teacher:classroom_edit' classroom.slug %}"><i class="fa fa-pencil"></i>Edit Class </a></li>
-                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
+                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-cog"></i>Delete
                   Class</a></li>
                     </ul>
           </div>
