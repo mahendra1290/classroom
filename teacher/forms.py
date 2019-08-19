@@ -2,6 +2,7 @@
 from django import forms
 from .models import Teacher
 from .models import TeachersClassRoom
+from phonenumber_field.formfields import PhoneNumberField
 
 class TeacherRegistrationForm(forms.ModelForm):
     class Meta:
@@ -11,7 +12,7 @@ class TeacherRegistrationForm(forms.ModelForm):
     name =forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Name','class': 'border p-3 w-100 my-2'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Email','class': 'border p-3 w-100 my-2'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password','class': 'border p-3 w-100 my-2'}))
-    phone = forms.IntegerField(widget = forms.NumberInput(attrs={'placeholder':'Phone','class': 'border p-3 w-100 my-2'}))
+    phone = PhoneNumberField(region = 'IN', max_length = 13,widget = forms.TextInput(attrs={'placeholder':'Phone','class': 'border p-3 w-100 my-2'}))
     
 class ClassroomCreateForm(forms.ModelForm):
     class Meta:
@@ -26,4 +27,4 @@ class TeacherEditForm(forms.ModelForm):
         model=Teacher
         fields=['name','department','phone',]
     name =forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Name','class': 'border p-3 w-100 my-2'}))
-    phone = forms.IntegerField(widget = forms.NumberInput(attrs={'placeholder':'Phone','class': 'border p-3 w-100 my-2'}))
+    phone = PhoneNumberField(region = 'IN', max_length = 13,widget = forms.TextInput(attrs={'placeholder':'Phone','class': 'border p-3 w-100 my-2'}))
