@@ -141,16 +141,16 @@
 											</div>
 								
 											<div class="card-body">
-												{%if request.user.teacher%}
+												{% if request.user.teacher %}
 												<a href="{%url 'teacher:assignment:detail' classroom.slug assignment.slug %}">
 												{%else%}
 												<a href="{%url 'student:assignment:detail' classroom.slug assignment.slug %}">
-												{%endif%}
+												{% endif %}
 													<h4 class="card-title">{{assignment.title}}</h4>
 												</a>
 												<ul class="list-inline product-meta">
 													<li class="list-inline-item">
-														<a><i class="fa fa-calendar"></i>Due Date: : {{assignment.due_date}}</a>
+														<a><i class="fa fa-calendar"></i>Due Date: : {{ assignment.due_date KFKT}}</a>
 													</li>
 												</ul>
 												<p class="card-text">{{assignment.instructions}}</p>
