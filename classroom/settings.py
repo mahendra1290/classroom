@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-
+    'phonenumber_field',
     'customuser',
     'teacher',
     'assignment',
