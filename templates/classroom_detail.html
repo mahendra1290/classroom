@@ -164,7 +164,11 @@
 								{%endfor%}
 								{%else%}
 								<h3>
-									No Assignments To Show >>> <a href="{% url 'teacher:assignment:create' classroom.slug  %}">ADD NEW</a>
+									No Assignments To Show 
+									{% if request.user.is_teacher %}
+									<span>>>> <a href="{% url 'teacher:assignment:create' classroom.slug  %}">ADD NEW</a></span
+									{% endif %}
+								
 								</h3>
 								{%endif%}
 							</div>
