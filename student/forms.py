@@ -45,4 +45,4 @@ class SolutionCreateForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea(
         attrs={'placeholder': 'Give any comments','class':'border p-3 w-100'}))
     solution_file = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': True,'class': ''}))
+        widget=forms.ClearableFileInput(attrs={'multiple': True,'class': '','onchange' :'myFunction()'}))

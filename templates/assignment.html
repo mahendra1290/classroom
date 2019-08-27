@@ -62,6 +62,7 @@
                                 <div class="upload-btn-wrapper">
                                         <button class="assignbtn">Upload a file</button>
                                         {{form.assign_file}}
+                                        <p id="demo"></p>
                                       </div>
                    
                         </div>
@@ -74,17 +75,42 @@
     </div>
 </section> 
 
-    <script>
-            $(function () {
-              $("#datetimepicker1").datetimepicker({
-               format:'DD-MM-YYYY HH:mm:ss',
-              });
-            });
-            function change();
-            {
-                document.getElementById("postassignment").value="Creating..";
-            }
-          </script>
+<script>
+    function myFunction(){
+      var x = document.getElementById("id_assign_file");
+      var txt = "";
+      if ('files' in x) {
+        if (x.files.length == 0) {
+        } else {
+          for (var i = 0; i < x.files.length; i++) {
+            txt += "<br><strong>" + (i+1) + " ";
+            var file = x.files[i];
+            if ('name' in file) {
+                  txt +=file.name ;
+                }
+                if ('size' in file) {
+                    txt += "( " + file.size + " bytes) <br>";
+                }
+          }
+        }
+      } 
+      document.getElementById("demo").innerHTML = txt;
+    }
+    function change()
+{
+    document.getElementById("postassignment").value="Creating..";
+}
+</script>
+
+
+<script>
+$(function () {
+  $("#datetimepicker1").datetimepicker({
+    format: 'DD-MM-YYYY HH:mm:ss',
+  });
+
+  </script>
+
 
 
 {% endblock content %}

@@ -13,7 +13,7 @@ class AssignmentCreateForm(forms.Form):
     instructions = forms.CharField(widget=forms.Textarea(
         attrs={'placeholder': 'Give any instructions','class':'border p-3 w-100'}))
     assign_file = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': True,'class': ''}))
+        widget=forms.ClearableFileInput(attrs={'multiple': True,'class': '' ,'onchange' :'myFunction()'}))
     due_date = forms.DateTimeField(
         input_formats=['%m/%d/%Y %I:%M %p'],
         widget=forms.DateTimeInput(attrs={
