@@ -10,8 +10,8 @@ class AssignmentCreateForm(forms.Form):
 
     title = forms.CharField(widget=forms.TextInput(
         attrs={'placeholder': 'Title','class': 'border w-100 p-2 bg-white text-capitalize'}))
-    instructions = forms.CharField(widget=forms.Textarea(
-        attrs={'placeholder': 'Give any instructions','class':'border p-3 w-100'}))
+    instructions = forms.CharField(required=False, widget=forms.Textarea(
+        attrs={'placeholder': 'Instructions if any','class':'border p-3 w-100'}))
     assign_file = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'multiple': True,'class': ''}))
     due_date = forms.DateTimeField(
