@@ -2,6 +2,8 @@ branch-defaults:
   default:
     environment: classroom-env
     group_suffix: null
+  master:
+    environment: classroom-env
 global:
   application_name: classroom-app
   branch: null
