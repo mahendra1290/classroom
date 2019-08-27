@@ -75,6 +75,8 @@ def home_page_view(request):
 def classroom_detail_view(request, slug):
     try:
         classroom = TeachersClassRoom.objects.get(slug=slug)
+        students = classroom.student_set.all()
+        count = students.count()
         if not classroom.belongs_to_teacher(request.user):
             return render(request, '404.html')
     except ObjectDoesNotExist:
@@ -83,9 +85,9 @@ def classroom_detail_view(request, slug):
     context = {
         'classroom': classroom,
         'assignment_list': assignment_query,
+        'count':count
     }
     return render(request, 'classroom_detail.html',  context)
-
 
 @user_passes_test(user_is_teacher_check, login_url='customuser:permission_denied')
 def get_student_list(request, slug):
