@@ -94,11 +94,20 @@
 
                 <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
                         <!-- Recently Favorited -->
-                        <div class="widget dashboard-container my-adslist">
+                        <ul class="nav nav-pills  justify-content-center" id="pills-tab">
+                            <li class="nav-item">
+                                <button class="nav-link" style="background-color: #5672f9;color:white;border:none;" id="pills-profile-tab" onclick="showSubmissionList()">Submission List</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" style="background-color:  #5672f9;color:white;border:none;margin-left: 2px;" id="pills-profile-tab" onclick="showDefaulterList()">Defaulter List</button>
+                            </li>
+                          </ul>
+                        <div class="widget dashboard-container my-adslist" id = "submission_id">
                           <h3 class="widget-header">Submission List  <br> <span> Submitted Students:  </span><span style="color:red;">  {{solutions_count}} / {{students_count}} </span> </h3>           
                                 <table class="table table-responsive product-dashboard-table">
                                         <thead>
                                           <tr>
+                                              <th>S.NO.</th>
                                             <th>Name</th>
                                             <th >Rollno</th>
                                             <th>Comments</th>
@@ -108,7 +117,7 @@
                                         <tbody>
                                     <tr>
                                 {% for solution in solutions %}
-            
+                                <td >{{forloop.counter}}.</td>
                                   <td class="product-details">
                                     <a><h3 class="title" style = "text-transform: uppercase;">{{solution.student}}</h3></a>
                                     <span><strong>Submitted on: </strong><time>{{solution.submission_date}}</time> </span>
@@ -131,9 +140,53 @@
                             {% endfor %}	   
                             </tbody>
                           </table>
-                
+                          
                         </div>
-            
+                        <div class="widget dashboard-container my-adslist" id = "defaulter_id" style="display: none;">
+                          {% if defaulter_list  %}
+                            <h3 class="widget-header"><span  style="color:red;">Defaulter List</span> <br> <span> Submitted Students:  </span><span style="color:red;">  {{solutions_count}} / {{students_count}} </span> </h3>           
+                                  <table class="table table-responsive product-dashboard-table">
+                                          <thead>
+                                            <tr>
+                                              <th>S.NO.</th>
+                                              <th>Name</th>
+                                              <th >Rollno</th>
+                                              <th>Email</th>
+                                              <th >Submissions</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                      <tr>
+                                  {% for defaulter in defaulter_list %}
+                                  <td >{{forloop.counter}}.</td>
+                                  <td class="product-details" >
+                                      <a><h3 class="title" style = "text-transform: uppercase;color:red">{{defaulter.name}}</h3></a>
+                                    </td>
+                                    <td class="product-details"><span class="categories" style = "color:red">{{defaulter.rollno}}</span></td>
+                                    <td class="product-details"><span class="categories" style = "color:red">{{defaulter.user.email}}</span></td>
+                                    <td class=" product-details action" data-title="Action">
+                                        <li class="list-inline-item">
+                                            <i class="fa fa-close" style="font-size:48px;color:red"></i>
+                                            </a>
+                                          </li>
+                                          </ul>
+                                        </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    {%endfor%}
+                                    
+                              </tbody>
+                            </table>
+                            
+                          </div>
+                          {% else %}
+                          <div class="widget welcome-message">
+                              <span style="font-size: 20px;">NO DEFAULTERS </span>
+                              <span style="float: right;">												
+                                <i class="fa fa-smile-o" style="font-size: 40px;"></i>
+                            </div>
+                            {% endif %}
                     <!-- Row End -->
                   </div>
 
@@ -154,5 +207,18 @@
 			</div>
 		</div>
 </section>
-
+<script>
+    function showSubmissionList() {
+      var x = document.getElementById("defaulter_id");
+          var y = document.getElementById("submission_id");
+            x.style.display = "none";
+            y.style.display = "block";
+        }
+        function showDefaulterList() {
+          var x = document.getElementById("defaulter_id");
+          var y = document.getElementById("submission_id");
+            x.style.display = "block";
+            y.style.display = "none";
+        }
+        </script>
 {% endblock content %}

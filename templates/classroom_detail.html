@@ -12,13 +12,33 @@
 				<h3 style="color:  #ffc107;">{{classroom.title}} </h3>
 
 				<br>
+				
 				{%if request.user.teacher %}
+				
 				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.slug  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
 				{%endif%}
 			</div>
 		</div>
 	</div>
 </section>
+{%if request.user.teacher %}
+						
+						
+<section style="   padding: 15px 0;">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 offset-md-2 text-center">
+				<!-- Title text -->
+				
+				<h3 style="color:  blueviolet;"><a  href="{% url 'teacher:get_student_list' classroom.slug  %}">Joined Students : {{count}}</a></h3>
+
+				<br>
+			</div>
+		</div>
+	</div>
+</section>
+{%endif%}
 {% for message in messages %}
 {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
             <div class="alert alert-danger">
@@ -53,8 +73,8 @@
 							<h5 class="text-center"> {{classroom.title}}</h5>
 							<p>Subject :  {{classroom.subject}}</p>
 							<p>Section :  {{classroom.section}}</p>
-							<h2>ID :  {{classroom.class_id}}</h2>
-							<br>{%if request.user.teacher %}
+							<h2>ID :  {{classroom.class_id}}</h2><br>
+							{%if request.user.teacher %}
 							<a href="{% url 'teacher:assignment:create' classroom.slug  %}" class="btn btn-main-sm">Add Assignment</a>
 							{%endif%}
 						  </div>

@@ -1,69 +1,176 @@
+
 {% extends "base.html" %}
-
-{%load static%}
-
+{% load static %}
 {% block content %}
 <section class="page-title">
-    <!-- Container Start -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-9 offset-md-2 text-center">
-                <!-- Title text -->
-                <h3>Join Class </h3>
-                <h5>Click here to join class</h5>
-                <br>
-                <a href="{%url 'student:join_class' %}" class="nav-link text-white add-button" ><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
-                <a href="{%url 'student:homepage' %}" class="nav-link text-white add-button" ><i class="fa fa-home"></i>HOME</a>
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3>Join Class </h3>
+                    <h5>Click here to join class</h5>
+                    <br>
+                    <a href="{%url 'student:join_class' %}" class="nav-link text-white add-button" ><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
+                    <a href="{%url 'student:homepage' %}" class="nav-link text-white add-button" ><i class="fa fa-home"></i>HOME</a>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- Container End -->
-</section>
+        <!-- Container End -->
+    </section>
 {% for message in messages %}
 {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <div class="alert alert-danger">
-            <a class="close" href="#" data-dismiss="alert">×</a>
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
 
-            {{ message }} 
+                {{ message }} 
 
-        </div>
-        {%else%}
-        <div class="alert alert-success">
-            <a class="close" href="#" data-dismiss="alert">×</a>
-
-            {{ message }} 
-
-        </div>
-    {%endif%}
-
-{% endfor %}
-
-<div class="page-info-section set-bg" data-setbg="{%static 'images/page-bg/5.jpg'%}">
-    <div class="container">
-            <div class="site-breadcrumb">
             </div>
-        </div>
-        <section class="login py-5 border-top-1">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5 col-md-8 align-item-center">
-                            <div class="border border">
-                                <h3 class="bg-gray p-4">Edit Profile</h3>
-                                <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
-                                    <fieldset class="p-4">
-                                    <span> {{form.branch}}</span>
-                                 
-                                    <span>{{form.year}}</span>
-                                        {{form.name}}
-                                        {{form.rollno}}
-                                       
-                                        <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Update Profile</button>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
+<section class="user-profile section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                <div class="sidebar">
+                    <!-- User Widget -->
+                    <div class="widget user-dashboard-profile">
+                      <!-- User Image -->
+                      <div class="profile-thumb">
+                        <img src="{% static 'images/pencil.png'%}" alt="" class="rounded-circle">
+                      </div>
+                      <!-- User Name -->
+                      <h5 class="text-center">{{student.name}}</h5>
+                      <p>{{student.user.email}}</p>
+                      <p>{{student.rollno}}</p>
                     </div>
-                </div>
-            </section>
+                    <!-- Dashboard Links -->
+                     <div class="widget user-dashboard-menu">
+                                <ul>      <li ><a href="{% url 'student:homepage' %}"><i class="fa fa-folder"></i> My Classes</a></li>
+                                <li class="active"  ><a  href="{% url 'student:student_edit_view' %}"><i class="fa fa-user"></i>Edit Profile</a></li>
+                                  
+                                      <li><a href=""data-toggle="modal" data-target="#logoutaccount"><i class="fa fa-cog"></i> Logout</a></li>
+                                      <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-power-off"></i>Delete
+                            Account</a></li>
+                              </ul>
+                    </div>
+          
+                    <!-- delete-account modal -->
+                                              <!-- delete account popup modal start-->
+                          <!-- Modal -->
+                          <div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header border-bottom-0">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                  <img src="" class="img-fluid mb-2" alt="">
+                                  <h6 class="py-2">Are you sure you want to delete your account?</h6>
+                                  <p>Do you really want to delete these records? This process cannot be undone.</p>
+                                  <textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
+                                </div>
+                                <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'customuser:delete'%}"> <button type="button" class="btn btn-danger">Delete</button></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- delete account popup modal end-->
+                          <div class="modal fade" id="logoutaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header border-bottom-0">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                  <img src="" class="img-fluid mb-2" alt="">
+                                  <h6 class="py-2">Are you sure you want to Logout your account?</h6>
+                                  <p></p>
+                                </div>
+                                <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                                  <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                  <a href = "{% url 'customuser:logout'%}"><button type="button" class="btn btn-danger">Logout</button></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    <!-- delete-account modal -->
+          
+                  </div>
+			</div>
+			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
+				<!-- Edit Profile Welcome Text -->
+				<div class="widget welcome-message">
+					<h2>Edit profile</h2>
+				
+				</div>
+
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="widget personal-info">
+							<h3 class="widget-header user">Edit Personal Information</h3>
+							<form method = "POST">{% csrf_token %}
+                                <!-- First Name -->
+                                {{studentEditForm.branch}}
+                                {{studentEditForm.year}}
+								<div class="form-group">
+									<label for="first-name">Name</label>
+									{{studentEditForm.name}}
+								</div>
+																<div class="form-group">
+									<label for="phone">Roll No</label>
+									{{studentEditForm.rollno}}
+								</div>
+								<button type="submit" name='studentedit_submit' class="btn btn-transparent">Save My Changes</button>
+							</form>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<!-- Change Password -->
+					<div class="widget change-password">
+						<h3 class="widget-header user">Edit Password</h3>
+						<form  method = 'POST'>{% csrf_token %}
+							<!-- Current Password -->
+							<div class="form-group">
+								<label for="current-password">Current Password</label>
+								{{passwordEditForm.old_password}}
+							</div>
+							<!-- New Password -->
+							<div class="form-group">
+								<label for="new-password">New Password</label>
+								{{passwordEditForm.new_password}}
+							</div>
+							<!-- Confirm New Password -->
+							<div class="form-group">
+								<label for="confirm-password">Confirm New Password</label>
+								{{passwordEditForm.confirm_password}}
+							</div>
+							<!-- Submit Button -->
+							<button class="btn btn-transparent" name='form2_submit' type='submit'>Change Password</button>
+						</form>
+					</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
 {% endblock content %}
