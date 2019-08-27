@@ -1,0 +1,225 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+  <!-- SITE TITTLE -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maroon</title>
+  
+  <!-- FAVICON -->
+  <link rel="icon" type="image/x-icon" href="{%static 'images/logo.png'%}">
+  <!-- PLUGINS CSS STYLE -->
+  <!-- <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet"> -->
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{%static 'plugins/bootstrap/css/bootstrap.min.css'%}">
+  <link href="{%static 'plugins/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet">
+  <link href="{%static 'plugins/jquery-nice-select/css/nice-select.css'%}" rel="stylesheet">
+    <link href="{%static 'css/reset.css'%}" rel="stylesheet">
+  <link href="{%static 'css/style.css'%}" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+  <!-- Font Awesome -->
+ 
+
+  <!-- Moment.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+  <!-- Tempus Dominus Bootstrap 4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+</head>
+
+<body class="body-wrapper">
+
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-expand-lg navbar-light navigation">
+					<a class="navbar-brand" href="assignment_view.html">
+						<img src="{%static 'images/maroonLogo.png'%}" alt="" style="width:200px;">
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ml-auto main-nav ">
+							<li class="nav-item active">
+								<a class="nav-link" href="{% url 'customuser:homepage'  %}">Home</a>
+							</li>
+      {% if request.user.is_authenticated %}
+                            <li class="nav-item dropdown dropdown-slide">
+                            
+								<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="">Profile<span><i class="fa fa-angle-down"></i></span>
+								</a>
+    
+                            
+							
+                            
+
+								<!-- Dropdown list -->
+								<div class="dropdown-menu">
+                  {%if request.user.is_teacher %}
+                                    <a class="dropdown-item" href="{% url 'teacher:teachers_edit' %}">Edit Profile</a>
+                                    {%else%}
+                                    <a class="dropdown-item" href="{% url 'student:student_edit_view' %}">Edit Profile</a>
+                  {%endif%}
+                 
+                  <a class="dropdown-item" href="{% url 'customuser:homepage' %}">My Classes</a>
+
+									<a class="dropdown-item" href="" data-toggle="modal"  data-target="#logout">Logout</a>
+								</div>
+							</li>
+      {% endif %}
+      <li class="nav-item active">
+          <a class="nav-link" href="{% url 'customuser:contact'%}">Contact Us</a>
+        </li>
+               		<li class="nav-item active">
+								<a class="nav-link" href="{% url 'customuser:developers_page'%}"><i class="fa fa-user"></i>Developers Page</a>
+							</li>     
+
+
+						</ul>
+						<ul class="navbar-nav ml-auto mt-10">
+                        {% if request.user.is_authenticated %} 
+                		    <li class="nav-item">
+								<a class="nav-link login-button" href="{% url 'customuser:logout'  %}" href="" data-toggle="modal"  data-target="#logout">Logout</a>
+							</li>
+                        {% else %} 
+                 		  <li class="nav-item">
+								<a class="nav-link login-button" href="{% url 'customuser:login' %}">Login</a>
+							</li>
+                        {% endif %} 
+                        {%if request.user.is_authenticated is False%}
+							<li class="nav-item">
+								<a class="nav-link text-white add-button" href="{% url 'customuser:signup'  %}"></i>Signup</a>
+              </li>
+              {%endif %}
+						</ul>
+                                        <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body text-center">
+                        <img src="" class="img-fluid mb-2" alt="">
+                        <h6 class="py-2">Sure to Logout</h6>
+                        <p>Come back and keep smiling.</p>
+                      </div>
+                      <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a href = "{% url 'customuser:logout'  %}"><button type="button" class="btn btn-danger" >Logout</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section>
+{% block content %}
+
+{% endblock content %}
+<section>
+
+  
+
+<footer class="footer section section-sm">
+  <!-- Container Start -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-7 offset-md-1 offset-lg-0">
+        <!-- About -->
+        <div class="block about">
+          <!-- footer logo -->
+          <img src="" alt="">
+          <!-- description -->
+          <p class="alt-color">Maroon Classroom is a free web service, developed by Maroon for schools, that aims to simplify creating, distributing, and grading assignments in a paperless way. The primary purpose of Maroon Classroom is to streamline the process of sharing files between teachers and students.</p>
+        </div>
+      </div>
+      <!-- Link list -->
+      <div class="col-lg-2 offset-lg-1 col-md-3">
+        <div class="block">
+          <h4>Site Pages</h4>
+          <ul>
+            <li><a href="{% url 'customuser:homepage' %}">Home</a></li>
+            <li><a href="{% url 'customuser:contact' %}">Contact us</a></li>
+            <li><a href="terms-condition.html">Terms & Conditions</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- Link list -->
+      <div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0">
+      </div>
+      <!-- Promotion -->
+      <div class="col-lg-4 col-md-7">
+        <!-- App promotion -->
+        <div class="block-2 app-promotion">
+          <div class="mobile d-flex">
+            <a href="">
+              <!-- Icon -->
+              <img src="{%static 'images/phone-icon.png'%}" alt="coming soon..">
+            </a>
+            <p>Get the mobile app</p>
+          </div>
+          <div class="download-btn d-flex my-3">
+            <a href="#"><img src="{%static 'images/google-play-store.png'%}" class="img-fluid" alt="coming soon.."></a>
+            <a href="#" class=" ml-3"><img src="" class="img-fluid" alt=""></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container End -->
+</footer>
+<!-- Footer Bottom -->
+<footer class="footer-bottom">
+  <!-- Container Start -->
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-12">
+        <!-- Copyright -->
+        <div class="copyright">
+          <p>Copyright © <script>
+              var CurrentYear = new Date().getFullYear()
+              document.write(CurrentYear)
+            </script>. All Rights Reserved</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container End -->
+  <!-- To Top -->
+  <div class="top-to">
+    <a id="top" class="" href="#"><i class="fa fa-angle-up"></i></a>
+  </div>
+</footer>
+<script src="{%static 'plugins/jQuery/jquery.min.js'%}"></script>
+<script src="{%static 'plugins/bootstrap/js/popper.min.js'%}"></script>
+<script src="{%static 'plugins/jquery-nice-select/js/jquery.nice-select.min.js'%}"></script>
+<script src="{%static 'plugins/fancybox/jquery.fancybox.pack.js'%}"></script>
+<script src="{%static 'plugins/smoothscroll/SmoothScroll.min.js'%}"></script>
+<!-- <script src="{%static 'plugins/google-map/gmap.js'%}"></script>CROSS -->
+<script src="{%static 'js/script.js'%}"></script> 
+
+</body>
+
+</html>

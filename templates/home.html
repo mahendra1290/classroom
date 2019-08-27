@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% for message in messages %}
+        {% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }} 
+
+                    </div>
+                    {%else%}
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }} 
+
+                    </div>
+                {%endif%}
+            
+            {% endfor %}
+        
+    <section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3>Manage teaching and learning with Classroom</h3>
+                    <h5>Classroom helps students and teachers organize assignments, boost collaboration, and foster better communication.</h5>
+                    <br>
+                    <br>
+                    <a class="nav-link text-white add-button" href="{% url 'customuser:signup'  %}"><i class="fa fa-plus-circle"></i>JOIN CLASSROOM</a>
+                </div>
+            </div>
+        </div>
+        <!-- Container End -->
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about-img">
+                        <img src="{%static 'images/unnamed.jpg'%}" class="img-fluid w-100 rounded" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 pt-5 pt-lg-0">
+                    <div class="about-content">
+                        <h3 class="font-weight-bold">Make teaching more productive, collaborative, and meaningful
+                        </h3>
+          <br>
+         <p>Maroon worked with educators across the country to create Classroom: a streamlined, easy-to-use tool that helps teachers manage coursework. With Classroom, educators can create classes, distribute assignments, grade and send feedback, and see everything in one place.</p>
+           <br> <h3 class="font-weight-bold">Tackle administrative tasks more efficiently</h3><br>
+                        <p>
+                            With simple setup and integration with M Suite for Education, Classroom streamlines repetitive tasks and makes it easy to focus on what teachers do best: teaching.</p>
+          <br> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <section class="page-title">
+            <!-- Container Start -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <!-- Title text -->
+                        <h3>Signup to become a Teacher</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Container End -->
+        </section>
+        
+
+        <section class="login py-5 border-top-1">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-8 align-item-center">
+                        <div class="border border">
+                            <h3 class="bg-gray p-4">Register Here</h3>
+                            <form method = "POST" name = "signupform">{% csrf_token %}
+                                <fieldset class="p-4">
+                                <center> {{form.department}}</center>
+                                    {{form.email}}
+                                    {{form.name}}
+                                    {{form.phone}}
+                                    {{form.password}}
+                                  
+                                    <button type="submit" class="d-block py-3 px-4 bg-primary text-white border-0 rounded font-weight-bold">Register Now</button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+{% endblock content %}

@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+
+<section class="page-title">
+	<!-- Container Start -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 offset-md-2 text-center">
+				<!-- Title text -->
+				
+				<h3 style="color:  #ffc107;">{{classroom.title}} </h3>
+
+				<br>
+				{%if request.user.teacher %}
+				<a class="nav-link text-white add-button" href="{% url 'teacher:assignment:create' classroom.slug  %}"><i class="fa fa-plus-circle"></i>ADD ASSIGNEMNT</a>
+				{%endif%}
+			</div>
+		</div>
+	</div>
+</section>
+{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
+
+<section class="user-profile section">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+				<div class="sidebar">
+					<!-- User Widget -->
+					<div class="widget user-dashboard-profile">
+							<!-- User Image -->
+							<div class="profile-thumb">
+							  <img src="{%static 'images/hands.jpg'%}" alt="" class="rounded-circle">
+							</div>
+							<!-- User Name -->
+							<h5 class="text-center"> {{classroom.title}}</h5>
+							<p>Subject :  {{classroom.subject}}</p>
+							<p>Section :  {{classroom.section}}</p>
+							<h2>ID :  {{classroom.class_id}}</h2>
+							<br>{%if request.user.teacher %}
+							<a href="{% url 'teacher:assignment:create' classroom.slug  %}" class="btn btn-main-sm">Add Assignment</a>
+							{%endif%}
+						  </div>
+					<!-- Dashboard Links -->
+                    <div class="widget user-dashboard-menu">
+                      <ul>  
+							<li  >
+						
+									<a href="{% url 'customuser:homepage' %}"><i class="fa fa-folder"></i>All Classes </a></li>{%if request.user.teacher %}
+									<li  >
+						
+										<a href="{% url 'teacher:get_student_list' classroom.slug  %}"><i class="fa fa-user"></i>Student List </a></li>
+									
+                    <li  >
+
+						<a href="{% url 'teacher:classroom_edit' classroom.slug %}"><i class="fa fa-pencil"></i>Edit Class </a></li>	
+
+                            <li><a href="" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-cog"></i>Delete
+				  Class</a></li>
+								{%else%}
+								<li><a href="{% url 'student:classroom_exit_view' classroom.slug %}" data-toggle="modal" data-target="#deleteaccount"><i class="fa fa-sign-out"></i>Leave
+									Class</a></li>
+				  {%endif%}
+				  
+                    </ul>
+          </div>
+				</div>
+                <div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header border-bottom-0">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+					  </div>
+					  {% if request.user.teacher %}
+                      <div class="modal-body text-center">
+                        <h6 class="py-2">Are you sure you want to delete this class?</h6>
+                        <p>Do you really want to delete these records? This process cannot be undone.</p>
+                        <textarea name="message" id="" cols="40" rows="4" class="w-100 rounded"></textarea>
+					  </div>
+                      <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a href="{% url 'teacher:classroom_delete' classroom.slug %}"> <button type="button" class="btn btn-danger">Delete</button></a>
+					  </div>
+					  {%else%}
+					  <div class="modal-body text-center">
+                        <h6 class="py-2">Are you sure you want to leave this class?</h6>
+                        <p>Once you leave you will not be able to get back all your records.</p>
+					  </div>
+                      <div class="modal-footer border-top-0 mb-3 mx-5 justify-content-lg-between justify-content-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        <a href="{% url 'student:classroom_exit_view' classroom.slug %}"> <button type="button" class="btn btn-danger">Leave</button></a>
+					  </div>
+					  {%endif%}
+                    </div>
+                  </div>
+                </div>
+                <!-- delete account popup modal end-->
+			</div>
+			<div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
+				<!-- Edit Profile Welcome Text -->
+				<div class="widget welcome-message">
+					<span style="font-size: 30px;">Assignments</span>
+					{%if request.user.teacher %}<span style="float: right;">												
+						<a data-toggle="tooltip" data-placement="top" title="Add" class="view"
+						href="{% url 'teacher:assignment:create' classroom.slug  %}">
+						<i class="fa fa-plus-circle" style="font-size: 40px;"></i>
+					</a></span>{%endif%}
+				</div>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="product-grid-list">
+						<div class="row mt-30">
+							{% if assignment_list %}
+								{% for assignment in assignment_list %}
+								<div class="col-sm-12 col-lg-4 col-md-6">
+									<!-- product card -->
+									<div class="product-item bg-light">
+										<div class="card">
+											<div class="thumb-content">
+								
+											</div>
+								
+											<div class="card-body">
+												{% if request.user.teacher %}
+												<a href="{%url 'teacher:assignment:detail' classroom.slug assignment.slug %}">
+												{%else%}
+												<a href="{%url 'student:assignment:detail' classroom.slug assignment.slug %}">
+												{% endif %}
+													<h4 class="card-title">{{assignment.title}}</h4>
+												</a>
+												<ul class="list-inline product-meta">
+													<li class="list-inline-item">
+														<a><i class="fa fa-calendar"></i>Due Date: : {{ assignment.due_date }}</a>
+													</li>
+												</ul>
+												<p class="card-text">{{assignment.instructions}}</p>
+								
+											</div>
+										</div>
+									</div>
+								
+								
+								</div>
+								{%endfor%}
+								{%else%}
+								<h3>
+									No Assignments To Show 
+									{% if request.user.is_teacher %}
+									<span>>>> <a href="{% url 'teacher:assignment:create' classroom.slug  %}">ADD NEW</a></span
+									{% endif %}
+								
+								</h3>
+								{%endif%}
+							</div>
+							</div>
+							</div>
+
+
+
+							</div> 
+				</div>
+			</div>
+		</div>
+</section>
+
+{% endblock content %}

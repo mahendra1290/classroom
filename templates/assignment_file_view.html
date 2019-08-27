@@ -1,0 +1,8 @@
+<html>
+    <body>
+        <h1>Files:</h1>
+        {% for files in assignment_files %}
+        <a href="{{files.file.url}}" target="blank">{{files.filename}}</a><br>
+        {% endfor %}
+    </body>
+</html>
