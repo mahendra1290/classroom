@@ -61,7 +61,6 @@ class Student(models.Model):
     def get_solution(self, assignment):
         if (self.has_access_to_assignment(assignment) 
                 and self.has_submitted_solution(assignment)):
-            print("yes i have soliton")
             solution = Solution.objects.filter(
                 assignment=assignment, student=self)
             return solution.first()
@@ -69,7 +68,6 @@ class Student(models.Model):
 
     def has_submitted_solution(self, assignment):
         solution_exist = Solution.objects.filter(assignment=assignment, student=self).exists()
-        print(f"{solution_exist} solution exist")
         if solution_exist:
             return True
         return False
@@ -98,7 +96,7 @@ class Student(models.Model):
 
 
 class Solution(models.Model):
-    comment = models.CharField(max_length=150)
+    comment = models.CharField(max_length=150, blank=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=10, unique=True)
     assignment = models.ForeignKey(
@@ -112,7 +110,6 @@ class Solution(models.Model):
     def save(self, *args, **kwargs):
         self.slug = unique_slug_generator(self)
         super().save(*args, **kwargs)
-        print(f"slud added to solution {self.slug}")
 
     def __str__(self):
         return ("submission of " + str(self.student))

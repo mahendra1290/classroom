@@ -46,7 +46,6 @@ class AssignmentModelTest(TestCase):
         )
     
     def test_classroom(self):
-        print(self.test_assignment.due_date)
         self.assertEqual(self.test_assignment.classroom, self.class_room)
 
 

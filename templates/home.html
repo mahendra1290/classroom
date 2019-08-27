@@ -48,13 +48,6 @@
                 </div>
                 <div class="col-lg-6 pt-5 pt-lg-0">
                     <div class="about-content">
-                        <!-- <h3 class="font-weight-bold">Introduction</h3>
-                        <p>Maroon is all about you - Our aim is to empower every person in the country to independently connect with
-                buyers and sellers online. Maroon is widely known as India’s no. 1 online
-                classifieds platform - and there’s a reason behind that. We care about you - and the transactions that bring
-                you closer to your dreams. Want to buy your first car? We’re here for you. Want to sell commercial property
-                to buy a home for your family? We’re here for you. Whatever job you’ve got, we promise to get it done</p>
-          <br> -->
                         <h3 class="font-weight-bold">Make teaching more productive, collaborative, and meaningful
                         </h3>
           <br>
@@ -90,7 +83,7 @@
                     <div class="col-lg-5 col-md-8 align-item-center">
                         <div class="border border">
                             <h3 class="bg-gray p-4">Register Here</h3>
-                            <form method = "POST" enctype="multipart/form-data" name = "signupform">{% csrf_token %}
+                            <form method = "POST" name = "signupform">{% csrf_token %}
                                 <fieldset class="p-4">
                                 <center> {{form.department}}</center>
                                     {{form.email}}

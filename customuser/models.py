@@ -23,11 +23,6 @@ class UserManager(BaseUserManager):
 
     def create_user_for_teacher(self, email, password):
         user = self.create_user(email, password)
-        try:
-            group = Group.objects.get(name='teacher')
-            user.groups.add(group)
-        except ObjectDoesNotExist:
-            print("group not present")
         user.is_teacher = True
         user.is_active=False
         user.save()
@@ -35,14 +30,15 @@ class UserManager(BaseUserManager):
     
     def create_user_for_student(self, email, password):
         user = self.create_user(email, password)
-        try:
-            group = Group.objects.get(name='student')
-            user.groups.add(group)
-        except ObjectDoesNotExist:
-            print("group not present")
         user.is_active=False
         user.save()
         return user
+
+    def is_email_registered(self, email):
+        user = self.filter(email=email)
+        if user.count() > 0:
+            return True
+        return False
 
     def create_superuser(self,email,password):
 
@@ -81,13 +77,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
-
-    def is_in_groups(self, *group_names):
-        if self.is_authenticated:
-            if bool(self.groups.filter(name__in=group_names)) \
-                or self.is_superuser:
-                return True
-        return False
 
     @property
     def is_student(self):

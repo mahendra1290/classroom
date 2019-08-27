@@ -25,6 +25,39 @@ from .forms import ContactForm
 from .forms import ForgetPasswordForm,PasswordRecoveryForm
 
 
+def send_activation_link(request, user):
+    current_site = get_current_site(request)
+    mail_subject = 'Activate your Maroon account.'
+    uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+    token = account_activation_token.make_token(user)
+    message = render_to_string('acc_active_email.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'uid': uid,
+        'token': token,
+    })
+    email = EmailMessage(
+        mail_subject, message, to=[user.email]
+    )
+    email.send()
+
+
+def send_password_reset_link(request, user):
+    mail_subject = 'Password Recovery'
+    current_site = get_current_site(request)
+    uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+    token = account_activation_token.make_token(user)
+    message = render_to_string('forget_email.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'uid': uid,
+        'token': token,
+    })
+    email = EmailMessage(
+        mail_subject, message, to=[user.email]
+    )
+    email.send()
+
 def homepageview(request):
     if request.user.is_authenticated is False:
         if request.method == 'POST':
@@ -32,30 +65,18 @@ def homepageview(request):
             if form.is_valid():
                 email = form.cleaned_data['email']
                 password = form.cleaned_data['password']
-                user_list = User.objects.filter(email=email)
-                if user_list.count() is 0:
+                if not User.objects.is_email_registered(email=email):
                     teacherobj = form.save(commit=False)
                     user = User.objects.create_user_for_teacher(
                         email=email, password=password)
                     teacherobj.user = user
                     teacherobj.save()
-                    mail_subject = 'Activate your Maroon account.'
-                    current_site = get_current_site(request)
-                    message = render_to_string('acc_active_email.html', {
-                        'user': user,
-                        'domain': current_site.domain,
-                        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                        'token':account_activation_token.make_token(user),
-                    })
-                    email = EmailMessage(
-                        mail_subject, message, to=[email]
-                    )
-                    email.send()
-                    messages.info(request,'Please confirm your email address to complete the registration')
+                    send_activation_link(request, user)
+                    messages.info(request,'Registration successfull. Activation link has been sent to your email id')
                     return redirect('customuser:homepage')
                 else:
                     messages.error(
-                        request, "This email address is already registered")
+                        request, "Provided email address is already registered")
             else:
                 messages.error(request, "Form is invalid")
         else:
@@ -105,21 +126,19 @@ def login_view(request):
             if form.is_valid():
                 username = form.cleaned_data['email']
                 password = form.cleaned_data['password']
-                user_obj = User.objects.filter(email=username)
-                if user_obj.count()>0:
-                    user_obj=user_obj.first()
+                user_obj = User.objects.filter(email=username).first()
+                if user_obj is not None:
                     if user_obj.is_active:
                         user_obj = authenticate(username=username, password=password)
                         if user_obj is not None:
                             login(request, user_obj)
-                            if request.user.is_teacher:
-                                return redirect('teacher:homepage')
-                            else:
-                                return redirect('student:registration')
+                            return redirect('customuser:homepage')
                         else:
                             messages.error(request, "Incorrect Username or Password")
                     else:
-                        messages.error(request,"The entered email address is not verified")
+                        messages.error(
+                            request, "You haven't yet activated your account please " +
+                                    "check your mail box for activation link")
                 else:
                     messages.error(request, 'Incorrect Username or Password')
         else:
@@ -138,25 +157,13 @@ def signup_view(request):
                 email = form.cleaned_data['email']
                 user = User.objects.create_user_for_student(
                     email=email, password=password)
-                mail_subject = 'Activate your Maroon account.'
-                current_site = get_current_site(request)
-                message = render_to_string('acc_active_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token':account_activation_token.make_token(user),
-                })
-                email = EmailMessage(
-                            mail_subject, message, to=[email]
-                )
-                email.send()
-                messages.info(request,'Please confirm your email address to complete the registration')
+                send_activation_link(request, user)
+                messages.info(request,'Registration successfull. Activation link has been sent to your email id')
                 return redirect('customuser:homepage')
             else:
-                user = User.objects.filter(email=request.POST['email'])
-                if user.count() > 0:
+                if User.objects.is_email_registered(email=request.POST['email']):
                     messages.error(
-                        request, "This email address is already registered")
+                        request, "Provided email address is already registered")
                 else:
                     messages.error(request, "Incorrect details.")
         else:
@@ -227,20 +234,9 @@ def forgetpassword(request):
                 user = User.objects.filter(email=email)
                 if user.count()>0:
                     user=user.first()
-                    mail_subject = 'Password Recovery'
-                    current_site = get_current_site(request)
-                    message = render_to_string('forget_email.html', {
-                        'user': user,
-                        'domain': current_site.domain,
-                        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                        'token':account_activation_token.make_token(user),
-                    })
-                    email = EmailMessage(
-                                mail_subject, message, to=[email]
-                    )
-                    email.send()
+                    send_password_reset_link(request, user)
                     messages.info(
-                        request, 'Password recovery link has been sent to the registered email id')
+                        request, 'Password reset link has been sent to the registered email id')
                     return redirect('customuser:homepage')
             else:
                 messages.error(request,"Invalid email address")

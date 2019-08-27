@@ -9,7 +9,7 @@ from django.urls import include
 app_name="student"
 
 urlpatterns = [
-    path('window/',HomePageViewStudent, name= 'homepage'),
+    path('',HomePageViewStudent, name= 'homepage'),
     path('join-class/', join_class_view, name='join_class' ),
     path('edit/', student_edit_view, name='student_edit_view' ),
     path('registration/', StudentRegistration, name = 'registration'),

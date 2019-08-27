@@ -10,7 +10,7 @@ from .utils import unique_slug_generator
 class Assignment(models.Model):
     title = models.CharField(max_length=40)
     slug = models.SlugField(max_length=40, unique=True)
-    instructions = models.CharField(max_length=150)
+    instructions = models.CharField(max_length=150, blank=True)
     due_date =  models.DateTimeField( blank=True, null = True)
     pub_date = models.DateTimeField(auto_now_add=True, null=True)
     classroom = models.ForeignKey(
@@ -19,7 +19,6 @@ class Assignment(models.Model):
     def save(self, *args, **kwargs):
         self.slug = unique_slug_generator(self)
         super().save(*args, **kwargs)
-        print(f"slud added {self.slug}")
 
     def get_files(self):
         files = AssignmentsFile.objects.filter(assignment=self)

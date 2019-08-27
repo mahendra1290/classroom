@@ -65,11 +65,11 @@ def add_assignment_view(request, slug_of_class):
             return HttpResponseRedirect(reverse_lazy('teacher:classroom_detail', args=(slug_of_class,)))
     else:
         form = AssignmentCreateForm()
-    return render(request, 'assignment.html', {'form': form, 'classroom': classroom})
+    return render(request, 'assignment_create.html', {'form': form, 'classroom': classroom})
 
 
 def assignment_view(request, slug, *args, **kwargs):
-    assignment = Assignment.objects.get(slug=slug)
+    assignment = Assignment.objects.filter(slug=slug).first()
     files = list(AssignmentsFile.objects.filter(assignment=assignment))
     if request.user.is_teacher:
         classroom = assignment.classroom
@@ -78,13 +78,14 @@ def assignment_view(request, slug, *args, **kwargs):
         solutions = Solution.objects.filter(assignment=assignment).order_by('submission_date')
         solutions_count = solutions.count()
         context = {
+            'classroom':classroom,
             'assignment': assignment,
             'assignment_files': files,
             'solutions': solutions,
             'solutions_count': solutions_count,
             'students_count': students_count,
         }
-        return render(request, "index.html", context)
+        return render(request, "assignment_view.html", context)
     else:
         context = {
             'assignment': assignment,
