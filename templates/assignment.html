@@ -1,0 +1,90 @@
+
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% for message in messages %}
+{% if message.level is DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+            {%else%}
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }} 
+
+            </div>
+        {%endif%}
+    
+    {% endfor %}
+<section class="page-title">
+        <!-- Container Start -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 offset-md-2 text-center">
+                    <!-- Title text -->
+                    <h3><a href="" style = "text-transform: uppercase;color: #ffc107;" >{{classroom.title}} </a> </h3>
+                    <br>
+                    <a class="nav-link text-white add-button" href="{% url 'teacher:homepage' %}"><i class="fa fa-folder"></i>  All Classes</a>
+                </div>
+            </div>
+        </div>
+    </section>
+ <section class="ad-post bg-gray py-5">
+    <div class="container">
+        <form method="POST"  enctype="multipart/form-data" name = "formname">{% csrf_token %}
+            <!-- Post Your ad start -->
+            <fieldset class="border border-gary p-4 mb-5">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Add Assignment</h3>
+                        </div>
+                        <div class="col-lg-6">
+                            <h6 class="font-weight-bold pt-4 pb-1">Title:</h6>
+                             {{form.title}}
+                            <h6 class="font-weight-bold pt-4 pb-1">Instruction:</h6>
+                             {{form.instructions}}
+                        </div>
+                        <div class="col-lg-6">
+                                <h6 class="font-weight-bold pt-4 pb-1">Due Date:</h6>
+                               
+                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                        {{form.due_date}}
+                                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                      </div>
+                                <div class="upload-btn-wrapper">
+                                        <button class="assignbtn">Upload a file</button>
+                                        {{form.assign_file}}
+                                      </div>
+                   
+                        </div>
+                    </div>
+            </fieldset>
+
+            <button type="submit" onclick="change()" class="btn btn-primary d-block mt-2 " id="postassignment" name = "submitname">Create</button>
+
+        </form>
+    </div>
+</section> 
+
+    <script>
+            $(function () {
+              $("#datetimepicker1").datetimepicker({
+               format:'DD-MM-YYYY HH:mm:ss',
+              });
+            });
+            function change();
+            {
+                document.getElementById("postassignment").value="Creating..";
+            }
+          </script>
+
+
+{% endblock content %}
