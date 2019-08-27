@@ -1,4 +1,6 @@
 */*/__pycache__/*.pyc
 */__pycache__/*.pyc
+*/migrations/
+media
 .vscode/*.json
 
