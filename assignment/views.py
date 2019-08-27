@@ -77,6 +77,8 @@ def assignment_view(request, slug, *args, **kwargs):
         students_count = students.count()
         solutions = Solution.objects.filter(assignment=assignment).order_by('submission_date')
         solutions_count = solutions.count()
+        submitted_students_list = students.filter(solution__assignment = assignment).distinct()
+        defaulter_list = students.exclude(pk__in=submitted_students_list)
         context = {
             'classroom':classroom,
             'assignment': assignment,
@@ -84,6 +86,7 @@ def assignment_view(request, slug, *args, **kwargs):
             'solutions': solutions,
             'solutions_count': solutions_count,
             'students_count': students_count,
+            'defaulter_list':defaulter_list,
         }
         return render(request, "assignment_view.html", context)
     else:
