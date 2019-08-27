@@ -37,7 +37,7 @@ class Student(models.Model):
         max_length=30, choices=BRANCH_CHOICES, default='', blank=True, null=True)
     name = models.CharField(max_length=50, null=True, blank=False)
     rollno = models.CharField(validators=[RegexValidator(
-        regex='^.{8}$', message='Length has to be 8', code='nomatch')],
+        regex='[0-9]{8}', message='Length has to be 8', code='nomatch')],
         null=False, max_length=8, blank=False)
     my_classes = models.ManyToManyField(TeachersClassRoom, blank=True)
 

@@ -20,7 +20,7 @@ DEPARTMENT_CHOICES = (
 class Teacher(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=40)
     department = models.CharField(
         max_length=50, choices=DEPARTMENT_CHOICES, default='', blank=True)
     phone = PhoneNumberField(unique = True, null=True, blank = False, region = 'IN', max_length = 13) 
@@ -60,10 +60,10 @@ class Teacher(models.Model):
     
 class TeachersClassRoom(models.Model):
     class_id = models.SlugField(max_length=10, unique=True)
-    title = models.CharField(max_length=30)
-    slug = models.SlugField(max_length=30, unique=True)
-    section = models.CharField(max_length=10)
-    subject = models.CharField(max_length=40)
+    title = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=50, unique=True)
+    section = models.CharField(max_length=30)
+    subject = models.CharField(max_length=50)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
     def set_class_id(self):

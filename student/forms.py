@@ -42,7 +42,7 @@ class SolutionCreateForm(forms.Form):
         model = Solution
         fields = ['comment', 'solution_file', ]
 
-    comment = forms.CharField(widget=forms.Textarea(
-        attrs={'placeholder': 'Give any comments','class':'border p-3 w-100'}))
+    comment = forms.CharField(required=False, widget=forms.Textarea(
+        attrs={'placeholder': 'write comments if any','class':'border p-3 w-100'}))
     solution_file = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'multiple': True,'class': '','onchange' :'myFunction()'}))
