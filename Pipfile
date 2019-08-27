@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-django = "*"
 pillow = "*"
 autopep8 = "*"
 pylint = "*"
@@ -17,7 +16,7 @@ django-phonenumber-field = "*"
 phonenumbers = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
 
 [dev-packages]
 autopep8 = "*"
