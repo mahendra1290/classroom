@@ -20,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p(ie+j8g*i=e5=ijtkuhk!p+uf6d#on9^&ck_%q4+sxl1ualr&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -61,8 +60,8 @@ ROOT_URLCONF = 'classroom.urls'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'response.maroon@gmail.com'
-EMAIL_HOST_PASSWORD = 'loveyou@myself'
+EMAIL_HOST_USER = 'notnow@gmail.com'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 
 TEMPLATES = [
